@@ -1,26 +1,25 @@
 import 'package:assignments/core/routes/router.gr.dart';
 import 'package:assignments/features/assignments/domain/entities/assignment_entity.dart';
+import 'package:assignments/features/assignments/presentation/store/assignments.dart';
 import 'package:flutter/material.dart';
+import 'package:kiwi/kiwi.dart' as kiwi;
 
 class AssignmentDetails extends StatelessWidget {
-  final AssignmentEntity entity;
-  final Function onEdit;
-  final Function onDelete;
+  final AssignmentEntity assignment;
+  final store = kiwi.Container().resolve<AssignmentsStore>();
 
-  const AssignmentDetails({
+  AssignmentDetails({
     Key key,
-    this.entity,
-    this.onEdit,
-    this.onDelete,
+    @required this.assignment,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _fab = FloatingActionButton(
       child: Icon(Icons.edit),
-      backgroundColor: entity.classEntity.color,
+      backgroundColor: assignment.course.color,
       onPressed: () async {
-        await onEdit(entity: entity);
+        await _onEditAssignment();
         Router.navigator.pop();
       },
     );
@@ -33,15 +32,15 @@ class AssignmentDetails extends StatelessWidget {
               expandedHeight: 200.0,
               floating: false,
               pinned: true,
-              backgroundColor: entity.classEntity.color,
+              backgroundColor: assignment.course.color,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text(entity.name),
+                title: Text(assignment.name),
               ),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () async {
-                    await onDelete(entity);
+                    store.deleteAssignment(assignment);
                     Router.navigator.pop();
                   },
                 )
@@ -64,6 +63,25 @@ class AssignmentDetails extends StatelessWidget {
         ),
       ),
       floatingActionButton: _fab,
+    );
+  }
+
+  _onEditAssignment() async {
+    final updatedAssignment = await Router.navigator.pushNamed(
+      Routes.assignmentDialog,
+      arguments: AssignmentDialogArguments(
+        assignment: assignment,
+      ),
+    );
+    if (updatedAssignment != null) {
+      store.updateAssignment(updatedAssignment);
+    }
+
+    Router.navigator.pushNamed(
+      Routes.assignmentDetails,
+      arguments: AssignmentDetailsArguments(
+        assignment: updatedAssignment,
+      ),
     );
   }
 }

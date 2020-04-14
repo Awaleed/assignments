@@ -1,16 +1,14 @@
-import 'package:assignments/features/assignments/data/datasources/local_datasource.dart';
-import 'package:assignments/features/assignments/presentation/bloc/assignment_bloc/assignment_bloc.dart';
-import 'package:assignments/features/assignments/presentation/pages/assignment/assignments_compleated_page.dart';
-import 'package:assignments/features/assignments/presentation/pages/assignment/claear_all_page.dart';
-import 'package:assignments/features/preferences/bloc/bloc.dart';
-import 'package:assignments/features/preferences/preferences_page.dart';
+import 'package:assignments/features/settings/settings_store.dart';
+import 'package:assignments/features/settings/settings_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../features/assignments/presentation/pages/assignment/assignments_page.dart';
-import '../features/assignments/presentation/pages/class/classes_page.dart';
-import 'custom_widgets/navigation_icon_view.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
+
+import '../features/assignments/presentation/pages/assignment/assignments_completed_page.dart';
+import '../features/assignments/presentation/pages/assignment/assignments_page.dart';
+import '../features/assignments/presentation/pages/assignment/claear_all_page.dart';
+import '../features/assignments/presentation/pages/course/course_page.dart';
+
+import 'custom_widgets/navigation_icon_view.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -22,12 +20,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   List<NavigationIconView> _navigationIconView;
   final List<Widget> _children = [
     AssignmentPage(),
-    AssignmentCompleatedPage(),
-    ClassesPage(),
-    BlocProvider(
-      create: (context) => PreferencesBloc(),
-      child: PreferencesPage(),
-    ),
+    AssignmentCompletedPage(),
+    CoursesPage(),
+    SettingsExample(kiwi.Container().resolve<SettingsStore>()),
     ClearAllPage(),
   ];
 
@@ -79,10 +74,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => kiwi.Container().resolve<AssignmentsBloc>(),
-        child: _children[_currentIndex],
-      ),
+      body: _children[_currentIndex],
       bottomNavigationBar: _buildBottomNavigationBar(context),
     );
   }
@@ -106,25 +98,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 }
 
-class _TempPage extends StatelessWidget {
-  const _TempPage({Key key, this.color, this.title}) : super(key: key);
-  final Color color;
-  final String title;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('$title'),
-        backgroundColor: color,
-      ),
-      body: Center(
-        child: Text('$title'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: color,
-        child: Icon(Icons.add),
-        onPressed: () {},
-      ),
-    );
-  }
-}
+// class _TempPage extends StatelessWidget {
+//   const _TempPage({Key key, this.color, this.title}) : super(key: key);
+//   final Color color;
+//   final String title;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('$title'),
+//         backgroundColor: color,
+//       ),
+//       body: Center(
+//         child: Text('$title'),
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         backgroundColor: color,
+//         child: Icon(Icons.add),
+//         onPressed: () {},
+//       ),
+//     );
+//   }
+// }

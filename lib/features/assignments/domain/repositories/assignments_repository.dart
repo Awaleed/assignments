@@ -1,17 +1,16 @@
 import '../entities/assignment_entity.dart';
-import '../entities/class_entity.dart';
+import '../entities/course_entity.dart';
 
 abstract class AssignmentsRepository {
-  Future<void> addClass(ClassEntity newClass);
-  Future<List<ClassEntity>> getClasses();
-  Future<void> updateClass(ClassEntity updatedClass);
-  Future<void> deleteClass(ClassEntity deletedClass);
+  void addCourse(CourseEntity course);
+  Future<List<CourseEntity>> getCourses();
+  void updateCourse(CourseEntity course);
+  void deleteCourse(CourseEntity course);
 
-  Future<void> addAssignment(AssignmentEntity newAssignment);
+  void addAssignment(AssignmentEntity assignment);
   Future<List<AssignmentEntity>> getAssignments();
-  Future<void> updateAssignment(AssignmentEntity updatedAssignment);
-  Future<void> compleateAssignment(AssignmentEntity compleatedAssignment);
-  Future<void> deleteAssignment(AssignmentEntity deletedAssignment);
+  void updateAssignment(AssignmentEntity assignment);
+  void deleteAssignment(AssignmentEntity assignment);
 
-  Future<void> deleteCompleatedAssignments();
+  void deleteCompletedAssignments();
 }

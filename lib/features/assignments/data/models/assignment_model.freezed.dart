@@ -17,16 +17,20 @@ class _$AssignmentModelTearOff {
 
   _AssignmentModel call(
       {@required String id,
+      @required String course,
       @required int type,
       @required String name,
       @required int dueDate,
+      @required int creationDate,
       @required String notes,
       @required bool completed}) {
     return _AssignmentModel(
       id: id,
+      course: course,
       type: type,
       name: name,
       dueDate: dueDate,
+      creationDate: creationDate,
       notes: notes,
       completed: completed,
     );
@@ -38,9 +42,11 @@ const $AssignmentModel = _$AssignmentModelTearOff();
 
 mixin _$AssignmentModel {
   String get id;
+  String get course;
   int get type;
   String get name;
   int get dueDate;
+  int get creationDate;
   String get notes;
   bool get completed;
 
@@ -54,9 +60,11 @@ abstract class $AssignmentModelCopyWith<$Res> {
       _$AssignmentModelCopyWithImpl<$Res>;
   $Res call(
       {String id,
+      String course,
       int type,
       String name,
       int dueDate,
+      int creationDate,
       String notes,
       bool completed});
 }
@@ -72,17 +80,22 @@ class _$AssignmentModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object id = freezed,
+    Object course = freezed,
     Object type = freezed,
     Object name = freezed,
     Object dueDate = freezed,
+    Object creationDate = freezed,
     Object notes = freezed,
     Object completed = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as String,
+      course: course == freezed ? _value.course : course as String,
       type: type == freezed ? _value.type : type as int,
       name: name == freezed ? _value.name : name as String,
       dueDate: dueDate == freezed ? _value.dueDate : dueDate as int,
+      creationDate:
+          creationDate == freezed ? _value.creationDate : creationDate as int,
       notes: notes == freezed ? _value.notes : notes as String,
       completed: completed == freezed ? _value.completed : completed as bool,
     ));
@@ -97,9 +110,11 @@ abstract class _$AssignmentModelCopyWith<$Res>
   @override
   $Res call(
       {String id,
+      String course,
       int type,
       String name,
       int dueDate,
+      int creationDate,
       String notes,
       bool completed});
 }
@@ -117,17 +132,22 @@ class __$AssignmentModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object id = freezed,
+    Object course = freezed,
     Object type = freezed,
     Object name = freezed,
     Object dueDate = freezed,
+    Object creationDate = freezed,
     Object notes = freezed,
     Object completed = freezed,
   }) {
     return _then(_AssignmentModel(
       id: id == freezed ? _value.id : id as String,
+      course: course == freezed ? _value.course : course as String,
       type: type == freezed ? _value.type : type as int,
       name: name == freezed ? _value.name : name as String,
       dueDate: dueDate == freezed ? _value.dueDate : dueDate as int,
+      creationDate:
+          creationDate == freezed ? _value.creationDate : creationDate as int,
       notes: notes == freezed ? _value.notes : notes as String,
       completed: completed == freezed ? _value.completed : completed as bool,
     ));
@@ -140,15 +160,19 @@ class _$_AssignmentModel
     implements _AssignmentModel {
   _$_AssignmentModel(
       {@required this.id,
+      @required this.course,
       @required this.type,
       @required this.name,
       @required this.dueDate,
+      @required this.creationDate,
       @required this.notes,
       @required this.completed})
       : assert(id != null),
+        assert(course != null),
         assert(type != null),
         assert(name != null),
         assert(dueDate != null),
+        assert(creationDate != null),
         assert(notes != null),
         assert(completed != null);
 
@@ -158,11 +182,15 @@ class _$_AssignmentModel
   @override
   final String id;
   @override
+  final String course;
+  @override
   final int type;
   @override
   final String name;
   @override
   final int dueDate;
+  @override
+  final int creationDate;
   @override
   final String notes;
   @override
@@ -177,12 +205,14 @@ class _$_AssignmentModel
       _didentity = true;
       _entity = AssignmentEntity(
         id: this.id,
+        courseId: this.course,
+        course: null,
         type: AssignmentType.values[this.type],
         name: this.name,
         dueDate: DateTime.fromMillisecondsSinceEpoch(this.dueDate),
+        creationDate: DateTime.fromMillisecondsSinceEpoch(this.creationDate),
         notes: this.notes,
         completed: this.completed,
-        classEntity: null,
       );
     }
     return _entity;
@@ -190,7 +220,7 @@ class _$_AssignmentModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AssignmentModel(id: $id, type: $type, name: $name, dueDate: $dueDate, notes: $notes, completed: $completed, entity: $entity)';
+    return 'AssignmentModel(id: $id, course: $course, type: $type, name: $name, dueDate: $dueDate, creationDate: $creationDate, notes: $notes, completed: $completed, entity: $entity)';
   }
 
   @override
@@ -199,9 +229,11 @@ class _$_AssignmentModel
     properties
       ..add(DiagnosticsProperty('type', 'AssignmentModel'))
       ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('course', course))
       ..add(DiagnosticsProperty('type', type))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('dueDate', dueDate))
+      ..add(DiagnosticsProperty('creationDate', creationDate))
       ..add(DiagnosticsProperty('notes', notes))
       ..add(DiagnosticsProperty('completed', completed))
       ..add(DiagnosticsProperty('entity', entity));
@@ -213,6 +245,8 @@ class _$_AssignmentModel
         (other is _AssignmentModel &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.course, course) ||
+                const DeepCollectionEquality().equals(other.course, course)) &&
             (identical(other.type, type) ||
                 const DeepCollectionEquality().equals(other.type, type)) &&
             (identical(other.name, name) ||
@@ -220,6 +254,9 @@ class _$_AssignmentModel
             (identical(other.dueDate, dueDate) ||
                 const DeepCollectionEquality()
                     .equals(other.dueDate, dueDate)) &&
+            (identical(other.creationDate, creationDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.creationDate, creationDate)) &&
             (identical(other.notes, notes) ||
                 const DeepCollectionEquality().equals(other.notes, notes)) &&
             (identical(other.completed, completed) ||
@@ -231,9 +268,11 @@ class _$_AssignmentModel
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(course) ^
       const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(dueDate) ^
+      const DeepCollectionEquality().hash(creationDate) ^
       const DeepCollectionEquality().hash(notes) ^
       const DeepCollectionEquality().hash(completed);
 
@@ -250,9 +289,11 @@ class _$_AssignmentModel
 abstract class _AssignmentModel implements AssignmentModel {
   factory _AssignmentModel(
       {@required String id,
+      @required String course,
       @required int type,
       @required String name,
       @required int dueDate,
+      @required int creationDate,
       @required String notes,
       @required bool completed}) = _$_AssignmentModel;
 
@@ -262,11 +303,15 @@ abstract class _AssignmentModel implements AssignmentModel {
   @override
   String get id;
   @override
+  String get course;
+  @override
   int get type;
   @override
   String get name;
   @override
   int get dueDate;
+  @override
+  int get creationDate;
   @override
   String get notes;
   @override

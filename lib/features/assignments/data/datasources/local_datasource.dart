@@ -1,73 +1,104 @@
 import 'package:assignments/core/data_base/app_database.dart';
-import 'package:assignments/features/assignments/data/models/class_model.dart';
+import 'package:assignments/features/assignments/data/models/assignment_model.dart';
 import 'package:sembast/sembast.dart';
 
-const CLASS_LIST_LOCAL = 'CLASS_LIST_LOCAL';
-const ASSIGNMENT_LIST_LOCAL = 'ASSIGNMENT_LIST_LOCAL';
+const COURSES_STORE = 'COURSES_STORE';
+const ASSIGNMENT_STORE = 'ASSIGNMENT_STORE';
 
 abstract class LocalDataSource {
-  Future<void> addClass(ClassModel newClass);
-  Future<List<ClassModel>> getClasses();
-  Future<ClassModel> getClass(String classId);
-  Future<void> updateClass(ClassModel updatedClass);
-  Future<void> deleteClass(ClassModel deletedClass);
-  Future<void> deleteCompleatedAssignments();
+  void addCourse(Map<String, dynamic> course);
+  Future<List<Map<String, dynamic>>> getCourses();
+  void updateCourse(Map<String, dynamic> course);
+  void deleteCourse(Map<String, dynamic> course);
+
+  void addAssignment(Map<String, dynamic> assignment);
+  Future<List<Map<String, dynamic>>> getAssignments();
+  void updateAssignment(Map<String, dynamic> assignment);
+  void deleteAssignment(Map<String, dynamic> assignment);
+
+  void deleteCompletedAssignments();
 }
 
 class LocalDataSourceImpl extends LocalDataSource {
-  final _classListStore = stringMapStoreFactory.store(CLASS_LIST_LOCAL);
+  final _coursesStore = stringMapStoreFactory.store(COURSES_STORE);
+  final _assignmentsStore = stringMapStoreFactory.store(ASSIGNMENT_STORE);
 
   Future<Database> get _db async => await AppDatabase.instance.database;
 
-  Future<dynamic> clearAll() async => _classListStore.drop(await _db);
-
-  @override
-  Future<void> addClass(ClassModel newClass) async {
-    await _classListStore.add(await _db, newClass.toJson());
+  void clearAll() async {
+    _coursesStore.drop(await _db);
+    _assignmentsStore.drop(await _db);
+    print('DB: Rested');
   }
 
   @override
-  Future<List<ClassModel>> getClasses() async {
-    final recordSnapshots = await _classListStore.find(await _db);
-    final classModelList = recordSnapshots
-        .map(
-          (snapshot) =>
-              ClassModel.fromJson(snapshot.value).copyWith(id: snapshot.key),
-        )
-        .toList();
-    return classModelList;
+  void addCourse(Map<String, dynamic> course) async {
+    _coursesStore.add(await _db, course);
+  }
+
+  Future<List<Map<String, dynamic>>> getCourses() async {
+    final recordSnapshots = await _coursesStore.find(await _db);
+    final List<Map<String, dynamic>> coursesJson = [];
+    recordSnapshots.forEach(
+      (snapshot) {
+        final Map<String, dynamic> courseJson = {};
+        snapshot.value.forEach((key, value) => courseJson[key] = value);
+        courseJson['id'] = snapshot.key;
+        coursesJson.add(courseJson);
+      },
+    );
+
+    return coursesJson;
   }
 
   @override
-  Future<ClassModel> getClass(String classId) async {
-    final classSnapshot = await _classListStore.record(classId).get(await _db);
-    // final classSnapshots = await _classListStore.record(classId;
-    final classModel = ClassModel.fromJson(classSnapshot).copyWith(id: classId);
-    return classModel;
+  void updateCourse(Map<String, dynamic> course) async {
+    _coursesStore.record(course['id']).update(await _db, course);
   }
 
   @override
-  Future<void> updateClass(ClassModel updatedClass) async {
-    await _classListStore
-        .record(updatedClass.id)
-        .update(await _db, updatedClass.toJson());
+  void deleteCourse(Map<String, dynamic> course) async {
+    _coursesStore.record(course['id']).delete(await _db);
+    _deleteAssignments(Finder(filter: Filter.equals('courseId', course['id'])));
   }
 
   @override
-  Future<void> deleteClass(ClassModel deletedClass) async {
-    await _classListStore.record(deletedClass.id).delete(await _db);
+  void addAssignment(Map<String, dynamic> assignment) async {
+    await _assignmentsStore.add(await _db, assignment);
   }
 
   @override
-  Future<void> deleteCompleatedAssignments() async {
-    final allClasses = await getClasses();
+  Future<List<Map<String, dynamic>>> getAssignments() async {
+    final recordSnapshots = await _assignmentsStore.find(await _db);
+    final List<Map<String, dynamic>> assignmentsJson = [];
+    recordSnapshots.forEach(
+      (snapshot) {
+        final Map<String, dynamic> assignmentJson = {};
+        snapshot.value.forEach((key, value) => assignmentJson[key] = value);
+        assignmentJson['id'] = snapshot.key;
+        assignmentsJson.add(assignmentJson);
+      },
+    );
 
-    allClasses.forEach((classE) {
-      classE.assignments.removeWhere((a) => a['completed']);
-    });
+    return assignmentsJson;
+  }
 
-    final result = await _classListStore
-        .records(allClasses.map((c) => c.id).toList())
-        .update(await _db, allClasses.map((c) => c.toJson()).toList());
+  @override
+  void updateAssignment(Map<String, dynamic> assignment) async {
+    _assignmentsStore.record(assignment['id']).update(await _db, assignment);
+  }
+
+  @override
+  void deleteAssignment(Map<String, dynamic> assignment) async {
+    _assignmentsStore.record(assignment['id']).delete(await _db);
+  }
+
+  @override
+  void deleteCompletedAssignments() {
+    _deleteAssignments(Finder(filter: Filter.equals('completed', true)));
+  }
+
+  void _deleteAssignments(Finder finder) async {
+    _assignmentsStore.delete(await _db, finder: finder);
   }
 }

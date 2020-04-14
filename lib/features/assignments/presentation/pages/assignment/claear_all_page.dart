@@ -7,7 +7,7 @@ class ClearAllPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Compleated'),
+        title: Text('Completed'),
       ),
       body: Center(
         child: RaisedButton(
@@ -21,7 +21,7 @@ class ClearAllPage extends StatelessWidget {
   void _clearAll(BuildContext context) async {
     Scaffold.of(context)
         .showSnackBar(SnackBar(content: Text('Clearing Data...')));
-    await LocalDataSourceImpl().clearAll();
+    LocalDataSourceImpl().clearAll();
     Scaffold.of(context)
         .showSnackBar(SnackBar(content: Text('Data is gone...')));
   }

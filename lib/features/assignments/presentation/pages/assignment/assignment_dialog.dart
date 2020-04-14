@@ -1,35 +1,37 @@
 import 'dart:async';
 
-import 'package:assignments/core/custom_types/custom_types.dart';
-import 'package:assignments/core/routes/router.gr.dart';
-import 'package:assignments/features/assignments/domain/entities/assignment_entity.dart';
-import 'package:assignments/features/assignments/domain/entities/class_entity.dart';
+import '../../../domain/entities/course_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:uuid/uuid.dart';
 
+import '../../../../../core/custom_types/custom_types.dart';
+import '../../../../../core/routes/router.gr.dart';
+import '../../../domain/entities/assignment_entity.dart';
+import '../../store/assignments.dart';
+
 class AssignmentDialog extends StatefulWidget {
   final AssignmentEntity assignment;
-  final List<ClassEntity> classList;
   const AssignmentDialog({
     Key key,
-    @required this.classList,
     this.assignment,
   }) : super(key: key);
   @override
-  NewCoureseDialogState createState() => NewCoureseDialogState();
+  NewCourseDialogState createState() => NewCourseDialogState();
 }
 
-class NewCoureseDialogState extends State<AssignmentDialog> {
+class NewCourseDialogState extends State<AssignmentDialog> {
   final _formKey = GlobalKey<FormState>();
 
-  AssignmentType _type;
+  // AssignmentType _type;
 
   String _id;
   String _name;
-  ClassEntity _classEntity;
+  CourseEntity _classEntity;
 
   DateTime _dueDate;
+  DateTime _creationDate;
   String _notes;
   bool _completed = false;
 
@@ -90,33 +92,37 @@ class NewCoureseDialogState extends State<AssignmentDialog> {
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 alignment: Alignment.bottomLeft,
-                child: DropdownButtonFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Class',
-                    filled: true,
+                child: Observer(
+                  builder: (_) => DropdownButtonFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Class',
+                      filled: true,
+                    ),
+                    style: theme.textTheme.headline,
+                    value: _classEntity,
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Please choose one';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        _classEntity = value;
+                        _color = _classEntity.color;
+                      });
+                    },
+                    items: kiwi.Container()
+                        .resolve<AssignmentsStore>()
+                        .courses
+                        .map(
+                          (classEntity) => DropdownMenuItem<CourseEntity>(
+                            child: Text('${classEntity.name}'),
+                            value: classEntity,
+                          ),
+                        )
+                        .toList(),
                   ),
-                  style: theme.textTheme.headline,
-                  value: _classEntity,
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Please choose one';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      _classEntity = value;
-                      _color = _classEntity.color;
-                    });
-                  },
-                  items: widget.classList
-                      .map(
-                        (classEntity) => DropdownMenuItem<ClassEntity>(
-                          child: Text('${classEntity.name}'),
-                          value: classEntity,
-                        ),
-                      )
-                      .toList(),
                 ),
               ),
               _DateTimePicker(
@@ -165,11 +171,13 @@ class NewCoureseDialogState extends State<AssignmentDialog> {
     // kiwi.Container().resolve<ClassBloc>().add(GetClasses());
 
     if (assignment != null) {
-      _type = assignment.type;
+      _id = assignment.id;
+      // _type = assignment.type;
 
       _name = assignment.name;
-      _classEntity = assignment.classEntity;
+      _classEntity = assignment.course;
       _dueDate = assignment.dueDate;
+      _creationDate = assignment.creationDate;
       _notes = assignment.notes;
       _completed = assignment.completed;
 
@@ -180,10 +188,11 @@ class NewCoureseDialogState extends State<AssignmentDialog> {
       _notesController.text = assignment.notes;
     } else {
       final now = DateTime.now();
-      _id = '';
+      _id = Uuid().v1();
 
       _name = '';
       _dueDate = DateTime(now.year, now.month, now.day);
+      _creationDate = DateTime.now();
       _notes = '';
       _completed = false;
 
@@ -197,13 +206,15 @@ class NewCoureseDialogState extends State<AssignmentDialog> {
   _onSave() {
     if (_formKey.currentState.validate()) {
       final entity = AssignmentEntity(
-        id: Uuid().v1(),
+        id: _id,
         name: _name,
         type: AssignmentType.homework,
-        classEntity: _classEntity,
+        course: _classEntity,
+        creationDate: _creationDate,
         dueDate: _dueDate,
         notes: _notes,
         completed: _completed,
+        courseId: _classEntity.id,
       );
 
       Router.navigator.pop<AssignmentEntity>(entity);
@@ -219,7 +230,7 @@ class NewCoureseDialogState extends State<AssignmentDialog> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Dissmiss Changes"),
+          title: Text("Dismiss Changes"),
           content: Text("Data Is not Saved??"),
           actions: <Widget>[
             FlatButton(
@@ -229,7 +240,7 @@ class NewCoureseDialogState extends State<AssignmentDialog> {
               },
             ),
             FlatButton(
-              child: Text("Dissmiss"),
+              child: Text("Dismiss"),
               onPressed: () {
                 Router.navigator.pop();
                 pop = true;

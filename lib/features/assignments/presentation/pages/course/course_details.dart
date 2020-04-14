@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:kiwi/kiwi.dart' as kiwi;
 
 import '../../../../../core/routes/router.gr.dart';
-import '../../../domain/entities/class_entity.dart';
+import '../../../domain/entities/course_entity.dart';
+import '../../store/assignments.dart';
 
-class ClassDetails extends StatelessWidget {
-  final ClassEntity entity;
-  final Function onEdit;
-  final Function onDelete;
+class CourseDetails extends StatelessWidget {
+  final store = kiwi.Container().resolve<AssignmentsStore>();
 
-  ClassDetails({
+  final CourseEntity course;
+
+  CourseDetails({
     Key key,
-    this.entity,
-    this.onEdit,
-    this.onDelete,
+    @required this.course,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _fab = FloatingActionButton(
       child: Icon(Icons.edit),
-      backgroundColor: entity.color,
+      backgroundColor: course.color,
       onPressed: () async {
-        await onEdit(entity);
+        await _onEditCourse();
         Router.navigator.pop();
       },
     );
@@ -34,15 +34,15 @@ class ClassDetails extends StatelessWidget {
               expandedHeight: 200.0,
               floating: false,
               pinned: true,
-              backgroundColor: entity.color,
+              backgroundColor: course.color,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text(entity.name),
+                title: Text(course.name),
               ),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.delete),
-                  onPressed: () async {
-                    await onDelete(entity);
+                  onPressed: () {
+                    store.deleteCourse(course);
                     Router.navigator.pop();
                   },
                 )
@@ -65,6 +65,26 @@ class ClassDetails extends StatelessWidget {
         ),
       ),
       floatingActionButton: _fab,
+    );
+  }
+
+  _onEditCourse() async {
+    final course = await Router.navigator.pushNamed(
+      Routes.courseDialog,
+      arguments: CourseDialogArguments(
+        course: this.course,
+      ),
+    );
+
+    if (course != null) {
+      store.updateCourse(course);
+    }
+
+    Router.navigator.pushNamed(
+      Routes.courseDetails,
+      arguments: CourseDetailsArguments(
+        course: course,
+      ),
     );
   }
 }

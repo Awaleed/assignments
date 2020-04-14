@@ -1,92 +1,122 @@
-import 'package:assignments/features/assignments/domain/entities/class_entity.dart';
-import 'package:assignments/features/assignments/domain/repositories/assignments_repository.dart';
-import 'package:assignments/features/assignments/domain/usecases/assignment_usecase.dart';
+import 'package:assignments/features/assignments/domain/entities/assignment_entity.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:mobx/mobx.dart';
+
+import '../../domain/entities/course_entity.dart';
+import '../../domain/repositories/assignments_repository.dart';
+import '../../domain/usecases/assignment_usecase.dart';
 
 part 'assignments.g.dart';
 
 // enum VisibilityFilter { all, pending, completed }
 
-class ClassList extends _ClassList with _$ClassList {}
+class AssignmentsStore extends _AssignmentsStore with _$AssignmentsStore {}
 
-abstract class _ClassList with Store {
+abstract class _AssignmentsStore with Store {
   AssignmentUseCases useCases = AssignmentUseCases(
     kiwi.Container().resolve<AssignmentsRepository>(),
   );
 
   @observable
-  ObservableList<ClassEntity> classes = ObservableList<ClassEntity>();
+  ObservableList<CourseEntity> courses = ObservableList<CourseEntity>();
+  @observable
+  ObservableList<AssignmentEntity> assignments =
+      ObservableList<AssignmentEntity>();
 
-  // @observable
-  // VisibilityFilter filter = VisibilityFilter.all;
-
-  // @observable
-  // String currentDescription = '';
-
-  // @computed
-  // ObservableList<Todo> get pendingTodos =>
-  //     ObservableList.of(todos.where((todo) => todo.done != true));
-
-  // @computed
-  // ObservableList<Todo> get completedTodos =>
-  //     ObservableList.of(todos.where((todo) => todo.done == true));
-
-  // @computed
-  // bool get hasCompletedTodos => completedTodos.isNotEmpty;
-
-  // @computed
-  // bool get hasPendingTodos => pendingTodos.isNotEmpty;
-
-  // @computed
-  // String get itemsDescription {
-  //   if (todos.isEmpty) {
-  //     return "There are no Todos here. Why don't you add one?.";
-  //   }
-
-  //   final suffix = pendingTodos.length == 1 ? 'todo' : 'todos';
-  //   return '${pendingTodos.length} pending $suffix, ${completedTodos.length} completed';
-  // }
-
-  // @computed
-  // ObservableList<Todo> get visibleTodos {
-  //   switch (filter) {
-  //     case VisibilityFilter.pending:
-  //       return pendingTodos;
-  //     case VisibilityFilter.completed:
-  //       return completedTodos;
-  //     default:
-  //       return todos;
-  //   }
-  // }
-
-  // @computed
-  // bool get canRemoveAllCompleted =>
-  //     hasCompletedTodos && filter != VisibilityFilter.pending;
-
-  // @computed
-  // bool get canMarkAllCompleted =>
-  //     hasPendingTodos && filter != VisibilityFilter.completed;
-
-  @action
-  void addClass(ClassEntity entity) {
-    classes.add(entity);
+  _AssignmentsStore() {
+    _getData();
   }
 
-  // @action
-  // void removeTodo(Todo todo) {
-  //   todos.removeWhere((x) => x == todo);
-  // }
+  void _getData() async {
+    courses.addAll(await useCases.getCourses());
+    assignments.addAll(
+      (await useCases.getAssignments()).map(
+        (a) {
+          a.course = courses.firstWhere((c) => c.id == a.courseId);
+          return a;
+        },
+      ),
+    );
+  }
 
-  // @action
-  // void removeCompleted() {
-  //   todos.removeWhere((todo) => todo.done);
-  // }
+  @computed
+  ObservableList<AssignmentEntity> get pendingAssignments {
+    return ObservableList.of(assignments.where((a) => !a.completed));
+  }
 
-  // @action
-  // void markAllAsCompleted() {
-  //   for (final todo in todos) {
-  //     todo.done = true;
-  //   }
-  // }
+  @computed
+  ObservableList<AssignmentEntity> get completedAssignments {
+    return ObservableList.of(assignments.where((a) => a.completed));
+  }
+
+  @action
+  void addCourse(CourseEntity course) {
+    courses.add(course);
+    _sortCourses();
+    useCases.addCourse(course);
+  }
+
+  @action
+  void deleteCourse(CourseEntity course) {
+    courses.remove(course);
+    assignments.removeWhere((a) => a.courseId == course.id);
+    useCases.deleteCourse(course);
+  }
+
+  @action
+  void updateCourse(CourseEntity course) {
+    final foundCourse = courses.firstWhere((c) => c.id == course.id);
+    foundCourse.name = course.name;
+    foundCourse.color = course.color;
+
+    _sortCourses();
+    useCases.updateCourse(course);
+  }
+
+  @action
+  void addAssignment(AssignmentEntity assignment) {
+    assignments.add(assignment);
+    _sortAssignments();
+    useCases.addAssignment(assignment);
+  }
+
+  @action
+  void updateAssignment(AssignmentEntity assignment) {
+    final foundAssignment =
+        assignments.firstWhere((a) => a.id == assignment.id);
+
+    foundAssignment.name = assignment.name;
+    foundAssignment.completed = assignment.completed;
+    foundAssignment.dueDate = assignment.dueDate;
+    foundAssignment.notes = assignment.notes;
+    foundAssignment.type = assignment.type;
+
+    _sortAssignments();
+    useCases.updateAssignment(assignment);
+  }
+
+  @action
+  void toggleAssignment(AssignmentEntity assignment) {
+    final foundAssignment =
+        assignments.firstWhere((a) => a.id == assignment.id);
+    foundAssignment.completed = !assignment.completed;
+    useCases.updateAssignment(assignment);
+  }
+
+  @action
+  void deleteAssignment(AssignmentEntity assignment) {
+    assignments.removeWhere((a) => a.id == assignment.id);
+    useCases.deleteAssignment(assignment);
+  }
+
+  @action
+  void deleteCompletedAssignments() {
+    assignments.removeWhere((a) => a.completed);
+    useCases.deleteCompletedAssignments();
+  }
+
+  void _sortCourses() => courses.sort((a, b) => a.name.compareTo(b.name));
+
+  void _sortAssignments() =>
+      assignments.sort((a, b) => a.dueDate.compareTo(b.creationDate));
 }

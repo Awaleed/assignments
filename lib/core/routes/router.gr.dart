@@ -8,17 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:assignments/pages/home_page.dart';
-import 'package:assignments/features/assignments/presentation/pages/class/class_details.dart';
-import 'package:assignments/features/assignments/domain/entities/class_entity.dart';
-import 'package:assignments/features/assignments/presentation/pages/class/class_dialog.dart';
+import 'package:assignments/features/assignments/presentation/pages/course/course_details.dart';
+import 'package:assignments/features/assignments/domain/entities/course_entity.dart';
+import 'package:assignments/features/assignments/presentation/pages/course/course_dialog.dart';
 import 'package:assignments/features/assignments/presentation/pages/assignment/assignment_details.dart';
 import 'package:assignments/features/assignments/domain/entities/assignment_entity.dart';
 import 'package:assignments/features/assignments/presentation/pages/assignment/assignment_dialog.dart';
 
 abstract class Routes {
   static const homePage = '/';
-  static const classDetails = '/class-details';
-  static const classDialog = '/class-dialog';
+  static const courseDetails = '/course-details';
+  static const courseDialog = '/course-dialog';
   static const assignmentDetails = '/assignment-details';
   static const assignmentDialog = '/assignment-dialog';
 }
@@ -38,56 +38,48 @@ class Router extends RouterBase {
           builder: (_) => HomePage(),
           settings: settings,
         );
-      case Routes.classDetails:
-        if (hasInvalidArgs<ClassDetailsArguments>(args)) {
-          return misTypedArgsRoute<ClassDetailsArguments>(args);
+      case Routes.courseDetails:
+        if (hasInvalidArgs<CourseDetailsArguments>(args, isRequired: true)) {
+          return misTypedArgsRoute<CourseDetailsArguments>(args);
         }
-        final typedArgs =
-            args as ClassDetailsArguments ?? ClassDetailsArguments();
+        final typedArgs = args as CourseDetailsArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => ClassDetails(
-              key: typedArgs.key,
-              entity: typedArgs.entity,
-              onEdit: typedArgs.onEdit,
-              onDelete: typedArgs.onDelete),
+          builder: (_) =>
+              CourseDetails(key: typedArgs.key, course: typedArgs.course),
           settings: settings,
         );
-      case Routes.classDialog:
-        if (hasInvalidArgs<ClassDialogArguments>(args)) {
-          return misTypedArgsRoute<ClassDialogArguments>(args);
+      case Routes.courseDialog:
+        if (hasInvalidArgs<CourseDialogArguments>(args)) {
+          return misTypedArgsRoute<CourseDialogArguments>(args);
         }
         final typedArgs =
-            args as ClassDialogArguments ?? ClassDialogArguments();
+            args as CourseDialogArguments ?? CourseDialogArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => ClassDialog(
-              key: typedArgs.key, classEntity: typedArgs.classEntity),
+          builder: (_) =>
+              CourseDialog(key: typedArgs.key, course: typedArgs.course),
           settings: settings,
           fullscreenDialog: true,
         );
       case Routes.assignmentDetails:
-        if (hasInvalidArgs<AssignmentDetailsArguments>(args)) {
+        if (hasInvalidArgs<AssignmentDetailsArguments>(args,
+            isRequired: true)) {
           return misTypedArgsRoute<AssignmentDetailsArguments>(args);
         }
-        final typedArgs =
-            args as AssignmentDetailsArguments ?? AssignmentDetailsArguments();
+        final typedArgs = args as AssignmentDetailsArguments;
         return MaterialPageRoute<dynamic>(
           builder: (_) => AssignmentDetails(
-              key: typedArgs.key,
-              entity: typedArgs.entity,
-              onEdit: typedArgs.onEdit,
-              onDelete: typedArgs.onDelete),
+              key: typedArgs.key, assignment: typedArgs.assignment),
           settings: settings,
         );
       case Routes.assignmentDialog:
-        if (hasInvalidArgs<AssignmentDialogArguments>(args, isRequired: true)) {
+        if (hasInvalidArgs<AssignmentDialogArguments>(args)) {
           return misTypedArgsRoute<AssignmentDialogArguments>(args);
         }
-        final typedArgs = args as AssignmentDialogArguments;
+        final typedArgs =
+            args as AssignmentDialogArguments ?? AssignmentDialogArguments();
         return MaterialPageRoute<dynamic>(
           builder: (_) => AssignmentDialog(
-              key: typedArgs.key,
-              classList: typedArgs.classList,
-              assignment: typedArgs.assignment),
+              key: typedArgs.key, assignment: typedArgs.assignment),
           settings: settings,
           fullscreenDialog: true,
         );
@@ -101,37 +93,30 @@ class Router extends RouterBase {
 // Arguments holder classes
 //***************************************************************************
 
-//ClassDetails arguments holder class
-class ClassDetailsArguments {
+//CourseDetails arguments holder class
+class CourseDetailsArguments {
   final Key key;
-  final ClassEntity entity;
-  final Function onEdit;
-  final Function onDelete;
-  ClassDetailsArguments({this.key, this.entity, this.onEdit, this.onDelete});
+  final CourseEntity course;
+  CourseDetailsArguments({this.key, @required this.course});
 }
 
-//ClassDialog arguments holder class
-class ClassDialogArguments {
+//CourseDialog arguments holder class
+class CourseDialogArguments {
   final Key key;
-  final ClassEntity classEntity;
-  ClassDialogArguments({this.key, this.classEntity});
+  final CourseEntity course;
+  CourseDialogArguments({this.key, this.course});
 }
 
 //AssignmentDetails arguments holder class
 class AssignmentDetailsArguments {
   final Key key;
-  final AssignmentEntity entity;
-  final Function onEdit;
-  final Function onDelete;
-  AssignmentDetailsArguments(
-      {this.key, this.entity, this.onEdit, this.onDelete});
+  final AssignmentEntity assignment;
+  AssignmentDetailsArguments({this.key, @required this.assignment});
 }
 
 //AssignmentDialog arguments holder class
 class AssignmentDialogArguments {
   final Key key;
-  final List<ClassEntity> classList;
   final AssignmentEntity assignment;
-  AssignmentDialogArguments(
-      {this.key, @required this.classList, this.assignment});
+  AssignmentDialogArguments({this.key, this.assignment});
 }

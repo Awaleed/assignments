@@ -1,21 +1,20 @@
 import 'dart:math';
 
+import 'package:assignments/features/assignments/domain/entities/course_entity.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/routes/router.gr.dart';
-import '../../../domain/entities/assignment_entity.dart';
-import '../../../domain/entities/class_entity.dart';
 import '../../widgets/color_picker.dart';
 
-class ClassDialog extends StatefulWidget {
-  final ClassEntity classEntity;
+class CourseDialog extends StatefulWidget {
+  final CourseEntity course;
 
-  const ClassDialog({Key key, this.classEntity}) : super(key: key);
+  const CourseDialog({Key key, this.course}) : super(key: key);
   @override
-  _ClassDialogState createState() => _ClassDialogState();
+  _CourseDialogState createState() => _CourseDialogState();
 }
 
-class _ClassDialogState extends State<ClassDialog> {
+class _CourseDialogState extends State<CourseDialog> {
   final _formKey = GlobalKey<FormState>();
 
   bool edit;
@@ -39,7 +38,7 @@ class _ClassDialogState extends State<ClassDialog> {
       appBar: AppBar(
         backgroundColor: color,
         title: Text(
-          edit ? 'Editing: ${widget.classEntity.name}' : 'New Course',
+          edit ? 'Editing: ${widget.course.name}' : 'New Course',
         ),
       ),
       body: Form(
@@ -90,7 +89,7 @@ class _ClassDialogState extends State<ClassDialog> {
   }
 
   setValues() {
-    final classEntity = widget.classEntity;
+    final classEntity = widget.course;
 
     if (classEntity != null) {
       title = classEntity.name;
@@ -106,13 +105,12 @@ class _ClassDialogState extends State<ClassDialog> {
 
   _onSave() {
     if (_formKey.currentState.validate()) {
-      final ClassEntity entity = ClassEntity(
-        id: widget?.classEntity?.id,
+      final CourseEntity entity = CourseEntity(
+        id: widget?.course?.id,
         name: title,
         color: color,
-        assignments: <AssignmentEntity>[],
       );
-      Router.navigator.pop<ClassEntity>(entity);
+      Router.navigator.pop<CourseEntity>(entity);
     }
   }
 
@@ -125,7 +123,7 @@ class _ClassDialogState extends State<ClassDialog> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Dissmiss Changes"),
+          title: Text("Dismiss Changes"),
           content: Text("Data Is not Saved??"),
           actions: <Widget>[
             FlatButton(
@@ -135,7 +133,7 @@ class _ClassDialogState extends State<ClassDialog> {
               },
             ),
             FlatButton(
-              child: Text("Dissmiss"),
+              child: Text("Dismiss"),
               onPressed: () {
                 Router.navigator.pop();
                 pop = true;
