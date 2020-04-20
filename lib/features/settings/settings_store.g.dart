@@ -63,6 +63,23 @@ mixin _$SettingsStore on _SettingsStore, Store {
     }, _$colorAtom, name: '${_$colorAtom.name}_set');
   }
 
+  final _$languageCodeAtom = Atom(name: '_SettingsStore.languageCode');
+
+  @override
+  String get languageCode {
+    _$languageCodeAtom.context.enforceReadPolicy(_$languageCodeAtom);
+    _$languageCodeAtom.reportObserved();
+    return super.languageCode;
+  }
+
+  @override
+  set languageCode(String value) {
+    _$languageCodeAtom.context.conditionallyRunInAction(() {
+      super.languageCode = value;
+      _$languageCodeAtom.reportChanged();
+    }, _$languageCodeAtom, name: '${_$languageCodeAtom.name}_set');
+  }
+
   final _$setDarkModeAsyncAction = AsyncAction('setDarkMode');
 
   @override
@@ -82,14 +99,21 @@ mixin _$SettingsStore on _SettingsStore, Store {
   final _$setColorAsyncAction = AsyncAction('setColor');
 
   @override
-  Future<void> setColor({@required Color value}) {
+  Future<void> setColor({@required MaterialColor value}) {
     return _$setColorAsyncAction.run(() => super.setColor(value: value));
+  }
+
+  final _$setLanguageCodeAsyncAction = AsyncAction('setLanguageCode');
+
+  @override
+  Future<void> setLanguageCode(String code) {
+    return _$setLanguageCodeAsyncAction.run(() => super.setLanguageCode(code));
   }
 
   @override
   String toString() {
     final string =
-        'useDarkMode: ${useDarkMode.toString()},showPerformanceOverlay: ${showPerformanceOverlay.toString()},color: ${color.toString()}';
+        'useDarkMode: ${useDarkMode.toString()},showPerformanceOverlay: ${showPerformanceOverlay.toString()},color: ${color.toString()},languageCode: ${languageCode.toString()}';
     return '{$string}';
   }
 }

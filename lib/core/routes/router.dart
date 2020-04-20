@@ -1,21 +1,31 @@
-import 'package:assignments/features/assignments/presentation/pages/assignment/assignment_dialog.dart';
-import 'package:assignments/features/assignments/presentation/pages/course/course_details.dart';
-import 'package:assignments/features/assignments/presentation/pages/course/course_dialog.dart';
+import 'package:assignments/features/settings/development_page.dart';
+import 'package:assignments/features/tasks/presentation/pages/calendar/calendar.dart';
 import 'package:auto_route/auto_route_annotations.dart';
 
-import '../../features/assignments/presentation/pages/assignment/assignment_details.dart';
-
-import '../../pages/home_page.dart';
+import '../../features/settings/settings_widgets.dart';
+import '../../features/tasks/domain/entities/course_entity.dart';
+import '../../features/tasks/domain/entities/task_entity.dart';
+import '../../features/tasks/presentation/pages/course/course_details.dart';
+import '../../features/tasks/presentation/pages/course/course_dialog.dart';
+import '../../features/tasks/presentation/pages/course/courses_page.dart';
+import '../../features/tasks/presentation/pages/task/task_details.dart';
+import '../../features/tasks/presentation/pages/task/task_dialog.dart';
+import '../../features/tasks/presentation/pages/task/tasks_page.dart';
 
 @MaterialAutoRouter()
 class $Router {
-  @initial
-  HomePage homePage;
+  CoursesPage coursesPage;
   CourseDetails courseDetails;
-  @MaterialRoute(fullscreenDialog: true)
+  @MaterialRoute(fullscreenDialog: true, returnType: Course)
   CourseDialog courseDialog;
 
-  AssignmentDetails assignmentDetails;
-  @MaterialRoute(fullscreenDialog: true)
-  AssignmentDialog assignmentDialog;
+  @initial
+  TasksPage tasksPage;
+  TaskDetails taskDetails;
+  @MaterialRoute(fullscreenDialog: true, returnType: Task)
+  TaskDialog taskDialog;
+
+  SettingsExample settingsPage;
+  // DevelopmentPage developmentPage;
+  CalendarPage calendarPage;
 }

@@ -9,9 +9,10 @@ class SettingsStore = _SettingsStore with _$SettingsStore;
 abstract class _SettingsStore with Store {
   _SettingsStore(this._preferencesService) {
     useDarkMode = _preferencesService.useDarkMode;
-    showPerformanceOverlay = _preferencesService.showPerformanceOverlay;
+    // showPerformanceOverlay = _preferencesService.showPerformanceOverlay;
     color = Colors.primaries
         .firstWhere((c) => c.value == _preferencesService.color);
+    languageCode = _preferencesService.languageCode;
   }
 
   final PreferencesService _preferencesService;
@@ -25,6 +26,9 @@ abstract class _SettingsStore with Store {
   @observable
   MaterialColor color;
 
+  @observable
+  String languageCode;
+
   @action
   Future<void> setDarkMode({@required bool value}) async {
     _preferencesService.useDarkMode = value;
@@ -33,13 +37,19 @@ abstract class _SettingsStore with Store {
 
   @action
   Future<void> setShowPerformanceOverlay({@required bool value}) async {
-    _preferencesService.showPerformanceOverlay = value;
+    // _preferencesService.showPerformanceOverlay = value;
     showPerformanceOverlay = value;
   }
 
   @action
-  Future<void> setColor({@required Color value}) async {
+  Future<void> setColor({@required MaterialColor value}) async {
     _preferencesService.color = value.value;
     color = value;
+  }
+
+  @action
+  Future<void> setLanguageCode(String code) async {
+    _preferencesService.languageCode = code;
+    languageCode = code;
   }
 }

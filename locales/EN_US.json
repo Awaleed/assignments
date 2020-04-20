@@ -1,0 +1,48 @@
+{
+  "calendar": {
+    "calendar": "Calendar",
+    "empty_tasks_list": "There is no tasks to show, Add some..."
+  },
+  "courses": {
+    "course_title": "Course title",
+    "course_color": "Course color",
+    "new_course": "New course",
+    "editing": "Editing",
+    "empty_title_error_message": "Title can't be empty",
+    "short_title_error_message": "Title must be longer than 2 characters",
+    "courses": "Courses",
+    "empty_courses_list": "There is no courses to show, Add some...",
+    "save": "Save"
+  },
+  "settings": {
+    "settings": "Settings",
+    "use_dark_mode": "Use dark mode",
+    "auto": "Auto"
+  },
+  "tasks": {
+    "upcoming": "upcoming",
+    "overdue": "overdue",
+    "tasks": "Tasks",
+    "homework": "Homework",
+    "project": "Project",
+    "quiz": "Quiz",
+    "test": "Test",
+    "notes": "Notes",
+    "progress": "Progress",
+    "at": "at",
+    "task_name": "Task name",
+    "empty_name_error_message": "Task name can't be empty",
+    "short_name_error_message": "Task name must be longer than 2 characters",
+    "empty_courses_error": "Please add new course",
+    "due_date": "Due",
+    "overdue_error_message": "has it all ready due?",
+    "reminder": "Reminder",
+    "reminder_date_error_message": "Remind you after it's already due?",
+    "new_subtask": "New subtask",
+    "new_task": "New task",
+    "editing": "Editing",
+    "empty_tasks_list": "There is no tasks to show, Add some...",
+    "subtasks": "Subtasks",
+    "save": "Save"
+  }
+}
