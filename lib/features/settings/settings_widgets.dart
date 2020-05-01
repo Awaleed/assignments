@@ -1,10 +1,9 @@
-import 'package:assignments/features/settings/development_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 
-import '../../core/routes/router.gr.dart';
 import '../../core/utils.dart';
+import 'development_page.dart';
 import 'settings_store.dart';
 
 class SettingsExample extends StatelessWidget {
@@ -43,21 +42,15 @@ class SettingsExample extends StatelessWidget {
                     items: [
                       DropdownMenuItem(
                         value: '',
-                        child: Container(
-                          child: Text('${loc.settings.auto}'),
-                        ),
+                        child: Text('${loc.settings.auto}'),
                       ),
-                      DropdownMenuItem(
+                      const DropdownMenuItem(
                         value: 'ar',
-                        child: Container(
-                          child: Text('عربي'),
-                        ),
+                        child: Text('عربي'),
                       ),
-                      DropdownMenuItem(
+                      const DropdownMenuItem(
                         value: 'en',
-                        child: Container(
-                          child: Text('English'),
-                        ),
+                        child: Text('English'),
                       ),
                     ],
                     onChanged: (value) {
@@ -82,13 +75,13 @@ class SettingsExample extends StatelessWidget {
             );
           }));
         },
-        label: Text('Dev. mode'),
+        label: const Text('Dev. mode'),
         icon: Icon(Icons.developer_mode),
       ),
     );
   }
 
-  List<DropdownMenuItem<MaterialColor>> _buildItems(context) {
+  List<DropdownMenuItem<MaterialColor>> _buildItems(BuildContext context) {
     final namesEn = [
       'Red',
       'Pink',
@@ -131,8 +124,7 @@ class SettingsExample extends StatelessWidget {
       'رمادي مزرق',
     ];
     final listItems = <DropdownMenuItem<MaterialColor>>[];
-    final primariesNames =
-        locale(context).languageCode == 'ar' ? namesAr : namesEn;
+    final primariesNames = locale(context).languageCode == 'ar' ? namesAr : namesEn;
     for (var i = 0; i < primariesNames.length; i++) {
       final item = DropdownMenuItem<MaterialColor>(
         value: Colors.primaries[i],
@@ -140,7 +132,7 @@ class SettingsExample extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('${primariesNames[i]}'),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             CircleAvatar(
               child: Container(
                 decoration: BoxDecoration(

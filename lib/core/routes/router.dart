@@ -1,10 +1,9 @@
-import 'package:assignments/features/settings/development_page.dart';
-import 'package:assignments/features/tasks/presentation/pages/calendar/calendar.dart';
 import 'package:auto_route/auto_route_annotations.dart';
 
 import '../../features/settings/settings_widgets.dart';
 import '../../features/tasks/domain/entities/course_entity.dart';
 import '../../features/tasks/domain/entities/task_entity.dart';
+import '../../features/tasks/presentation/pages/calendar/calendar.dart';
 import '../../features/tasks/presentation/pages/course/course_details.dart';
 import '../../features/tasks/presentation/pages/course/course_dialog.dart';
 import '../../features/tasks/presentation/pages/course/courses_page.dart';

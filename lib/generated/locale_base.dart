@@ -7,12 +7,12 @@ class LocaleBase {
   Future<void> load(String path) async {
     _path = path;
     final strJson = await rootBundle.loadString(path);
-    _data = jsonDecode(strJson);
+    _data = jsonDecode(strJson) as Map<String, dynamic>;
     initAll();
   }
-  
+
   Map<String, String> getData(String group) {
-    return Map<String, String>.from(_data[group]);
+    return Map<String, String>.from(_data[group] as Map<String, dynamic>);
   }
 
   String getPath() => _path;
@@ -27,10 +27,10 @@ class LocaleBase {
   Localetasks get tasks => _tasks;
 
   void initAll() {
-    _calendar = Localecalendar(Map<String, String>.from(_data['calendar']));
-    _courses = Localecourses(Map<String, String>.from(_data['courses']));
-    _settings = Localesettings(Map<String, String>.from(_data['settings']));
-    _tasks = Localetasks(Map<String, String>.from(_data['tasks']));
+    _calendar = Localecalendar(Map<String, String>.from(_data['calendar'] as Map<String, dynamic>));
+    _courses = Localecourses(Map<String, String>.from(_data['courses'] as Map<String, dynamic>));
+    _settings = Localesettings(Map<String, String>.from(_data['settings'] as Map<String, dynamic>));
+    _tasks = Localetasks(Map<String, String>.from(_data['tasks'] as Map<String, dynamic>));
   }
 }
 
@@ -41,6 +41,7 @@ class Localecalendar {
   String get calendar => _data["calendar"];
   String get empty_tasks_list => _data["empty_tasks_list"];
 }
+
 class Localecourses {
   final Map<String, String> _data;
   Localecourses(this._data);
@@ -55,6 +56,7 @@ class Localecourses {
   String get empty_courses_list => _data["empty_courses_list"];
   String get save => _data["save"];
 }
+
 class Localesettings {
   final Map<String, String> _data;
   Localesettings(this._data);
@@ -63,6 +65,7 @@ class Localesettings {
   String get use_dark_mode => _data["use_dark_mode"];
   String get auto => _data["auto"];
 }
+
 class Localetasks {
   final Map<String, String> _data;
   Localetasks(this._data);

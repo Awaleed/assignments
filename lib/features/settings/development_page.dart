@@ -1,13 +1,12 @@
 import 'dart:async';
 
-import 'package:assignments/features/settings/flash/main.dart';
+import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:numberpicker/numberpicker.dart';
 
 import '../tasks/presentation/store/tasks.dart';
-import 'flash/flash_helper.dart';
 import 'settings_store.dart';
 
 class DevelopmentPage extends StatefulWidget {
@@ -36,19 +35,19 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      locale: Locale('en'),
+      locale: const Locale('en'),
       child: Scaffold(
-        appBar: AppBar(title: Text('Be careful...')),
+        appBar: AppBar(title: const Text('Be careful...')),
         body: ListView(
           children: <Widget>[
             SwitchListTile(
               value: store.showPerformanceOverlay,
-              title: Text('Show performance overlay'),
+              title: const Text('Show performance overlay'),
               onChanged: (value) {
                 store.setShowPerformanceOverlay(value: value);
               },
             ),
-            Divider(),
+            const Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -60,9 +59,9 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
                       initialValue: cCount,
                       minValue: 0,
                       maxValue: 50,
-                      onChanged: (value) => setState(() => cCount = value),
+                      onChanged: (num value) => setState(() => cCount = value.toInt()),
                     ),
-                    Text('Courses'),
+                    const Text('Courses'),
                   ],
                 ),
                 Column(
@@ -73,9 +72,9 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
                       initialValue: tCount,
                       minValue: 0,
                       maxValue: 50,
-                      onChanged: (value) => setState(() => tCount = value),
+                      onChanged: (num value) => setState(() => tCount = value.toInt()),
                     ),
-                    Text('Tasks'),
+                    const Text('Tasks'),
                   ],
                 ),
                 Column(
@@ -86,26 +85,24 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
                       initialValue: stCount,
                       minValue: 0,
                       maxValue: 50,
-                      onChanged: (value) => setState(() => stCount = value),
+                      onChanged: (num value) => setState(() => stCount = value.toInt()),
                     ),
-                    Text('Subtasks'),
+                    const Text('Subtasks'),
                   ],
                 ),
               ],
             ),
-            Divider(),
+            const Divider(),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 RaisedButton(
                   onPressed: () {
-                    var completer = Completer();
-                    tasksStore
-                        .seedDatabase(cCount, tCount, stCount)
-                        .then((_) => completer.complete());
+                    final completer = Completer();
+                    tasksStore.seedDatabase(cCount, tCount, stCount).then((_) => completer.complete());
 
-                    FlashHelper.blockDialog(
+                    _showLoading(
                       context,
                       dismissCompleter: completer,
                     );
@@ -115,9 +112,9 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
                 ),
                 RaisedButton(
                   onPressed: () {
-                    var completer = Completer();
+                    final completer = Completer();
                     tasksStore.resetData().then((_) => completer.complete());
-                    FlashHelper.blockDialog(
+                    _showLoading(
                       context,
                       dismissCompleter: completer,
                     );
@@ -129,22 +126,29 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return Overlay(
-                initialEntries: [
-                  OverlayEntry(builder: (context) {
-                    return FlashPage();
-                  }),
-                ],
-              );
-            }));
-          },
-          label: Text('Show Flashes'),
-          icon: Icon(Icons.bubble_chart),
-        ),
       ),
+    );
+  }
+
+  void _showLoading(BuildContext context, {Completer dismissCompleter}) {
+    showFlash(
+      context: context,
+      persistent: false,
+      onWillPop: () => Future.value(false),
+      builder: (context, FlashController controller) {
+        dismissCompleter.future.then((value) => controller.dismiss(value));
+        return Flash.dialog(
+          controller: controller,
+          barrierDismissible: false,
+          backgroundColor: Colors.black87,
+          margin: const EdgeInsets.only(left: 40.0, right: 40.0),
+          borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+          child: const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: CircularProgressIndicator(strokeWidth: 2.0),
+          ),
+        );
+      },
     );
   }
 }
