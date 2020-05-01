@@ -1,3 +1,4 @@
+import 'package:assignments/features/settings/theme.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -28,9 +29,13 @@ class MyApp extends StatelessWidget {
         builder: ExtendedNavigator<Router>(router: Router()),
         showPerformanceOverlay: store.showPerformanceOverlay,
         theme: ThemeData(
-          brightness: store.useDarkMode ? Brightness.dark : Brightness.light,
+          // brightness: store.useDarkMode ? Brightness.dark : Brightness.light,
+          brightness: Brightness.dark,
           primarySwatch: store.color,
+      
+          textTheme: textTheme,
         ),
+        // darkTheme: ThemeData(primarySwatch: Colors.red),
         localizationsDelegates: [
           const LocDelegate(),
           GlobalMaterialLocalizations.delegate,

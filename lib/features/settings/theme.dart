@@ -2,28 +2,28 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
 final textTheme = TextTheme(
-  display4: GoogleFonts.tajawal(
+  display4: GoogleFonts.almarai(
       fontSize: 112, fontWeight: FontWeight.w300, letterSpacing: -1.5),
-  display3: GoogleFonts.tajawal(
+  display3: GoogleFonts.almarai(
       fontSize: 70, fontWeight: FontWeight.w300, letterSpacing: -0.5),
-  display2: GoogleFonts.tajawal(fontSize: 56, fontWeight: FontWeight.w400),
-  display1: GoogleFonts.tajawal(
+  display2: GoogleFonts.almarai(fontSize: 56, fontWeight: FontWeight.w400),
+  display1: GoogleFonts.almarai(
       fontSize: 40, fontWeight: FontWeight.w400, letterSpacing: 0.25),
-  headline: GoogleFonts.tajawal(fontSize: 28, fontWeight: FontWeight.w400),
-  title: GoogleFonts.tajawal(
+  headline: GoogleFonts.almarai(fontSize: 28, fontWeight: FontWeight.w400),
+  title: GoogleFonts.almarai(
       fontSize: 23, fontWeight: FontWeight.w500, letterSpacing: 0.15),
-  subhead: GoogleFonts.tajawal(
+  subhead: GoogleFonts.almarai(
       fontSize: 19, fontWeight: FontWeight.w400, letterSpacing: 0.15),
-  subtitle: GoogleFonts.tajawal(
+  subtitle: GoogleFonts.almarai(
       fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.1),
-  body1: GoogleFonts.tajawal(
+  body1: GoogleFonts.almarai(
       fontSize: 19, fontWeight: FontWeight.w400, letterSpacing: 0.5),
-  body2: GoogleFonts.tajawal(
+  body2: GoogleFonts.almarai(
       fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.25),
-  button: GoogleFonts.tajawal(
+  button: GoogleFonts.almarai(
       fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 1.25),
-  caption: GoogleFonts.tajawal(
+  caption: GoogleFonts.almarai(
       fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.4),
-  overline: GoogleFonts.tajawal(
+  overline: GoogleFonts.almarai(
       fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 1.5),
 );
