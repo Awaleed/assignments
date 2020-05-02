@@ -2,15 +2,32 @@
 
 A new Flutter project.
 
-## Getting Started
+## Screenshots
 
-This project is a starting point for a Flutter application.
+Here's our logo (hover to see the title text):
 
-A few resources to get you started if this is your first Flutter project:
+![screen1]
+![screen2]
+![screen3]
+![screen4]
+![screen5]
+![screen6]
+![screen7]
+![screen8]
+![screen8]
+![screen9]
+![screen10]
+![screen11]
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[screen1]: ./screenshots/screen-2020-05-02_000001.png "screen1"
+[screen2]: ./screenshots/screen-2020-05-02_000002.png "screen2"
+[screen3]: ./screenshots/screen-2020-05-02_000003.png "screen3"
+[screen4]: ./screenshots/screen-2020-05-02_000004.png "screen4"
+[screen5]: ./screenshots/screen-2020-05-02_000005.png "screen5"
+[screen6]: ./screenshots/screen-2020-05-02_000006.png "screen6"
+[screen7]: ./screenshots/screen-2020-05-02_000007.png "screen7"
+[screen8]: ./screenshots/screen-2020-05-02_000008.png "screen8"
+[screen8]: ./screenshots/screen-2020-05-02_000008.png "screen8"
+[screen9]: ./screenshots/screen-2020-05-02_000009.png "screen9"
+[screen10]: ./screenshots/screen-2020-05-02_000010.png "screen10"
+[screen11]: ./screenshots/screen-2020-05-02_000011.png "screen11"
