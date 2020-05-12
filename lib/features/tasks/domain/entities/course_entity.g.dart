@@ -8,9 +8,6 @@ part of 'course_entity.dart';
 
 class CourseAdapter extends TypeAdapter<Course> {
   @override
-  final typeId = 0;
-
-  @override
   Course read(BinaryReader reader) {
     var numOfFields = reader.readByte();
     var fields = <int, dynamic>{

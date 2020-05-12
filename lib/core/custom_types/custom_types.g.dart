@@ -8,9 +8,6 @@ part of 'custom_types.dart';
 
 class TaskTypeAdapter extends TypeAdapter<TaskType> {
   @override
-  final typeId = 2;
-
-  @override
   TaskType read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:

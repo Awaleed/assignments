@@ -32,7 +32,8 @@ abstract class Routes {
 class Router extends RouterBase {
   //This will probably be removed in future versions
   //you should call ExtendedNavigator.ofRouter<Router>() directly
-  static ExtendedNavigatorState get navigator => ExtendedNavigator.ofRouter<Router>();
+  static ExtendedNavigatorState get navigator =>
+      ExtendedNavigator.ofRouter<Router>();
 
   @override
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -49,7 +50,8 @@ class Router extends RouterBase {
         }
         final typedArgs = args as CourseDetailsArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => CourseDetails(key: typedArgs.key, course: typedArgs.course),
+          builder: (_) =>
+              CourseDetails(key: typedArgs.key, course: typedArgs.course),
           settings: settings,
         );
       case Routes.courseDialog:
@@ -58,13 +60,14 @@ class Router extends RouterBase {
         }
         final typedArgs = args as CourseDialogArguments;
         return MaterialPageRoute<Course>(
-          builder: (_) => CourseDialog(key: typedArgs.key, course: typedArgs.course),
+          builder: (_) =>
+              CourseDialog(key: typedArgs.key, course: typedArgs.course),
           settings: settings,
           fullscreenDialog: true,
         );
       case Routes.tasksPage:
         return MaterialPageRoute<dynamic>(
-          builder: (_) => const TasksPage(),
+          builder: (_) => TasksPage(),
           settings: settings,
         );
       case Routes.taskDetails:
@@ -73,7 +76,8 @@ class Router extends RouterBase {
         }
         final typedArgs = args as TaskDetailsArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => TaskDetails(typedArgs.task, key: typedArgs.key, parent: typedArgs.parent),
+          builder: (_) => TaskDetails(typedArgs.task,
+              key: typedArgs.key, parent: typedArgs.parent),
           settings: settings,
         );
       case Routes.taskDialog:
@@ -82,7 +86,10 @@ class Router extends RouterBase {
         }
         final typedArgs = args as TaskDialogArguments ?? TaskDialogArguments();
         return MaterialPageRoute<Task>(
-          builder: (_) => TaskDialog(typedArgs.task, key: typedArgs.key, fixedCourse: typedArgs.fixedCourse, fixedDate: typedArgs.fixedDate),
+          builder: (_) => TaskDialog(typedArgs.task,
+              key: typedArgs.key,
+              fixedCourse: typedArgs.fixedCourse,
+              fixedDate: typedArgs.fixedDate),
           settings: settings,
           fullscreenDialog: true,
         );
@@ -95,7 +102,8 @@ class Router extends RouterBase {
         if (hasInvalidArgs<CalendarPageArguments>(args)) {
           return misTypedArgsRoute<CalendarPageArguments>(args);
         }
-        final typedArgs = args as CalendarPageArguments ?? CalendarPageArguments();
+        final typedArgs =
+            args as CalendarPageArguments ?? CalendarPageArguments();
         return MaterialPageRoute<dynamic>(
           builder: (_) => CalendarPage(key: typedArgs.key),
           settings: settings,
@@ -138,7 +146,8 @@ class TaskDialogArguments {
   final Key key;
   final bool fixedCourse;
   final bool fixedDate;
-  TaskDialogArguments({this.task, this.key, this.fixedCourse = false, this.fixedDate = false});
+  TaskDialogArguments(
+      {this.task, this.key, this.fixedCourse = false, this.fixedDate = false});
 }
 
 //CalendarPage arguments holder class

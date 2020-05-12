@@ -8,9 +8,6 @@ part of 'task_entity.dart';
 
 class TaskAdapter extends TypeAdapter<Task> {
   @override
-  final typeId = 1;
-
-  @override
   Task read(BinaryReader reader) {
     var numOfFields = reader.readByte();
     var fields = <int, dynamic>{
