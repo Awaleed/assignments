@@ -8,6 +8,9 @@ part of 'custom_types.dart';
 
 class TaskTypeAdapter extends TypeAdapter<TaskType> {
   @override
+  final int typeId = 2;
+
+  @override
   TaskType read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
@@ -40,4 +43,14 @@ class TaskTypeAdapter extends TypeAdapter<TaskType> {
         break;
     }
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TaskTypeAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

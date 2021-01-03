@@ -1,15 +1,14 @@
-import 'package:assignments/core/utils.dart';
-import 'package:assignments/features/tasks/domain/entities/task_entity.dart';
-import 'package:assignments/features/tasks/presentation/helpers.dart';
-import 'package:assignments/features/tasks/presentation/widgets/task_tile.dart';
+import 'package:assignments/features/tasks/presentation/pages/calendar/table_calendar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 
-import 'table_calendar.dart';
+import '../../../../../core/utils.dart';
+import '../../../domain/entities/task_entity.dart';
+import '../../helpers.dart';
+import '../../widgets/task_tile.dart';
 
 class CalendarPage extends StatefulWidget {
-  CalendarPage({Key key}) : super(key: key);
+  const CalendarPage({Key key}) : super(key: key);
 
   @override
   _CalendarPageState createState() => _CalendarPageState();
@@ -40,7 +39,7 @@ class _CalendarPageState extends State<CalendarPage>
 
   Map<DateTime, List> _buildTasksEvents() {
     final tasks = Helpers.store.tasks;
-    Map<DateTime, List> events = {};
+    final Map<DateTime, List> events = {};
 
     DateTime previousDate;
 
@@ -85,52 +84,46 @@ class _CalendarPageState extends State<CalendarPage>
     final loc = localeBase(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('${loc.calendar.calendar}'),
+        title: Text(loc.calendar.calendar),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.today),
+            icon: const Icon(Icons.today),
             onPressed: () {
               setState(() {
                 _calendarController.setSelectedDay(
                   DateTime.now().withoutTime(),
                   runCallback: true,
-                  animate: true,
                 );
               });
             },
           ),
           IconButton(
-            icon: Icon(
-                // _calendarController?.calendarFormat == CalendarFormat.twoWeeks
-                // ? Icons.calendar_view_day
-                //     : Icons.view_agenda,
-                Icons.calendar_view_day),
+            icon: const Icon(Icons.calendar_view_day),
             onPressed: () {
               setState(() {
-                _calendarController.setCalendarFormat(
-                  _calendarController.calendarFormat == CalendarFormat.twoWeeks
-                      ? CalendarFormat.week
-                      : CalendarFormat.twoWeeks,
-                );
+                _calendarController.calendarFormat =
+                    _calendarController.calendarFormat ==
+                            CalendarFormat.twoWeeks
+                        ? CalendarFormat.week
+                        : CalendarFormat.twoWeeks;
               });
             },
           )
         ],
       ),
       body: Column(
-        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           _buildTableCalendar(),
           const SizedBox(height: 8.0),
           Expanded(
             child: _selectedEvents.isNotEmpty
                 ? _buildEventList()
-                : Center(child: Text('${loc.calendar.empty_tasks_list}')),
+                : Center(child: Text(loc.calendar.empty_tasks_list)),
           ),
         ],
       ),
       floatingActionButton: _selectedDay.isAfter(
-              DateTime.now().withoutTime().subtract(Duration(seconds: 1)))
+              DateTime.now().withoutTime().subtract(const Duration(seconds: 1)))
           ? FloatingActionButton.extended(
               onPressed: () async {
                 await Helpers.onShowTaskDialog(
@@ -142,8 +135,8 @@ class _CalendarPageState extends State<CalendarPage>
                   _selectedEvents = _events[_selectedDay] ?? [];
                 });
               },
-              label: Text('${loc.tasks.new_task}'),
-              icon: Icon(Icons.add),
+              label: Text(loc.tasks.new_task),
+              icon: const Icon(Icons.add),
             )
           : null,
     );
@@ -153,7 +146,6 @@ class _CalendarPageState extends State<CalendarPage>
     return TableCalendar(
       locale: locale(context).languageCode,
       initialCalendarFormat: CalendarFormat.week,
-      formatAnimation: FormatAnimation.slide,
       availableGestures: AvailableGestures.horizontalSwipe,
       builders: CalendarBuilders(
         markersBuilder: (BuildContext context, DateTime date, List<dynamic> l1,
@@ -177,20 +169,19 @@ class _CalendarPageState extends State<CalendarPage>
           ];
         },
       ),
-      availableCalendarFormats: {
+      availableCalendarFormats: const {
         CalendarFormat.week: 'week',
         CalendarFormat.twoWeeks: 'twoWeeks',
       },
       calendarController: _calendarController,
       events: _events,
-      startingDayOfWeek: StartingDayOfWeek.sunday,
       calendarStyle: CalendarStyle(
         selectedColor: Theme.of(context).primaryColor,
         todayColor: Theme.of(context).primaryColor.withOpacity(.5),
         markersColor: Theme.of(context).accentColor,
         outsideDaysVisible: false,
       ),
-      headerStyle: HeaderStyle(
+      headerStyle: const HeaderStyle(
         formatButtonVisible: false,
         centerHeaderTitle: true,
       ),
@@ -207,7 +198,7 @@ class _CalendarPageState extends State<CalendarPage>
       children: events.map((task) {
         return TaskTile(
           task,
-          onTap: () => Helpers.onShowTaskDetails(parent: null, task: task),
+          onTap: () => Helpers.onShowTaskDetails(task: task),
         );
       }).toList(),
     );
@@ -216,6 +207,6 @@ class _CalendarPageState extends State<CalendarPage>
 
 extension on DateTime {
   DateTime withoutTime() {
-    return DateTime(this.year, this.month, this.day);
+    return DateTime(year, month, day);
   }
 }

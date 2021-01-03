@@ -99,30 +99,34 @@ class LeaveBehindDemoState extends State<LeaveBehindDemo> {
     setState(() {
       leaveBehindItems.remove(item);
     });
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text('You archived item ${item.index}'),
-      action: SnackBarAction(
-        label: 'UNDO',
-        onPressed: () {
-          handleUndo(item);
-        },
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('You archived item ${item.index}'),
+        action: SnackBarAction(
+          label: 'UNDO',
+          onPressed: () {
+            handleUndo(item);
+          },
+        ),
       ),
-    ));
+    );
   }
 
   void _handleDelete(LeaveBehindItem item) {
     setState(() {
       leaveBehindItems.remove(item);
     });
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text('You deleted item ${item.index}'),
-      action: SnackBarAction(
-        label: 'UNDO',
-        onPressed: () {
-          handleUndo(item);
-        },
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('You deleted item ${item.index}'),
+        action: SnackBarAction(
+          label: 'UNDO',
+          onPressed: () {
+            handleUndo(item);
+          },
+        ),
       ),
-    ));
+    );
   }
 
   @override
@@ -251,6 +255,9 @@ class _LeaveBehindListItem extends StatelessWidget {
                   case DismissDirection.up:
                   case DismissDirection.down:
                     assert(false);
+                    break;
+                  case DismissDirection.none:
+                    break;
                 }
                 return false;
               },

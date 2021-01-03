@@ -1,17 +1,18 @@
 import 'dart:math';
 
-import 'package:assignments/generated/locale_base.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:kiwi/kiwi.dart';
 
 import '../../../core/custom_types/custom_types.dart';
-import '../../../core/routes/router.gr.dart';
+import '../../../core/routes/app_router.gr.dart';
+import '../../../generated/locale_base.dart';
 import '../domain/entities/course_entity.dart';
 import '../domain/entities/task_entity.dart';
 import 'store/tasks.dart';
 
 abstract class Helpers {
-  static TasksStore store = kiwi.Container().resolve<TasksStore>();
+  static TasksStore store = KiwiContainer().resolve<TasksStore>();
 
   static Course _course() => Course(colorIndex: Random().nextInt(18));
   static Task _task({
@@ -43,13 +44,13 @@ abstract class Helpers {
       mDueDate.hour - 1,
       mDueDate.minute - 30,
     );
-    if (mReminder.isBefore(DateTime.now()))
+    if (mReminder.isBefore(DateTime.now())) {
       mReminder = DateTime.now().add(
-        Duration(minutes: 30),
+        const Duration(minutes: 30),
       );
+    }
 
     return Task(
-      isSubTask: false,
       type: TaskType.homework,
       course: mCourse,
       dueDate: mDueDate,
@@ -82,7 +83,7 @@ abstract class Helpers {
     bool fixedCourse = false,
     bool fixedDate = false,
   }) async {
-    final Task mTask = await Router.navigator.pushNamed(
+    final mTask = await ExtendedNavigator.root.push<Task>(
       Routes.taskDialog,
       arguments: TaskDialogArguments(
         task: task ?? _task(course: course, dueDate: dueDate),
@@ -95,13 +96,13 @@ abstract class Helpers {
         await store.addTask(mTask);
       } else {
         await store.updateTask(mTask);
-        Helpers.onShowTaskDetails(parent: null, task: task);
+        Helpers.onShowTaskDetails(task: task);
       }
     }
   }
 
   static Future<void> onShowSubtaskDialog({Task parent, Task task}) async {
-    final Task mTask = await Router.navigator.pushNamed(
+    final Task mTask = await ExtendedNavigator.root.push(
       Routes.taskDialog,
       arguments: TaskDialogArguments(
         task: task ?? _subtask(),
@@ -116,7 +117,7 @@ abstract class Helpers {
   }
 
   static Future<void> onShowCourseDialog({Course course, Task task}) async {
-    final Course mCourse = await Router.navigator.pushNamed<Course>(
+    final Course mCourse = await ExtendedNavigator.root.push<Course>(
       Routes.courseDialog,
       arguments: CourseDialogArguments(course: course ?? _course()),
     );
@@ -125,19 +126,19 @@ abstract class Helpers {
         await store.addCourse(mCourse);
         if (task != null) {
           task.course = mCourse;
-          Router.navigator.pop();
+          ExtendedNavigator.root.pop();
           await Helpers.onShowTaskDialog(task: task, course: mCourse);
         }
       } else {
         await store.updateCourse(mCourse);
-        Router.navigator.pop();
+        ExtendedNavigator.root.pop();
         Helpers.onShowCourseDetails(mCourse);
       }
     }
   }
 
   static void onShowCourseDetails(Course course) {
-    Router.navigator.pushNamed(
+    ExtendedNavigator.root.push(
       Routes.courseDetails,
       arguments: CourseDetailsArguments(course: course),
     );
@@ -151,18 +152,18 @@ abstract class Helpers {
         return AlertDialog(
           title: const Text('Discard changes?'),
           content: const Text(
-            'The data you have entered hasn\'t been saved yet, Are you sure?',
+            "The data you have entered hasn't been saved yet, Are you sure?",
           ),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
-                Router.navigator.pop();
+                ExtendedNavigator.root.pop();
                 pop = true;
               },
               child: const Text('DISCARD'),
             ),
             FlatButton(
-              onPressed: () => Router.navigator.pop(),
+              onPressed: () => ExtendedNavigator.root.pop(),
               child: const Text('KEEP EDITING'),
             )
           ],
@@ -175,14 +176,14 @@ abstract class Helpers {
   static void onSaveCourse({Course course, GlobalKey<FormState> formKey}) {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
-      Router.navigator.pop(course);
+      ExtendedNavigator.root.pop(course);
     }
   }
 
   static void onSaveTask({GlobalKey<FormState> formKey, Task task}) {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
-      Router.navigator.pop(task);
+      ExtendedNavigator.root.pop(task);
     }
   }
 
@@ -191,7 +192,7 @@ abstract class Helpers {
 
   static void onDeleteCourse(Course course) {
     store.deleteCourse(course);
-    Router.navigator.pop();
+    ExtendedNavigator.root.pop();
   }
 
   static Future<void> onDeleteTask({Task task, Task sub}) async {
@@ -201,11 +202,11 @@ abstract class Helpers {
     } else {
       await store.deleteTask(sub);
     }
-    Router.navigator.pop();
+    ExtendedNavigator.root.pop();
   }
 
   static void onShowTaskDetails({Task parent, Task task}) {
-    Router.navigator.pushNamed(
+    ExtendedNavigator.root.push(
       Routes.taskDetails,
       arguments: TaskDetailsArguments(parent: parent, task: task),
     );
@@ -214,16 +215,16 @@ abstract class Helpers {
   static String mapTaskType({TaskType type, LocaleBase loc}) {
     switch (type) {
       case TaskType.homework:
-        return '${loc.tasks.homework}';
+        return loc.tasks.homework;
         break;
       case TaskType.project:
-        return '${loc.tasks.project}';
+        return loc.tasks.project;
         break;
       case TaskType.quiz:
-        return '${loc.tasks.quiz}';
+        return loc.tasks.quiz;
         break;
       case TaskType.test:
-        return '${loc.tasks.test}';
+        return loc.tasks.test;
         break;
       default:
         return 'Type not found...';

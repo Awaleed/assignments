@@ -1,6 +1,7 @@
-import 'package:assignments/generated/locale_base.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../generated/locale_base.dart';
 
 DateFormat taskDateAtTimeFormatter(BuildContext context) {
   return DateFormat("EEEE, d, MMM '${localeBase(context).tasks.at}' K:mm a",

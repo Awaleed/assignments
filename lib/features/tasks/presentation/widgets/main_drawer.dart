@@ -1,6 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/routes/router.gr.dart';
+import '../../../../core/routes/app_router.gr.dart';
 import '../../../../core/utils.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -11,32 +12,32 @@ class MainDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: <Widget>[
-          UserAccountsDrawerHeader(
+          const UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
               child: Icon(Icons.supervised_user_circle),
             ),
-            accountName: const Text('XgamerXD'),
-            accountEmail: const Text('a.waleed0011@gmail.com'),
+            accountName: Text('XgamerXD'),
+            accountEmail: Text('a.waleed0011@gmail.com'),
           ),
           ListTile(
-            leading: Icon(Icons.format_list_bulleted),
-            title: Text('${loc.tasks.tasks}'),
+            leading: const Icon(Icons.format_list_bulleted),
+            title: Text(loc.tasks.tasks),
             onTap: () => _onChangePage(Routes.tasksPage),
           ),
           ListTile(
-            leading: Icon(Icons.book),
-            title: Text('${loc.courses.courses}'),
+            leading: const Icon(Icons.book),
+            title: Text(loc.courses.courses),
             onTap: () => _onChangePage(Routes.coursesPage),
           ),
           ListTile(
-            leading: Icon(Icons.calendar_today),
-            title: Text('${loc.calendar.calendar}'),
+            leading: const Icon(Icons.calendar_today),
+            title: Text(loc.calendar.calendar),
             onTap: () => _onChangePage(Routes.calendarPage),
           ),
           ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('${loc.settings.settings}'),
-            onTap: () => _onChangePage(Routes.settingsPage),
+            leading: const Icon(Icons.settings),
+            title: Text(loc.settings.settings),
+            onTap: () => _onChangePage(Routes.settingsExample),
           ),
         ],
       ),
@@ -44,7 +45,7 @@ class MainDrawer extends StatelessWidget {
   }
 
   void _onChangePage(String pageRoute) {
-    Router.navigator.pop();
-    Router.navigator.pushNamed(pageRoute);
+    ExtendedNavigator.root.pop();
+    ExtendedNavigator.root.push(pageRoute);
   }
 }

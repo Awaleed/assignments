@@ -13,8 +13,8 @@ class DateTile extends StatelessWidget {
         vertical: 16,
       ),
       child: Text(
-        '${taskDateTileFormatter(context).format(date)}',
-        style: Theme.of(context).textTheme.headline,
+        taskDateTileFormatter(context).format(date),
+        style: Theme.of(context).textTheme.headline5,
       ),
     );
   }

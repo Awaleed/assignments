@@ -7,7 +7,7 @@ import '../helpers.dart';
 class TaskTile extends StatelessWidget {
   final Task task;
   final VoidCallback onTap;
-  TaskTile(
+  const TaskTile(
     this.task, {
     Key key,
     @required this.onTap,
@@ -44,8 +44,8 @@ class TaskTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          '${task.title}',
-                          style: Theme.of(context).textTheme.title.copyWith(
+                          task.title,
+                          style: Theme.of(context).textTheme.headline6.copyWith(
                                 decoration: task.progress == 100
                                     ? TextDecoration.lineThrough
                                     : null,
@@ -53,7 +53,7 @@ class TaskTile extends StatelessWidget {
                         ),
                         Text(
                           '${task.progress.toInt()}%',
-                          style: Theme.of(context).textTheme.subtitle.copyWith(
+                          style: Theme.of(context).textTheme.subtitle2.copyWith(
                                 decoration: task.progress == 100
                                     ? TextDecoration.lineThrough
                                     : null,
@@ -65,7 +65,7 @@ class TaskTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          '${Helpers.mapTaskType(type: task.type, loc: loc)}',
+                          Helpers.mapTaskType(type: task.type, loc: loc),
                           style: Theme.of(context).textTheme.caption.copyWith(
                                 decoration: task.progress == 100
                                     ? TextDecoration.lineThrough
@@ -73,8 +73,8 @@ class TaskTile extends StatelessWidget {
                               ),
                         ),
                         Text(
-                          '${taskTimeFormatter(context).format(task.dueDate)}',
-                          style: Theme.of(context).textTheme.subtitle.copyWith(
+                          taskTimeFormatter(context).format(task.dueDate),
+                          style: Theme.of(context).textTheme.subtitle2.copyWith(
                                 decoration: task.progress == 100
                                     ? TextDecoration.lineThrough
                                     : null,
@@ -86,7 +86,7 @@ class TaskTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          '${task.isSubTask ? '' : task?.course?.title}',
+                          task.isSubTask ? '' : task?.course?.title,
                           style: Theme.of(context).textTheme.caption.copyWith(
                                 decoration: task.progress == 100
                                     ? TextDecoration.lineThrough
@@ -97,7 +97,7 @@ class TaskTile extends StatelessWidget {
                           task.isSubTask
                               ? ''
                               : '${loc.tasks.subtasks} ${task.subtasks.length}',
-                          style: Theme.of(context).textTheme.subtitle.copyWith(
+                          style: Theme.of(context).textTheme.subtitle2.copyWith(
                                 decoration: task.progress == 100
                                     ? TextDecoration.lineThrough
                                     : null,

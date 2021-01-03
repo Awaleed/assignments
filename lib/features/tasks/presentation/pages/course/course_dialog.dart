@@ -1,7 +1,7 @@
-import 'package:assignments/core/utils.dart';
-import 'package:assignments/generated/locale_base.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/utils.dart';
+import '../../../../../generated/locale_base.dart';
 import '../../../domain/entities/course_entity.dart';
 import '../../helpers.dart';
 import '../../widgets/color_picker.dart';
@@ -38,7 +38,7 @@ class _CourseDialogState extends State<CourseDialog> {
       appBar: AppBar(
         title: Text(
           course.title == null
-              ? '${loc.courses.new_course}'
+              ? loc.courses.new_course
               : '${loc.courses.editing}: ${course.title}',
         ),
       ),
@@ -64,17 +64,16 @@ class _CourseDialogState extends State<CourseDialog> {
           formKey: formKey,
           course: course,
         ),
-        label: Text('${loc.courses.save}'),
-        icon: Icon(Icons.save),
+        label: Text(loc.courses.save),
+        icon: const Icon(Icons.save),
       ),
     );
   }
 
   Widget _buildColorPicker() {
     return InputDecorator(
-      decoration: InputDecoration(labelText: '${loc.courses.course_color}'),
+      decoration: InputDecoration(labelText: loc.courses.course_color),
       child: BlockPicker(
-        availableColors: Colors.primaries,
         onColorChanged: (value) => course.colorIndex = Helpers.mapColor(value),
         pickerColor: course.color,
       ),
@@ -85,13 +84,13 @@ class _CourseDialogState extends State<CourseDialog> {
     return TextFormField(
       initialValue: course.title,
       decoration: InputDecoration(
-        labelText: '${loc.courses.course_title}',
+        labelText: loc.courses.course_title,
       ),
       validator: (value) {
         if (value.isEmpty) {
-          return '${loc.courses.empty_title_error_message}';
+          return loc.courses.empty_title_error_message;
         } else if (value.length <= 2) {
-          return '${loc.courses.short_title_error_message}';
+          return loc.courses.short_title_error_message;
         }
         return null;
       },

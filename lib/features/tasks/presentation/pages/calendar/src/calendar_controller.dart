@@ -6,7 +6,7 @@ part of table_calendar;
 const double _dxMax = 1.2;
 const double _dxMin = -1.2;
 
-typedef void _SelectedDayCallback(DateTime day);
+typedef _SelectedDayCallback = void Function(DateTime day);
 
 /// Controller required for `TableCalendar`.
 ///
@@ -190,7 +190,7 @@ class CalendarController {
   }
 
   /// Sets calendar format to a given `value`.
-  void setCalendarFormat(CalendarFormat value) {
+  set calendarFormat(CalendarFormat value) {
     _calendarFormat.value = value;
   }
 
@@ -361,7 +361,8 @@ class CalendarController {
   }
 
   int _getDaysAfter(DateTime lastDay) {
-    int invertedStartingWeekday = 8 - _getWeekdayNumber(_startingDayOfWeek);
+    final int invertedStartingWeekday =
+        8 - _getWeekdayNumber(_startingDayOfWeek);
 
     int daysAfter = 7 - ((lastDay.weekday + invertedStartingWeekday) % 7) + 1;
     if (daysAfter == 8) {
@@ -378,15 +379,15 @@ class CalendarController {
     return _daysInRange(first, last).toList();
   }
 
-  DateTime _firstDayOfWeek(DateTime day) {
-    day = _normalizeDate(day);
+  DateTime _firstDayOfWeek(DateTime mDay) {
+    final day = _normalizeDate(mDay);
 
     final decreaseNum = _getDaysBefore(day);
     return day.subtract(Duration(days: decreaseNum));
   }
 
-  DateTime _lastDayOfWeek(DateTime day) {
-    day = _normalizeDate(day);
+  DateTime _lastDayOfWeek(DateTime mDay) {
+    final day = _normalizeDate(mDay);
 
     final increaseNum = _getDaysBefore(day);
     return day.add(Duration(days: 7 - increaseNum));
@@ -421,7 +422,7 @@ class CalendarController {
 
   DateTime _nextMonth(DateTime month) {
     if (month.month == 12) {
-      return DateTime(month.year + 1, 1);
+      return DateTime(month.year + 1);
     } else {
       return DateTime(month.year, month.month + 1);
     }

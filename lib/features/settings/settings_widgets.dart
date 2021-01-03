@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:kiwi/kiwi.dart';
 
 import '../../core/utils.dart';
 import 'development_page.dart';
 import 'settings_store.dart';
 
 class SettingsExample extends StatelessWidget {
-  final SettingsStore store = kiwi.Container().resolve<SettingsStore>();
+  final SettingsStore store = KiwiContainer().resolve<SettingsStore>();
 
   @override
   Widget build(BuildContext context) {
     final loc = localeBase(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('${loc.settings.settings}'),
+        title: Text(loc.settings.settings),
       ),
       body: Observer(
         builder: (context) {
@@ -32,7 +32,7 @@ class SettingsExample extends StatelessWidget {
                   ),
                   SwitchListTile(
                     value: store.useDarkMode,
-                    title: Text('${loc.settings.use_dark_mode}'),
+                    title: Text(loc.settings.use_dark_mode),
                     onChanged: (value) {
                       store.setDarkMode(value: value);
                     },
@@ -42,7 +42,7 @@ class SettingsExample extends StatelessWidget {
                     items: [
                       DropdownMenuItem(
                         value: '',
-                        child: Text('${loc.settings.auto}'),
+                        child: Text(loc.settings.auto),
                       ),
                       const DropdownMenuItem(
                         value: 'ar',
@@ -76,7 +76,7 @@ class SettingsExample extends StatelessWidget {
           }));
         },
         label: const Text('Dev. mode'),
-        icon: Icon(Icons.developer_mode),
+        icon: const Icon(Icons.developer_mode),
       ),
     );
   }
@@ -124,14 +124,15 @@ class SettingsExample extends StatelessWidget {
       'رمادي مزرق',
     ];
     final listItems = <DropdownMenuItem<MaterialColor>>[];
-    final primariesNames = locale(context).languageCode == 'ar' ? namesAr : namesEn;
+    final primariesNames =
+        locale(context).languageCode == 'ar' ? namesAr : namesEn;
     for (var i = 0; i < primariesNames.length; i++) {
       final item = DropdownMenuItem<MaterialColor>(
         value: Colors.primaries[i],
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('${primariesNames[i]}'),
+            Text(primariesNames[i]),
             const SizedBox(width: 10),
             CircleAvatar(
               child: Container(

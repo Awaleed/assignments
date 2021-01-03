@@ -1,7 +1,7 @@
-import 'package:assignments/core/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
+import '../../../../../core/utils.dart';
 import '../../../domain/entities/course_entity.dart';
 import '../../../domain/entities/task_entity.dart';
 import '../../helpers.dart';
@@ -43,18 +43,18 @@ class _CourseDetailsState extends State<CourseDetails>
         bottom: TabBar(
           controller: _tabController,
           tabs: [
-            Tab(text: '${loc.tasks.upcoming}'.toUpperCase()),
-            Tab(text: '${loc.tasks.overdue}'.toUpperCase())
+            Tab(text: loc.tasks.upcoming.toUpperCase()),
+            Tab(text: loc.tasks.overdue.toUpperCase())
           ],
         ),
         title: Text(widget.course.title),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
             onPressed: () => Helpers.onDeleteCourse(widget.course),
           ),
           IconButton(
-            icon: Icon(Icons.edit),
+            icon: const Icon(Icons.edit),
             onPressed: () => Helpers.onShowCourseDialog(course: widget.course),
           )
         ],

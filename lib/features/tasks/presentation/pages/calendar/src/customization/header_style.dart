@@ -76,12 +76,12 @@ class HeaderStyle {
     this.titleTextStyle = const TextStyle(fontSize: 17.0),
     this.formatButtonTextStyle = const TextStyle(),
     this.formatButtonDecoration = const BoxDecoration(
-      border: const Border(
+      border: Border(
           top: BorderSide(),
           bottom: BorderSide(),
           left: BorderSide(),
           right: BorderSide()),
-      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+      borderRadius: BorderRadius.all(Radius.circular(12.0)),
     ),
     this.headerMargin,
     this.headerPadding = const EdgeInsets.symmetric(vertical: 8.0),

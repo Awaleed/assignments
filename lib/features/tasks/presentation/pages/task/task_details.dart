@@ -9,17 +9,18 @@ class TaskDetails extends StatelessWidget {
   final Task task;
   final Task parent;
 
-  TaskDetails(this.task, {Key key, @required this.parent}) : super(key: key);
+  const TaskDetails(this.task, {Key key, @required this.parent})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final loc = localeBase(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${task.title}'),
+        title: Text(task.title),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.edit),
+            icon: const Icon(Icons.edit),
             onPressed: () {
               if (task.isSubTask) {
                 return Helpers.onShowSubtaskDialog(parent: parent, task: task);
@@ -29,7 +30,7 @@ class TaskDetails extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
             onPressed: () => Helpers.onDeleteTask(task: parent, sub: task),
           ),
           //TODO: Add share
@@ -57,18 +58,18 @@ class TaskDetails extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text(
-                  '${task.title}',
-                  style: Theme.of(context).textTheme.display1,
+                  task.title,
+                  style: Theme.of(context).textTheme.headline4,
                 ),
                 const Divider(),
                 if (!task.isSubTask)
                   Row(
                     children: <Widget>[
-                      Icon(Icons.book),
+                      const Icon(Icons.book),
                       const SizedBox(width: 10),
                       Text(
-                        '${task?.course?.title}',
-                        style: Theme.of(context).textTheme.subhead,
+                        task?.course?.title,
+                        style: Theme.of(context).textTheme.subtitle1,
                       ),
                       const Spacer(),
                       LayoutBuilder(
@@ -85,43 +86,43 @@ class TaskDetails extends StatelessWidget {
                   ),
                 Row(
                   children: <Widget>[
-                    Icon(Icons.folder),
+                    const Icon(Icons.folder),
                     const SizedBox(width: 10),
                     Text(
-                      '${Helpers.mapTaskType(type: task.type, loc: loc)}',
-                      style: Theme.of(context).textTheme.subhead,
+                      Helpers.mapTaskType(type: task.type, loc: loc),
+                      style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ],
                 ),
                 Row(
                   children: <Widget>[
-                    Icon(Icons.calendar_today),
+                    const Icon(Icons.calendar_today),
                     const SizedBox(width: 10),
                     Text(
-                      '${taskDateAtTimeFormatter(context).format(task.dueDate)}',
-                      style: Theme.of(context).textTheme.subhead,
+                      taskDateAtTimeFormatter(context).format(task.dueDate),
+                      style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ],
                 ),
                 Row(
                   children: <Widget>[
-                    Icon(Icons.alarm),
+                    const Icon(Icons.alarm),
                     const SizedBox(width: 10),
                     Text(
-                      '${taskDateAtTimeFormatter(context).format(task.reminder)}',
-                      style: Theme.of(context).textTheme.subhead,
+                      taskDateAtTimeFormatter(context).format(task.reminder),
+                      style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ],
                 ),
                 const Divider(),
                 InputDecorator(
                   decoration: InputDecoration(
-                    labelText: '${loc.tasks.notes}',
-                    border: OutlineInputBorder(),
+                    labelText: loc.tasks.notes,
+                    border: const OutlineInputBorder(),
                   ),
                   child: Text(
-                    '${task.notes}',
-                    style: Theme.of(context).textTheme.body2,
+                    task.notes,
+                    style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
               ]
@@ -156,8 +157,8 @@ class TaskDetails extends StatelessWidget {
       floatingActionButton: !task.isSubTask
           ? FloatingActionButton.extended(
               onPressed: () => Helpers.onShowSubtaskDialog(parent: task),
-              label: Text('${loc.tasks.new_subtask}'),
-              icon: Icon(Icons.add),
+              label: Text(loc.tasks.new_subtask),
+              icon: const Icon(Icons.add),
             )
           : null,
     );
@@ -186,7 +187,7 @@ class _ProgressSliderState extends State<ProgressSlider> {
     return InputDecorator(
       decoration: InputDecoration(
         border: InputBorder.none,
-        labelText: '${loc.tasks.progress}',
+        labelText: loc.tasks.progress,
         isDense: true,
       ),
       child: Row(
@@ -194,7 +195,6 @@ class _ProgressSliderState extends State<ProgressSlider> {
           Expanded(
             flex: 11,
             child: Slider(
-              min: 0,
               max: 100,
               value: widget.task.progress,
               onChanged: (value) {
@@ -215,7 +215,6 @@ class _ProgressSliderState extends State<ProgressSlider> {
             ),
           ),
           Expanded(
-            flex: 1,
             child: FittedBox(
               fit: BoxFit.scaleDown,
               child: Text('${widget.task.progress.toInt()}%'),
@@ -230,6 +229,6 @@ class _ProgressSliderState extends State<ProgressSlider> {
 extension StringExtension on String {
   String capitalizedType() {
     final value = substring(9);
-    return "${value[0].toUpperCase()}${value.substring(1)}";
+    return '${value[0].toUpperCase()}${value.substring(1)}';
   }
 }

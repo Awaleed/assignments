@@ -1,6 +1,5 @@
-import 'package:assignments/features/tasks/domain/entities/task_entity.dart';
-
 import '../../domain/entities/course_entity.dart';
+import '../../domain/entities/task_entity.dart';
 import '../../domain/repositories/tasks_repository.dart';
 import '../datasources/local_datasource.dart';
 

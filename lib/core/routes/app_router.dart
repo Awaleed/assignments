@@ -11,20 +11,16 @@ import '../../features/tasks/presentation/pages/task/task_details.dart';
 import '../../features/tasks/presentation/pages/task/task_dialog.dart';
 import '../../features/tasks/presentation/pages/task/tasks_page.dart';
 
-@MaterialAutoRouter()
-class $Router {
-  CoursesPage coursesPage;
-  CourseDetails courseDetails;
-  @MaterialRoute(fullscreenDialog: true, returnType: Course)
-  CourseDialog courseDialog;
-
-  @initial
-  TasksPage tasksPage;
-  TaskDetails taskDetails;
-  @MaterialRoute(fullscreenDialog: true, returnType: Task)
-  TaskDialog taskDialog;
-
-  SettingsExample settingsPage;
-  // DevelopmentPage developmentPage;
-  CalendarPage calendarPage;
-}
+@MaterialAutoRouter(
+  routes: [
+    MaterialRoute(page: TasksPage, initial: true),
+    MaterialRoute(page: CoursesPage),
+    MaterialRoute(page: CourseDetails),
+    MaterialRoute<Course>(page: CourseDialog, fullscreenDialog: true),
+    MaterialRoute<Task>(page: TaskDialog, fullscreenDialog: true),
+    MaterialRoute(page: TaskDetails),
+    MaterialRoute(page: SettingsExample),
+    MaterialRoute(page: CalendarPage),
+  ],
+)
+class $AppRouter {}

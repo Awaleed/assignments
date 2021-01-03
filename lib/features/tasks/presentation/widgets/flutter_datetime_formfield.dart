@@ -54,13 +54,13 @@ class DateTimeFormField extends StatelessWidget {
     this.decoration,
   })  : assert(!onlyDate || !onlyTime),
         initialValue = initialValue ?? DateTime.now(),
-        label = label ?? "Date Time",
+        label = label ?? 'Date Time',
         formatter = formatter ??
             (onlyDate
-                ? DateFormat("EEE, MMM d, yyyy")
+                ? DateFormat('EEE, MMM d, yyyy')
                 : (onlyTime
-                    ? DateFormat("h:mm a")
-                    : DateFormat("EE, MMM d, yyyy h:mma"))),
+                    ? DateFormat('h:mm a')
+                    : DateFormat('EE, MMM d, yyyy h:mma'))),
         firstDate = firstDate ?? DateTime(1970),
         lastDate = lastDate ?? DateTime(2100);
 
@@ -68,7 +68,8 @@ class DateTimeFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return FormField<DateTime>(
       validator: validator,
-      autovalidate: autovalidate,
+      autovalidateMode:
+          autovalidate ? AutovalidateMode.always : AutovalidateMode.disabled,
       initialValue: initialValue,
       onSaved: onSaved,
       enabled: enabled,

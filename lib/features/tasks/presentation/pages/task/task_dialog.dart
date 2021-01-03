@@ -76,8 +76,8 @@ class _TaskDialogState extends State<TaskDialog> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () =>
             Helpers.onSaveTask(formKey: formKey, task: widget.task),
-        label: Text('${loc.tasks.save}'),
-        icon: Icon(Icons.save),
+        label: Text(loc.tasks.save),
+        icon: const Icon(Icons.save),
       ),
     );
   }
@@ -86,15 +86,15 @@ class _TaskDialogState extends State<TaskDialog> {
     return TextFormField(
       initialValue: widget.task.title,
       decoration: InputDecoration(
-        labelText: '${loc.tasks.task_name}',
-        border: OutlineInputBorder(),
+        labelText: loc.tasks.task_name,
+        border: const OutlineInputBorder(),
       ),
       onChanged: (value) => widget.task.title = value,
       validator: (value) {
         if (value.isEmpty) {
-          return '${loc.tasks.empty_name_error_message}';
+          return loc.tasks.empty_name_error_message;
         } else if (value.length <= 2) {
-          return '${loc.tasks.short_name_error_message}';
+          return loc.tasks.short_name_error_message;
         }
         return null;
       },
@@ -107,7 +107,7 @@ class _TaskDialogState extends State<TaskDialog> {
       child: Observer(
         builder: (_) => DropdownButtonFormField(
           decoration: InputDecoration(
-            icon: Icon(Icons.book),
+            icon: const Icon(Icons.book),
             enabled: !widget.fixedCourse,
           ),
           isDense: true,
@@ -124,7 +124,7 @@ class _TaskDialogState extends State<TaskDialog> {
           // autovalidate: true,
           validator: (value) {
             if (value == null) {
-              return '${loc.tasks.empty_courses_error}';
+              return loc.tasks.empty_courses_error;
             } else {
               return null;
             }
@@ -137,7 +137,7 @@ class _TaskDialogState extends State<TaskDialog> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      '${course.title}',
+                      course.title,
                       textScaleFactor: 1,
                       style: TextStyle(
                         color: widget.fixedCourse
@@ -164,13 +164,12 @@ class _TaskDialogState extends State<TaskDialog> {
           ).toList()
             ..add(
               DropdownMenuItem(
-                value: null,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('${loc.tasks.empty_courses_error}'),
+                    Text(loc.tasks.empty_courses_error),
                     const SizedBox(width: 10),
-                    FittedBox(
+                    const FittedBox(
                       fit: BoxFit.fitHeight,
                       child: Icon(Icons.add),
                     ),
@@ -185,13 +184,13 @@ class _TaskDialogState extends State<TaskDialog> {
 
   Widget _buildTaskTypeDropdown() {
     return DropdownButtonFormField(
-      decoration: InputDecoration(icon: Icon(Icons.folder)),
+      decoration: const InputDecoration(icon: Icon(Icons.folder)),
       isDense: true,
       value: widget.task.type,
       items: TaskType.values
           .map((type) => DropdownMenuItem(
                 value: type,
-                child: Text('${Helpers.mapTaskType(type: type, loc: loc)}'),
+                child: Text(Helpers.mapTaskType(type: type, loc: loc)),
               ))
           .toList(),
       onChanged: (TaskType value) {
@@ -205,9 +204,9 @@ class _TaskDialogState extends State<TaskDialog> {
   Widget _buildDueDatePicker() {
     return DateTimeFormField(
       decoration: InputDecoration(
-        labelText: '${loc.tasks.due_date}',
+        labelText: loc.tasks.due_date,
         border: InputBorder.none,
-        icon: Icon(Icons.calendar_today),
+        icon: const Icon(Icons.calendar_today),
       ),
       autovalidate: true,
       onlyTime: widget.fixedDate,
@@ -217,7 +216,7 @@ class _TaskDialogState extends State<TaskDialog> {
       validator: (DateTime dateTime) {
         widget.task.dueDate = dateTime;
         if (dateTime.isBefore(DateTime.now())) {
-          return '${loc.tasks.overdue_error_message}';
+          return loc.tasks.overdue_error_message;
         }
         return null;
       },
@@ -228,9 +227,9 @@ class _TaskDialogState extends State<TaskDialog> {
   Widget _buildReminderDatePicker() {
     return DateTimeFormField(
       decoration: InputDecoration(
-        labelText: '${loc.tasks.reminder}',
+        labelText: loc.tasks.reminder,
         border: InputBorder.none,
-        icon: Icon(Icons.alarm),
+        icon: const Icon(Icons.alarm),
       ),
       autovalidate: true,
       formatter: taskDateAtTimeFormatter(context),
@@ -239,7 +238,7 @@ class _TaskDialogState extends State<TaskDialog> {
       validator: (DateTime dateTime) {
         widget.task.reminder = dateTime;
         if (dateTime.isAfter(widget.task.dueDate)) {
-          return '${loc.tasks.reminder_date_error_message}';
+          return loc.tasks.reminder_date_error_message;
         }
         return null;
       },
@@ -251,7 +250,7 @@ class _TaskDialogState extends State<TaskDialog> {
     return InputDecorator(
       decoration: InputDecoration(
         border: InputBorder.none,
-        labelText: '${loc.tasks.progress}',
+        labelText: loc.tasks.progress,
         isDense: true,
       ),
       child: Row(
@@ -259,7 +258,6 @@ class _TaskDialogState extends State<TaskDialog> {
           Expanded(
             flex: 11,
             child: Slider(
-              min: 0,
               max: 100,
               value: widget.task.progress,
               onChanged: (value) {
@@ -270,7 +268,6 @@ class _TaskDialogState extends State<TaskDialog> {
             ),
           ),
           Expanded(
-            flex: 1,
             child: FittedBox(
               fit: BoxFit.scaleDown,
               child: Text('${widget.task.progress.toInt()}%'),
@@ -284,9 +281,8 @@ class _TaskDialogState extends State<TaskDialog> {
   Widget _buildNotes() {
     return TextFormField(
       decoration: InputDecoration(
-        labelText: '${loc.tasks.notes}',
-        hasFloatingPlaceholder: true,
-        border: OutlineInputBorder(),
+        labelText: loc.tasks.notes,
+        border: const OutlineInputBorder(),
       ),
       initialValue: widget.task.notes,
       onChanged: (value) => widget.task.notes = value,
@@ -298,11 +294,11 @@ class _TaskDialogState extends State<TaskDialog> {
   void _makeTitle() {
     if (widget.task.isSubTask) {
       title = widget.task.title == null
-          ? '${loc.tasks.new_subtask}'
+          ? loc.tasks.new_subtask
           : '${loc.tasks.editing}: ${widget.task.title}';
     } else {
       title = widget.task.id == null
-          ? '${loc.tasks.new_task}'
+          ? loc.tasks.new_task
           : '${loc.tasks.editing}: ${widget.task.title}';
     }
   }

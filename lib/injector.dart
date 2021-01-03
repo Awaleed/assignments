@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:kiwi/kiwi.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,9 +21,9 @@ Future<void> injector() async {
   await Hive.openBox<Task>('tasks');
   await Hive.openBox<Course>('courses');
 
-  final container = kiwi.Container();
+  final container = KiwiContainer();
   container.registerSingleton((c) => TasksStore());
-  container.registerInstance<TasksRepository, TasksRepositoryImpl>(
+  container.registerInstance<TasksRepository>(
     TasksRepositoryImpl(),
   );
 

@@ -1,7 +1,9 @@
-import 'package:assignments/features/settings/preferences_service.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
+import 'package:mobx/mobx.dart';
+
+import 'preferences_service.dart';
+
 part 'settings_store.g.dart';
 
 class SettingsStore = _SettingsStore with _$SettingsStore;

@@ -6,24 +6,22 @@ part of 'settings_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SettingsStore on _SettingsStore, Store {
   final _$useDarkModeAtom = Atom(name: '_SettingsStore.useDarkMode');
 
   @override
   bool get useDarkMode {
-    _$useDarkModeAtom.context.enforceReadPolicy(_$useDarkModeAtom);
-    _$useDarkModeAtom.reportObserved();
+    _$useDarkModeAtom.reportRead();
     return super.useDarkMode;
   }
 
   @override
   set useDarkMode(bool value) {
-    _$useDarkModeAtom.context.conditionallyRunInAction(() {
+    _$useDarkModeAtom.reportWrite(value, super.useDarkMode, () {
       super.useDarkMode = value;
-      _$useDarkModeAtom.reportChanged();
-    }, _$useDarkModeAtom, name: '${_$useDarkModeAtom.name}_set');
+    });
   }
 
   final _$showPerformanceOverlayAtom =
@@ -31,56 +29,49 @@ mixin _$SettingsStore on _SettingsStore, Store {
 
   @override
   bool get showPerformanceOverlay {
-    _$showPerformanceOverlayAtom.context
-        .enforceReadPolicy(_$showPerformanceOverlayAtom);
-    _$showPerformanceOverlayAtom.reportObserved();
+    _$showPerformanceOverlayAtom.reportRead();
     return super.showPerformanceOverlay;
   }
 
   @override
   set showPerformanceOverlay(bool value) {
-    _$showPerformanceOverlayAtom.context.conditionallyRunInAction(() {
+    _$showPerformanceOverlayAtom
+        .reportWrite(value, super.showPerformanceOverlay, () {
       super.showPerformanceOverlay = value;
-      _$showPerformanceOverlayAtom.reportChanged();
-    }, _$showPerformanceOverlayAtom,
-        name: '${_$showPerformanceOverlayAtom.name}_set');
+    });
   }
 
   final _$colorAtom = Atom(name: '_SettingsStore.color');
 
   @override
   MaterialColor get color {
-    _$colorAtom.context.enforceReadPolicy(_$colorAtom);
-    _$colorAtom.reportObserved();
+    _$colorAtom.reportRead();
     return super.color;
   }
 
   @override
   set color(MaterialColor value) {
-    _$colorAtom.context.conditionallyRunInAction(() {
+    _$colorAtom.reportWrite(value, super.color, () {
       super.color = value;
-      _$colorAtom.reportChanged();
-    }, _$colorAtom, name: '${_$colorAtom.name}_set');
+    });
   }
 
   final _$languageCodeAtom = Atom(name: '_SettingsStore.languageCode');
 
   @override
   String get languageCode {
-    _$languageCodeAtom.context.enforceReadPolicy(_$languageCodeAtom);
-    _$languageCodeAtom.reportObserved();
+    _$languageCodeAtom.reportRead();
     return super.languageCode;
   }
 
   @override
   set languageCode(String value) {
-    _$languageCodeAtom.context.conditionallyRunInAction(() {
+    _$languageCodeAtom.reportWrite(value, super.languageCode, () {
       super.languageCode = value;
-      _$languageCodeAtom.reportChanged();
-    }, _$languageCodeAtom, name: '${_$languageCodeAtom.name}_set');
+    });
   }
 
-  final _$setDarkModeAsyncAction = AsyncAction('setDarkMode');
+  final _$setDarkModeAsyncAction = AsyncAction('_SettingsStore.setDarkMode');
 
   @override
   Future<void> setDarkMode({@required bool value}) {
@@ -88,7 +79,7 @@ mixin _$SettingsStore on _SettingsStore, Store {
   }
 
   final _$setShowPerformanceOverlayAsyncAction =
-      AsyncAction('setShowPerformanceOverlay');
+      AsyncAction('_SettingsStore.setShowPerformanceOverlay');
 
   @override
   Future<void> setShowPerformanceOverlay({@required bool value}) {
@@ -96,14 +87,15 @@ mixin _$SettingsStore on _SettingsStore, Store {
         .run(() => super.setShowPerformanceOverlay(value: value));
   }
 
-  final _$setColorAsyncAction = AsyncAction('setColor');
+  final _$setColorAsyncAction = AsyncAction('_SettingsStore.setColor');
 
   @override
   Future<void> setColor({@required MaterialColor value}) {
     return _$setColorAsyncAction.run(() => super.setColor(value: value));
   }
 
-  final _$setLanguageCodeAsyncAction = AsyncAction('setLanguageCode');
+  final _$setLanguageCodeAsyncAction =
+      AsyncAction('_SettingsStore.setLanguageCode');
 
   @override
   Future<void> setLanguageCode(String code) {
@@ -112,8 +104,11 @@ mixin _$SettingsStore on _SettingsStore, Store {
 
   @override
   String toString() {
-    final string =
-        'useDarkMode: ${useDarkMode.toString()},showPerformanceOverlay: ${showPerformanceOverlay.toString()},color: ${color.toString()},languageCode: ${languageCode.toString()}';
-    return '{$string}';
+    return '''
+useDarkMode: ${useDarkMode},
+showPerformanceOverlay: ${showPerformanceOverlay},
+color: ${color},
+languageCode: ${languageCode}
+    ''';
   }
 }

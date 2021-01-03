@@ -1,1 +1,14 @@
 include: package:lint/analysis_options.yaml
+
+analyzer:
+  strong-mode:
+    implicit-casts: true
+  exclude: [lib/generated/**]
+
+linter:
+  rules:
+    avoid_classes_with_only_static_members: false
+    prefer_single_quotes: true
+    always_specify_types: false
+    omit_local_variables_types: true
+    sort_pub_dependencies: false

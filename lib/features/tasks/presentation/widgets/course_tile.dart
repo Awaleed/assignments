@@ -17,7 +17,7 @@ class CourseTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text('${course.title}'),
+        title: Text(course.title),
         // subtitle: Text('CS102'),
         trailing: CircleAvatar(
           child: Container(

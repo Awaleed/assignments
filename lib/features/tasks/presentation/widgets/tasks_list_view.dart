@@ -1,15 +1,16 @@
-import 'package:assignments/features/tasks/domain/entities/task_entity.dart';
-import 'package:assignments/features/tasks/presentation/helpers.dart';
-import 'package:assignments/features/tasks/presentation/widgets/date_tile.dart';
-import 'package:assignments/features/tasks/presentation/widgets/task_tile.dart';
 import 'package:flutter/material.dart';
+
+import '../../domain/entities/task_entity.dart';
+import '../helpers.dart';
+import 'date_tile.dart';
+import 'task_tile.dart';
 
 class TasksListView extends StatelessWidget {
   final List<Task> tasks;
   final Task parent;
   final List<Widget> header;
 
-  TasksListView({
+  const TasksListView({
     Key key,
     this.tasks,
     this.header,

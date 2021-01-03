@@ -8,10 +8,13 @@ part of 'course_entity.dart';
 
 class CourseAdapter extends TypeAdapter<Course> {
   @override
+  final int typeId = 0;
+
+  @override
   Course read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Course(
       id: fields[0] as int,
@@ -31,4 +34,14 @@ class CourseAdapter extends TypeAdapter<Course> {
       ..writeByte(2)
       ..write(obj.colorIndex);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CourseAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

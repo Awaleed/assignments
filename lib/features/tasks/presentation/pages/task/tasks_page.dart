@@ -35,13 +35,13 @@ class _TasksPageState extends State<TasksPage>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${loc.tasks.tasks}'),
+        title: Text(loc.tasks.tasks),
         centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
           tabs: [
-            Tab(text: '${loc.tasks.upcoming}'.toUpperCase()),
-            Tab(text: '${loc.tasks.overdue}'.toUpperCase())
+            Tab(text: loc.tasks.upcoming.toUpperCase()),
+            Tab(text: loc.tasks.overdue.toUpperCase())
           ],
         ),
       ),

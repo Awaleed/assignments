@@ -32,13 +32,13 @@ class TasksTabView extends StatelessWidget {
     final tasks = type == VisibilityFilter.upcoming ? upcoming : overdue;
     return Scaffold(
       body: tasks.isEmpty
-          ? Center(child: Text('${loc.tasks.empty_tasks_list}'))
+          ? Center(child: Text(loc.tasks.empty_tasks_list))
           : TasksListView(parent: null, tasks: tasks),
       floatingActionButton: type == VisibilityFilter.upcoming
           ? FloatingActionButton.extended(
               onPressed: onAddTask,
-              label: Text('${loc.tasks.new_task}'),
-              icon: Icon(Icons.add),
+              label: Text(loc.tasks.new_task),
+              icon: const Icon(Icons.add),
             )
           : null,
     );

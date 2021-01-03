@@ -2,11 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:google_fonts/google_fonts.dart';
+import 'package:kiwi/kiwi.dart';
 
-import 'package:assignments/features/settings/theme.dart';
-
-import 'core/routes/router.gr.dart';
+import 'core/routes/app_router.gr.dart';
 import 'features/settings/settings_store.dart';
 import 'injector.dart';
 import 'localedelegate.dart';
@@ -18,25 +17,24 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-final SettingsStore store = kiwi.Container().resolve<SettingsStore>();
+final store = KiwiContainer().resolve<SettingsStore>();
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => MaterialApp(
-        builder: ExtendedNavigator<Router>(router: Router()),
         showPerformanceOverlay: store.showPerformanceOverlay,
         theme: ThemeData(
           brightness: store.useDarkMode ? Brightness.dark : Brightness.light,
           // brightness: Brightness.dark,
           primarySwatch: store.color,
 
-          textTheme: textTheme,
+          textTheme: GoogleFonts.almaraiTextTheme(),
         ),
         // darkTheme: ThemeData(primarySwatch: Colors.red),
         localizationsDelegates: [
-          const LocDelegate(),
+          LocDelegate(),
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
@@ -44,8 +42,12 @@ class MyApp extends StatelessWidget {
           Locale('en'),
           Locale('ar'),
         ],
-        locale: store.languageCode.isNotEmpty ? Locale('${store.languageCode}') : null,
+        locale:
+            store.languageCode.isNotEmpty ? Locale(store.languageCode) : null,
         title: 'Material App',
+        home: ExtendedNavigator(
+          router: AppRouter(),
+        ),
       ),
     );
   }

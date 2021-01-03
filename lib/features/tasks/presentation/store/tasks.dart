@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:assignments/core/custom_types/custom_types.dart';
 import 'package:faker/faker.dart';
 import 'package:hive/hive.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:kiwi/kiwi.dart' ;
 import 'package:mobx/mobx.dart';
 
+import '../../../../core/custom_types/custom_types.dart';
 import '../../domain/entities/course_entity.dart';
 import '../../domain/entities/task_entity.dart';
 import '../../domain/repositories/tasks_repository.dart';
@@ -19,7 +19,7 @@ class TasksStore extends _TasksStore with _$TasksStore {}
 
 abstract class _TasksStore with Store {
   static final TaskUseCases _useCases = TaskUseCases(
-    kiwi.Container().resolve<TasksRepository>(),
+    KiwiContainer().resolve<TasksRepository>(),
   );
 
   @observable
@@ -106,7 +106,7 @@ abstract class _TasksStore with Store {
   }
 
   Future<void> seedDatabase(int cCount, int tCount, int stCount) async {
-    var courses = List.generate(cCount, (index) {
+    final courses = List.generate(cCount, (index) {
       return Course(
         title: faker.company.name(),
         colorIndex: faker.randomGenerator.integer(18),

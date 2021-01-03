@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 typedef PickerLayoutBuilder = Widget Function(
     BuildContext context, List<Color> colors, PickerItem child);
 typedef PickerItem = Widget Function(Color color);
-typedef PickerItemBuilder = Widget Function(
+typedef PickerItemBuilder = Widget Function({
   Color color,
   bool isCurrentColor,
   VoidCallback changeColor,
-);
+});
 
 class BlockPicker extends StatefulWidget {
   const BlockPicker({
@@ -32,7 +32,7 @@ class BlockPicker extends StatefulWidget {
       BuildContext context, List<Color> colors, PickerItem child) {
     final Orientation orientation = MediaQuery.of(context).orientation;
 
-    return Container(
+    return SizedBox(
       width: orientation == Orientation.portrait ? 300.0 : 300.0,
       height: orientation == Orientation.portrait ? 360.0 : 200.0,
       child: GridView.count(
@@ -46,7 +46,7 @@ class BlockPicker extends StatefulWidget {
   }
 
   static Widget defaultItemBuilder(
-      Color color, bool isCurrentColor, VoidCallback changeColor) {
+      {Color color, bool isCurrentColor, VoidCallback changeColor}) {
     return Container(
       margin: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
@@ -106,7 +106,10 @@ class _BlockPickerState extends State<BlockPicker> {
       context,
       widget.availableColors,
       (Color color, [bool _, Function __]) => widget.itemBuilder(
-          color, _currentColor == color, () => changeColor(color)),
+        color: color,
+        isCurrentColor: _currentColor == color,
+        changeColor: () => changeColor(color),
+      ),
     );
   }
 }

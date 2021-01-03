@@ -54,7 +54,7 @@ class _CellWidget extends StatelessWidget {
       return BoxDecoration(
           shape: BoxShape.circle, color: calendarStyle.selectedColor);
     } else {
-      return BoxDecoration(shape: BoxShape.circle);
+      return const BoxDecoration(shape: BoxShape.circle);
     }
   }
 

@@ -8,10 +8,13 @@ part of 'task_entity.dart';
 
 class TaskAdapter extends TypeAdapter<Task> {
   @override
+  final int typeId = 1;
+
+  @override
   Task read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Task(
       id: fields[0] as int,
@@ -52,4 +55,14 @@ class TaskAdapter extends TypeAdapter<Task> {
       ..writeByte(9)
       ..write(obj.isSubTask);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TaskAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:kiwi/kiwi.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 import '../tasks/presentation/store/tasks.dart';
@@ -15,8 +15,9 @@ class DevelopmentPage extends StatefulWidget {
 }
 
 class _DevelopmentPageState extends State<DevelopmentPage> {
-  SettingsStore store = kiwi.Container().resolve<SettingsStore>();
-  TasksStore tasksStore = kiwi.Container().resolve<TasksStore>();
+  SettingsStore store = KiwiContainer().resolve<SettingsStore>();
+
+  TasksStore tasksStore = KiwiContainer().resolve<TasksStore>();
 
   int cCount, tCount, stCount;
 
@@ -54,12 +55,12 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
                 Column(
                   children: <Widget>[
                     NumberPicker.integer(
-                      highlightSelectedValue: true,
                       itemExtent: 25,
                       initialValue: cCount,
                       minValue: 0,
                       maxValue: 50,
-                      onChanged: (num value) => setState(() => cCount = value.toInt()),
+                      onChanged: (num value) =>
+                          setState(() => cCount = value.toInt()),
                     ),
                     const Text('Courses'),
                   ],
@@ -67,12 +68,12 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
                 Column(
                   children: <Widget>[
                     NumberPicker.integer(
-                      highlightSelectedValue: true,
                       itemExtent: 25,
                       initialValue: tCount,
                       minValue: 0,
                       maxValue: 50,
-                      onChanged: (num value) => setState(() => tCount = value.toInt()),
+                      onChanged: (num value) =>
+                          setState(() => tCount = value.toInt()),
                     ),
                     const Text('Tasks'),
                   ],
@@ -80,12 +81,12 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
                 Column(
                   children: <Widget>[
                     NumberPicker.integer(
-                      highlightSelectedValue: true,
                       itemExtent: 25,
                       initialValue: stCount,
                       minValue: 0,
                       maxValue: 50,
-                      onChanged: (num value) => setState(() => stCount = value.toInt()),
+                      onChanged: (num value) =>
+                          setState(() => stCount = value.toInt()),
                     ),
                     const Text('Subtasks'),
                   ],
@@ -100,7 +101,9 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
                 RaisedButton(
                   onPressed: () {
                     final completer = Completer();
-                    tasksStore.seedDatabase(cCount, tCount, stCount).then((_) => completer.complete());
+                    tasksStore
+                        .seedDatabase(cCount, tCount, stCount)
+                        .then((_) => completer.complete());
 
                     _showLoading(
                       context,
