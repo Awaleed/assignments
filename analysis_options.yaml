@@ -3,7 +3,7 @@ include: package:lint/analysis_options.yaml
 analyzer:
   strong-mode:
     implicit-casts: true
-  exclude: [lib/generated/**]
+  exclude: [lib/generated/intl/**, lib/init_injectable.config.dart]
 
 linter:
   rules:
