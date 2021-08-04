@@ -40,8 +40,7 @@ class TasksLocalDataSource extends ITasksLocalDataSource {
   final Box tasksBox;
   final Box coursesBox;
 
-  final _coursesStream =
-      StreamController<List<CourseModel>>.broadcast(sync: true);
+  final _coursesStream = StreamController<List<CourseModel>>.broadcast(sync: true);
   final _tasksStream = StreamController<List<TaskModel>>.broadcast(sync: true);
 
   @override
@@ -57,10 +56,10 @@ class TasksLocalDataSource extends ITasksLocalDataSource {
   }
 
   @override
-  Future<void> createCourse(CourseModel coures) async {
-    final id = await coursesBox.add(coures);
-    coures.id = id;
-    await updateCourse(coures);
+  Future<void> createCourse(CourseModel courses) async {
+    final id = await coursesBox.add(courses);
+    courses.id = id;
+    await updateCourse(courses);
   }
 
   @override
@@ -83,8 +82,7 @@ class TasksLocalDataSource extends ITasksLocalDataSource {
   }
 
   @override
-  Future<void> updateCourse(CourseModel course) =>
-      coursesBox.put(course.id, course);
+  Future<void> updateCourse(CourseModel course) => coursesBox.put(course.id, course);
 }
 
 @test

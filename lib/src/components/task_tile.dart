@@ -1,6 +1,6 @@
-import 'package:assignments/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
+import '../../generated/l10n.dart';
 import '../helpers/formatters.dart';
 import '../models/task_model.dart';
 import '../routes/config_routes.dart';
@@ -50,24 +50,14 @@ class TaskTile extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               task.title,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6
-                                  .copyWith(
-                                    decoration: task.progress == 100
-                                        ? TextDecoration.lineThrough
-                                        : null,
+                              style: Theme.of(context).textTheme.headline6.copyWith(
+                                    decoration: task.progress == 100 ? TextDecoration.lineThrough : null,
                                   ),
                             ),
                             Text(
                               '${task.progress.toInt()}%',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  .copyWith(
-                                    decoration: task.progress == 100
-                                        ? TextDecoration.lineThrough
-                                        : null,
+                              style: Theme.of(context).textTheme.subtitle2.copyWith(
+                                    decoration: task.progress == 100 ? TextDecoration.lineThrough : null,
                                   ),
                             ),
                           ],
@@ -77,22 +67,14 @@ class TaskTile extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               'Helpers.mapTaskType(type: task.type, loc: loc)',
-                              style:
-                                  Theme.of(context).textTheme.caption.copyWith(
-                                        decoration: task.progress == 100
-                                            ? TextDecoration.lineThrough
-                                            : null,
-                                      ),
+                              style: Theme.of(context).textTheme.caption.copyWith(
+                                    decoration: task.progress == 100 ? TextDecoration.lineThrough : null,
+                                  ),
                             ),
                             Text(
                               Formatters.taskTime(task.dueDate),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  .copyWith(
-                                    decoration: task.progress == 100
-                                        ? TextDecoration.lineThrough
-                                        : null,
+                              style: Theme.of(context).textTheme.subtitle2.copyWith(
+                                    decoration: task.progress == 100 ? TextDecoration.lineThrough : null,
                                   ),
                             ),
                           ],
@@ -102,24 +84,14 @@ class TaskTile extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               task.isSubTask ? '' : task?.course?.title,
-                              style:
-                                  Theme.of(context).textTheme.caption.copyWith(
-                                        decoration: task.progress == 100
-                                            ? TextDecoration.lineThrough
-                                            : null,
-                                      ),
+                              style: Theme.of(context).textTheme.caption.copyWith(
+                                    decoration: task.progress == 100 ? TextDecoration.lineThrough : null,
+                                  ),
                             ),
                             Text(
-                              task.isSubTask
-                                  ? ''
-                                  : '${S.current.subtasks} ${task.subtasks?.length ?? 0}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  .copyWith(
-                                    decoration: task.progress == 100
-                                        ? TextDecoration.lineThrough
-                                        : null,
+                              task.isSubTask ? '' : '${S.current.subtasks} ${task.subtasks?.length ?? 0}',
+                              style: Theme.of(context).textTheme.subtitle2.copyWith(
+                                    decoration: task.progress == 100 ? TextDecoration.lineThrough : null,
                                   ),
                             ),
                           ],

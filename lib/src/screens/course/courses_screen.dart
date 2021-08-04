@@ -1,8 +1,7 @@
-import 'package:assignments/generated/l10n.dart';
-import 'package:assignments/src/helpers/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../generated/l10n.dart';
 import '../../components/course_tile.dart';
 import '../../components/main_drawer.dart';
 import '../../cubits/courses_cubit/courses_cubit.dart';

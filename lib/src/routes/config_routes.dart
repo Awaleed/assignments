@@ -1,11 +1,12 @@
-import 'package:assignments/src/cubits/settings_cubit/settings_cubit.dart';
-import 'package:assignments/src/models/course_model.dart';
+import 'package:assignments/src/screens/signin/signin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sailor/sailor.dart';
 
 import '../../init_injectable.dart';
 import '../cubits/courses_cubit/courses_cubit.dart';
+import '../cubits/settings_cubit/settings_cubit.dart';
 import '../cubits/tasks_cubit/tasks_cubit.dart';
+import '../models/course_model.dart';
 import '../screens/calendar/calendar.dart';
 import '../screens/course/course_details.dart';
 import '../screens/course/course_dialog.dart';
@@ -34,6 +35,10 @@ abstract class AppRouter {
           name: OnboardingScreen.routeName,
           builder: (context, args, paramMap) => const OnboardingScreen(),
         ),
+        // SailorRoute(
+        //   name: SignInScreen.routeName,
+        //   builder: (context, args, paramMap) => const SignInScreen(),
+        // ),
 
         /// Tasks Screens
         SailorRoute(
@@ -131,8 +136,8 @@ abstract class AppRouter {
         /// Settings Screens
         SailorRoute(
           name: SettingsScreen.routeName,
-          builder: (context, args, paramMap) => BlocProvider(
-            create: (context) => getIt<SettingsCubit>()..getSettings(),
+          builder: (context, args, paramMap) => BlocProvider.value(
+            value: getIt<SettingsCubit>(),
             child: const SettingsScreen(),
           ),
         ),

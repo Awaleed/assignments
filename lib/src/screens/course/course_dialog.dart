@@ -1,10 +1,10 @@
-import 'package:assignments/generated/l10n.dart';
-import 'package:assignments/src/helpers/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../generated/l10n.dart';
 import '../../components/color_picker.dart';
 import '../../cubits/courses_cubit/courses_cubit.dart';
+import '../../helpers/helper.dart';
 import '../../models/course_model.dart';
 import '../../routes/config_routes.dart';
 
@@ -25,9 +25,7 @@ class CourseDialog extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          course.title == null
-              ? S.current.new_course
-              : '${S.current.editing}: ${course.title}',
+          course.title == null ? S.current.new_course : '${S.current.editing}: ${course.title}',
         ),
       ),
       body: SingleChildScrollView(
@@ -51,21 +49,17 @@ class CourseDialog extends StatelessWidget {
         onPressed: () async {
           if (formKey.currentState.validate()) {
             formKey.currentState.save();
+            final cubit = context.read<CoursesCubit>();
             if (course.isInBox) {
-              context.read<CoursesCubit>()
-                ..updateCourse(course)
-                ..listen((state) => state.maybeWhen(
-                      updated: () => AppRouter.sailor.pop(),
-                      orElse: () => null,
-                    ));
+              await cubit.updateCourse(course);
             } else {
-              context.read<CoursesCubit>()
-                ..createCourse(course)
-                ..listen((state) => state.maybeWhen(
-                      created: () => AppRouter.sailor.pop(),
-                      orElse: () => null,
-                    ));
+              await cubit.createCourse(course);
             }
+            cubit.state.maybeWhen(
+              created: () => AppRouter.sailor.pop(),
+              updated: () => AppRouter.sailor.pop(),
+              orElse: () => null,
+            );
           }
         },
         label: Text(S.current.save),

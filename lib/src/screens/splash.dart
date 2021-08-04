@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:assignments/src/screens/signin/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sailor/sailor.dart';
@@ -22,8 +23,8 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SplashCubit, SplashState>(
-      cubit: getIt<SplashCubit>(),
-      listener: (context, state) async {
+      bloc: getIt<SplashCubit>(),
+      listener: (context, state) {
         // AppRouter.sailor.navigate(
         //   HomeScreen.routeName,
         //   navigationType: NavigationType.pushAndRemoveUntil,
@@ -39,12 +40,12 @@ class SplashScreen extends StatelessWidget {
             routeName = OnboardingScreen.routeName;
             break;
           case SplashState.authenticated:
-            routeName = TasksScreen.routeName;
             break;
           case SplashState.unauthenticated:
-            routeName = TasksScreen.routeName;
+            // routeName = SignInScreen.routeName;
             break;
         }
+        routeName = TasksScreen.routeName;
 
         AppRouter.sailor.navigate(
           routeName,

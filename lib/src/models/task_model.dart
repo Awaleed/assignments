@@ -1,8 +1,8 @@
-import 'package:assignments/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
+import '../../generated/l10n.dart';
 import 'course_model.dart';
 
 part 'task_model.g.dart';

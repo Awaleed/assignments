@@ -1,13 +1,13 @@
-import 'package:assignments/generated/l10n.dart';
-import 'package:assignments/src/cubits/tasks_cubit/tasks_cubit.dart';
-import 'package:assignments/src/routes/config_routes.dart';
-import 'package:assignments/src/screens/task/task_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../generated/l10n.dart';
 import '../../components/tasks_list_view.dart';
+import '../../cubits/tasks_cubit/tasks_cubit.dart';
 import '../../helpers/formatters.dart';
 import '../../models/task_model.dart';
+import '../../routes/config_routes.dart';
+import 'task_dialog.dart';
 
 class TaskDetailsScreen extends StatelessWidget {
   static const routeName = '/tasks/:id';
@@ -36,10 +36,7 @@ class TaskDetailsScreen extends StatelessWidget {
               );
             },
           ),
-          IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed:
-                  () {} // => Helpers.onDeleteTask(task: parentTask, sub: task),
+          IconButton(icon: const Icon(Icons.delete), onPressed: () {} // => Helpers.onDeleteTask(task: parentTask, sub: task),
               ),
           //TODO: Add share
           PopupMenuButton<String>(
@@ -130,7 +127,7 @@ class TaskDetailsScreen extends StatelessWidget {
                 InputDecorator(
                   decoration: InputDecoration(
                     labelText: S.current.notes,
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                   ),
                   child: Text(
                     task.notes,
@@ -158,9 +155,7 @@ class TaskDetailsScreen extends StatelessWidget {
           const Divider(),
         ]
             .map((w) => Padding(
-                  padding: w is Divider
-                      ? const EdgeInsets.symmetric(vertical: 5)
-                      : const EdgeInsets.symmetric(horizontal: 2),
+                  padding: w is Divider ? const EdgeInsets.symmetric(vertical: 5) : const EdgeInsets.symmetric(horizontal: 2),
                   child: w,
                 ))
             .toList(),
@@ -217,9 +212,7 @@ class _ProgressSliderState extends State<ProgressSlider> {
                   widget.task.progress = value;
                 });
                 if (widget.task.isInBox) {
-                  context
-                      .read<TasksCubit>()
-                      .updateTask(widget.parentTask ?? widget.task);
+                  context.read<TasksCubit>().updateTask(widget.parentTask ?? widget.task);
                 }
               },
             ),

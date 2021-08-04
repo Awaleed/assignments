@@ -1,11 +1,8 @@
 /// Block color picker
 
-library block_colorpicker;
-
 import 'package:flutter/material.dart';
 
-typedef PickerLayoutBuilder = Widget Function(
-    BuildContext context, List<Color> colors, PickerItem child);
+typedef PickerLayoutBuilder = Widget Function(BuildContext context, List<Color> colors, PickerItem child);
 typedef PickerItem = Widget Function(Color color);
 typedef PickerItemBuilder = Widget Function({
   Color color,
@@ -28,8 +25,7 @@ class BlockPicker extends StatefulWidget {
   final PickerLayoutBuilder layoutBuilder;
   final PickerItemBuilder itemBuilder;
 
-  static Widget defaultLayoutBuilder(
-      BuildContext context, List<Color> colors, PickerItem child) {
+  static Widget defaultLayoutBuilder(BuildContext context, List<Color> colors, PickerItem child) {
     final Orientation orientation = MediaQuery.of(context).orientation;
 
     return SizedBox(
@@ -45,8 +41,7 @@ class BlockPicker extends StatefulWidget {
     );
   }
 
-  static Widget defaultItemBuilder(
-      {Color color, bool isCurrentColor, VoidCallback changeColor}) {
+  static Widget defaultItemBuilder({Color color, bool isCurrentColor, VoidCallback changeColor}) {
     return Container(
       margin: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(

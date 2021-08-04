@@ -2,7 +2,6 @@ import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../init_injectable.dart';
-import '../helpers/fake_data_generator.dart';
 import '../models/user_model.dart';
 
 const String userBoxName = 'userBox';
@@ -23,23 +22,14 @@ class UserLocalDataSource extends IUserLocalDataSource {
   final Box box;
 
   @override
-  UserModel readUser() => FakeDataGenerator.userModel;
+  UserModel readUser() => box.get(currentUserKey);
 
   @override
-  Future<void> removeUser() {
-    // TODO: implement removeUser
-    throw UnimplementedError();
-  }
+  Future<void> removeUser() => box.clear();
 
   @override
-  Future<void> saveUser(UserModel user) {
-    // TODO: implement saveUser
-    throw UnimplementedError();
-  }
+  Future<void> saveUser(UserModel user) => box.put(currentUserKey, user);
 
   @override
-  Future<void> updateUser(UserModel user) {
-    // TODO: implement updateUser
-    throw UnimplementedError();
-  }
+  Future<void> updateUser(UserModel user) => box.put(currentUserKey, user);
 }

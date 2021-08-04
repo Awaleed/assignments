@@ -1,4 +1,4 @@
-import 'package:assignments/src/models/settings_model.dart';
+import 'package:assignments/src/cubits/settings_cubit/settings_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +12,7 @@ import 'init_hive.dart';
 import 'init_injectable.dart';
 import 'src/core/custom_bloc_observer.dart';
 import 'src/data/settings_datasource.dart';
+import 'src/models/settings_model.dart';
 import 'src/routes/config_routes.dart';
 
 Future<void> main() async {
@@ -31,16 +32,19 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.light));
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.light,
+  ));
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<Box>(
-      valueListenable: Hive.box<SettingsModel>(settingsBoxName).listenable(),
-      builder: (context, box, widget) {
+    return BlocBuilder<SettingsCubit, SettingsModel>(
+      bloc: getIt<SettingsCubit>(),
+      builder: (context, settings) {
         return MaterialApp(
           // title: 'Ass`',
           localizationsDelegates: const [
@@ -51,13 +55,13 @@ class MyApp extends StatelessWidget {
           ],
           theme: ThemeData(
             brightness: Brightness.dark,
-            primarySwatch: Colors.primaries[box.get(currentSettingsKey).themeIndex],
-            accentColor: Colors.primaries[box.get(currentSettingsKey).themeIndex],
+            primarySwatch: Colors.primaries[settings.themeIndex ?? 0],
+            accentColor: Colors.primaries[settings.themeIndex ?? 0],
             textTheme: _makeTextTheme(),
             primaryTextTheme: _makeTextTheme(),
           ),
           supportedLocales: S.delegate.supportedLocales,
-          locale: box.get(currentSettingsKey)?.locale,
+          locale: settings.locale,
           onGenerateRoute: AppRouter.sailor.generator(),
           navigatorKey: AppRouter.sailor.navigatorKey,
           // navigatorObservers: [

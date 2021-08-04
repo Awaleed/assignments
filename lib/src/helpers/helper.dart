@@ -17,8 +17,7 @@ abstract class Helpers {
     return renderBox?.size;
   }
 
-  static bool isArabic(BuildContext context) =>
-      Localizations.localeOf(context).languageCode == 'ar';
+  static bool isArabic(BuildContext context) => Localizations.localeOf(context).languageCode == 'ar';
 
   static void showErrorOverlay(
     BuildContext context, {
@@ -29,7 +28,7 @@ abstract class Helpers {
     if (context == null) return;
 
     dismissFauces(context);
-    final okButton = FlatButton(
+    final okButton = TextButton(
       onPressed: () => Navigator.of(context).pop(),
       child: Text(S.current.back),
     );
@@ -58,7 +57,7 @@ abstract class Helpers {
     if (context == null) return;
 
     dismissFauces(context);
-    final okButton = FlatButton(
+    final okButton = TextButton(
       onPressed: () => Navigator.of(context).pop(),
       child: Text(S.current.back),
     );
@@ -67,19 +66,19 @@ abstract class Helpers {
 
     if (error['errors'] != null && error['errors'] is Map) {
       final map = error['errors'] as Map;
-      for (final entrie in map.entries) {
+      for (final entry in map.entries) {
         messageWidget.add(
           Text(
-            '${entrie.key}',
+            '${entry.key}',
             style: Theme.of(context).textTheme.headline6,
           ),
         );
-        if (entrie.value is List) {
-          for (final str in entrie.value) {
+        if (entry.value is List) {
+          for (final str in entry.value) {
             messageWidget.add(Text('$str'));
           }
         } else {
-          messageWidget.add(Text('${entrie.value}'));
+          messageWidget.add(Text('${entry.value}'));
         }
 
         messageWidget.add(const Divider());
@@ -153,8 +152,7 @@ abstract class Helpers {
 
   static Future<bool> onWillPop(BuildContext context) {
     final now = DateTime.now();
-    if (_currentBackPressTime == null ||
-        now.difference(_currentBackPressTime) > const Duration(seconds: 2)) {
+    if (_currentBackPressTime == null || now.difference(_currentBackPressTime) > const Duration(seconds: 2)) {
       _currentBackPressTime = now;
       Helpers.showMessageOverlay(
         context,

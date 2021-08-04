@@ -1,17 +1,17 @@
-import 'package:assignments/generated/l10n.dart';
-import 'package:assignments/src/cubits/courses_cubit/courses_cubit.dart';
-import 'package:assignments/src/cubits/tasks_cubit/tasks_cubit.dart';
-import 'package:assignments/src/models/course_model.dart';
-import 'package:assignments/src/routes/config_routes.dart';
-import 'package:assignments/src/screens/course/course_dialog.dart';
-import 'package:assignments/src/screens/task/task_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supercharged/supercharged.dart';
 
+import '../../../generated/l10n.dart';
 import '../../components/flutter_datetime_formfield.dart';
+import '../../cubits/courses_cubit/courses_cubit.dart';
+import '../../cubits/tasks_cubit/tasks_cubit.dart';
 import '../../helpers/formatters.dart';
+import '../../models/course_model.dart';
 import '../../models/task_model.dart';
+import '../../routes/config_routes.dart';
+import '../course/course_dialog.dart';
+import 'task_details.dart';
 
 @immutable
 class TaskDialog extends StatelessWidget {
@@ -57,12 +57,11 @@ class TaskDialog extends StatelessWidget {
         onPressed: () {
           if (formKey.currentState.validate()) {
             formKey.currentState.save();
-            context.read<TasksCubit>()
-              ..createTask(task)
-              ..listen((state) => state.maybeWhen(
-                    created: () => AppRouter.sailor.pop(),
-                    orElse: () => null,
-                  ));
+            context.read<TasksCubit>().createTask(task);
+            context.read<TasksCubit>().state.maybeWhen(
+                  created: () => AppRouter.sailor.pop(),
+                  orElse: () => null,
+                );
           }
         },
         //  => Helpers.onSaveTask(formKey: formKey, task: task),

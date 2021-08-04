@@ -1,12 +1,11 @@
-import 'package:assignments/generated/l10n.dart';
-import 'package:assignments/src/routes/config_routes.dart';
-import 'package:assignments/src/screens/course/course_dialog.dart';
-import 'package:assignments/src/screens/task/task_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../generated/l10n.dart';
 import '../../components/task_tile.dart';
 import '../../models/task_model.dart';
+import '../../routes/config_routes.dart';
+import '../task/task_dialog.dart';
 import 'table_calendar.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -18,8 +17,7 @@ class CalendarScreen extends StatefulWidget {
   _CalendarScreenState createState() => _CalendarScreenState();
 }
 
-class _CalendarScreenState extends State<CalendarScreen>
-    with TickerProviderStateMixin {
+class _CalendarScreenState extends State<CalendarScreen> with TickerProviderStateMixin {
   List _selectedEvents;
   CalendarController _calendarController;
   DateTime _selectedDay;
@@ -73,13 +71,11 @@ class _CalendarScreenState extends State<CalendarScreen>
     });
   }
 
-  void _onVisibleDaysChanged(
-      DateTime first, DateTime last, CalendarFormat format) {
+  void _onVisibleDaysChanged(DateTime first, DateTime last, CalendarFormat format) {
     // print('CALLBACK: _onVisibleDaysChanged');
   }
 
-  void _onCalendarCreated(
-      DateTime first, DateTime last, CalendarFormat format) {
+  void _onCalendarCreated(DateTime first, DateTime last, CalendarFormat format) {
     // print('CALLBACK: _onCalendarCreated');
   }
 
@@ -104,11 +100,7 @@ class _CalendarScreenState extends State<CalendarScreen>
             icon: const Icon(Icons.calendar_view_day),
             onPressed: () {
               setState(() {
-                _calendarController.calendarFormat =
-                    _calendarController.calendarFormat ==
-                            CalendarFormat.twoWeeks
-                        ? CalendarFormat.week
-                        : CalendarFormat.twoWeeks;
+                _calendarController.calendarFormat = _calendarController.calendarFormat == CalendarFormat.twoWeeks ? CalendarFormat.week : CalendarFormat.twoWeeks;
               });
             },
           )
@@ -119,14 +111,11 @@ class _CalendarScreenState extends State<CalendarScreen>
           _buildTableCalendar(),
           const SizedBox(height: 8.0),
           Expanded(
-            child: _selectedEvents.isNotEmpty
-                ? _buildEventList()
-                : Center(child: Text(S.current.empty_tasks_list)),
+            child: _selectedEvents.isNotEmpty ? _buildEventList() : Center(child: Text(S.current.empty_tasks_list)),
           ),
         ],
       ),
-      floatingActionButton: _selectedDay.isAfter(
-              DateTime.now().withoutTime().subtract(const Duration(seconds: 1)))
+      floatingActionButton: _selectedDay.isAfter(DateTime.now().withoutTime().subtract(const Duration(seconds: 1)))
           ? FloatingActionButton.extended(
               onPressed: () {
                 AppRouter.sailor.navigate(
@@ -147,8 +136,7 @@ class _CalendarScreenState extends State<CalendarScreen>
       initialCalendarFormat: CalendarFormat.week,
       availableGestures: AvailableGestures.horizontalSwipe,
       builders: CalendarBuilders(
-        markersBuilder: (BuildContext context, DateTime date, List<dynamic> l1,
-            List<dynamic> l2) {
+        markersBuilder: (BuildContext context, DateTime date, List<dynamic> l1, List<dynamic> l2) {
           return [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -204,6 +192,5 @@ class _CalendarScreenState extends State<CalendarScreen>
 extension on DateTime {
   DateTime withoutTime() => DateTime(year, month, day);
 
-  DateTime addTime() =>
-      DateTime(year, month, day, DateTime.now().hour, DateTime.now().minute);
+  DateTime addTime() => DateTime(year, month, day, DateTime.now().hour, DateTime.now().minute);
 }

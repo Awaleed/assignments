@@ -19,10 +19,10 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
     return UserModel(
       name: fields[1] as String,
       email: fields[5] as String,
-      phone: fields[2] as String,
-      password: fields[3] as String,
+      // phone: fields[2] as String,
+      // password: fields[3] as String,
       image: fields[4] as String,
-      id: fields[0] as int,
+      // id: fields[0] as int,
     );
   }
 
@@ -35,9 +35,9 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.phone)
+      // ..write(obj.phone)
       ..writeByte(3)
-      ..write(obj.password)
+      // ..write(obj.password)
       ..writeByte(4)
       ..write(obj.image)
       ..writeByte(5)
@@ -48,9 +48,5 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
   int get hashCode => typeId.hashCode;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is UserModelAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+  bool operator ==(Object other) => identical(this, other) || other is UserModelAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

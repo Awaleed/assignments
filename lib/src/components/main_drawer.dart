@@ -1,7 +1,7 @@
-import 'package:assignments/generated/l10n.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../generated/l10n.dart';
 import '../data/user_datasource.dart';
 import '../routes/config_routes.dart';
 import '../screens/calendar/calendar.dart';
@@ -15,13 +15,13 @@ class MainDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: <Widget>[
-          UserAccountsDrawerHeader(
-            currentAccountPicture: CircleAvatar(
-              backgroundImage: CachedNetworkImageProvider(kUser.image),
-            ),
-            accountName: Text(kUser.name),
-            accountEmail: Text(kUser.email),
-          ),
+          // UserAccountsDrawerHeader(
+          //   currentAccountPicture: CircleAvatar(
+          //     backgroundImage: CachedNetworkImageProvider(kUser.image),
+          //   ),
+          //   accountName: Text(kUser.name),
+          //   accountEmail: Text(kUser.email),
+          // ),
           ListTile(
             leading: const Icon(Icons.format_list_bulleted),
             title: Text(S.current.tasks),

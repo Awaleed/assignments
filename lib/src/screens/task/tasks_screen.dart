@@ -1,7 +1,7 @@
-import 'package:assignments/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../generated/l10n.dart';
 import '../../components/main_drawer.dart';
 import '../../components/tasks_tab_view.dart';
 import '../../cubits/tasks_cubit/tasks_cubit.dart';
@@ -20,10 +20,7 @@ class TasksScreen extends StatelessWidget {
           title: Text(S.current.tasks),
           centerTitle: true,
           bottom: TabBar(
-            tabs: [
-              Tab(text: S.current.upcoming.toUpperCase()),
-              Tab(text: S.current.overdue.toUpperCase())
-            ],
+            tabs: [Tab(text: S.current.upcoming.toUpperCase()), Tab(text: S.current.overdue.toUpperCase())],
           ),
         ),
         drawer: MainDrawer(),

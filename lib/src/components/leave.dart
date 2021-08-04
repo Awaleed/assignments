@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'package:collection/collection.dart' show lowerBound;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 
@@ -43,8 +42,7 @@ class LeaveBehindDemo extends StatefulWidget {
 }
 
 class LeaveBehindDemoState extends State<LeaveBehindDemo> {
-  static final GlobalKey<ScaffoldState> _scaffoldKey =
-      GlobalKey<ScaffoldState>();
+  static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   DismissDirection _dismissDirection = DismissDirection.horizontal;
   bool _confirmDismiss = true;
   List<LeaveBehindItem> leaveBehindItems;
@@ -162,8 +160,7 @@ class LeaveBehindDemoState extends State<LeaveBehindDemo> {
         actions: <Widget>[
           PopupMenuButton<LeaveBehindDemoAction>(
             onSelected: handleDemoAction,
-            itemBuilder: (BuildContext context) =>
-                <PopupMenuEntry<LeaveBehindDemoAction>>[
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<LeaveBehindDemoAction>>[
               const PopupMenuItem<LeaveBehindDemoAction>(
                 value: LeaveBehindDemoAction.reset,
                 child: Text('Reset the list'),
@@ -245,11 +242,9 @@ class _LeaveBehindListItem extends StatelessWidget {
             : (DismissDirection dismissDirection) async {
                 switch (dismissDirection) {
                   case DismissDirection.endToStart:
-                    return await _showConfirmationDialog(context, 'archive') ==
-                        true;
+                    return await _showConfirmationDialog(context, 'archive') == true;
                   case DismissDirection.startToEnd:
-                    return await _showConfirmationDialog(context, 'delete') ==
-                        true;
+                    return await _showConfirmationDialog(context, 'delete') == true;
                   case DismissDirection.horizontal:
                   case DismissDirection.vertical:
                   case DismissDirection.up:

@@ -9,10 +9,10 @@ import '../models/user_model.dart';
 
 abstract class FakeDataGenerator {
   static UserModel get userModel => UserModel(
-        id: random.integer(1000),
+        // id: random.integer(1000),
         name: faker.person.name(),
         email: faker.internet.email(),
-        phone: '${random.integer(4294967296)}',
+        // phone: '${random.integer(4294967296)}',
         image: faker.image.image(),
       );
 
