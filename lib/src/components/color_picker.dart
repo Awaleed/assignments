@@ -2,24 +2,25 @@
 
 import 'package:flutter/material.dart';
 
-typedef PickerLayoutBuilder = Widget Function(BuildContext context, List<Color> colors, PickerItem child);
+typedef PickerLayoutBuilder = Widget Function(
+    BuildContext context, List<Color> colors, PickerItem child);
 typedef PickerItem = Widget Function(Color color);
 typedef PickerItemBuilder = Widget Function({
-  Color color,
-  bool isCurrentColor,
-  VoidCallback changeColor,
+  required Color color,
+  required bool isCurrentColor,
+  VoidCallback? changeColor,
 });
 
 class BlockPicker extends StatefulWidget {
   const BlockPicker({
-    @required this.pickerColor,
-    @required this.onColorChanged,
+    required this.pickerColor,
+    required this.onColorChanged,
     this.availableColors = Colors.primaries,
     this.layoutBuilder = defaultLayoutBuilder,
     this.itemBuilder = defaultItemBuilder,
   });
 
-  final Color pickerColor;
+  final Color? pickerColor;
   final ValueChanged<Color> onColorChanged;
   final List<Color> availableColors;
   final PickerLayoutBuilder layoutBuilder;
@@ -41,7 +42,8 @@ class BlockPicker extends StatefulWidget {
     );
   }
 
-  static Widget defaultItemBuilder({Color color, bool isCurrentColor, VoidCallback changeColor}) {
+  static Widget defaultItemBuilder(
+      {required Color color, required bool isCurrentColor, VoidCallback? changeColor}) {
     return Container(
       margin: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
@@ -82,7 +84,7 @@ class BlockPicker extends StatefulWidget {
 }
 
 class _BlockPickerState extends State<BlockPicker> {
-  Color _currentColor;
+  Color? _currentColor;
 
   @override
   void initState() {
@@ -100,7 +102,7 @@ class _BlockPickerState extends State<BlockPicker> {
     return widget.layoutBuilder(
       context,
       widget.availableColors,
-      (Color color, [bool _, Function __]) => widget.itemBuilder(
+      (Color color, [bool? _, Function? __]) => widget.itemBuilder(
         color: color,
         isCurrentColor: _currentColor?.value == color.value,
         changeColor: () => changeColor(color),

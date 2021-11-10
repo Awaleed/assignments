@@ -1,6 +1,6 @@
+import 'package:assignments/src/patched_components/sailor/sailor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sailor/sailor.dart';
 
 import '../../../generated/l10n.dart';
 import '../../cubits/settings_cubit/settings_cubit.dart';
@@ -8,7 +8,7 @@ import '../../helpers/helper.dart';
 import '../../models/settings_model.dart';
 import '../../models/theme_model.dart';
 import '../../routes/config_routes.dart';
-import '../splash.dart';
+import '../main/main.dart';
 import 'development_page.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -23,9 +23,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(S.current.settings),
-      ),
+      appBar: AppBar(title: Text(S.current.settings)),
       body: BlocBuilder<SettingsCubit, SettingsModel>(
         builder: (context, settings) {
           return Padding(
@@ -49,11 +47,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            color: AppTheme.themes[settings.themeIndex ?? 0].primaryColor,
+                            color: AppTheme.themes[settings.themeIndex].primaryColor,
                           ),
                         ),
                       ),
                       onChanged: (value) {
+                        if (value == null) return;
                         context.read<SettingsCubit>().setThemeIndex(value);
                         setState(() {});
                       },
@@ -106,11 +105,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                         ),
                       ],
-                      onChanged: (newValue) {
-                        if (newValue == settings.languageCode) return;
-                        context.read<SettingsCubit>().setLanguageCode(newValue);
+                      onChanged: (newValue) async {
+                        if (newValue == null || newValue == settings.languageCode) return;
+                        await context.read<SettingsCubit>().setLanguageCode(newValue);
                         AppRouter.sailor.navigate(
-                          SplashScreen.routeName,
+                          MainScreen.routeName,
                           navigationType: NavigationType.pushAndRemoveUntil,
                           removeUntilPredicate: (_) => false,
                         );
@@ -124,6 +123,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'SettingsScreen$hashCode',
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
             return Overlay(
@@ -142,55 +142,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   List<DropdownMenuItem<int>> _buildItems(BuildContext context) {
-    // final namesEn = [
-    //   'Red',
-    //   'Pink',
-    //   'Purple',
-    //   'Deep Purple',
-    //   'Indigo',
-    //   'Blue',
-    //   'Light Blue',
-    //   'Cyan',
-    //   'Teal',
-    //   'Green',
-    //   'Light Green',
-    //   'Lime',
-    //   'Yellow',
-    //   'Amber',
-    //   'Orange',
-    //   'Deep Orange',
-    //   'Brown',
-    //   'Blue Grey',
-    // ];
-
-    // final namesAr = [
-    //   'أحمر',
-    //   'زهري',
-    //   'أرجواني',
-    //   'أرجواني عميق',
-    //   'نيلي',
-    //   'أزرق',
-    //   'أزرق فاتح',
-    //   'ازرق سماوي',
-    //   'أزرق مخضر',
-    //   'أخضر',
-    //   'اخضر فاتح',
-    //   'ليموني',
-    //   'أصفر',
-    //   'عنبر',
-    //   'برتقالي',
-    //   'برتقالي عميق',
-    //   'بنى',
-    //   'رمادي مزرق',
-    // ];
     final listItems = <DropdownMenuItem<int>>[];
-    // final primariesNames = Helpers.isArabic(context) ? namesAr : namesEn;
     for (var i = 0; i < AppTheme.themes.length; i++) {
       final theme = AppTheme.themes[i];
       final item = DropdownMenuItem<int>(
         value: i,
         child: Text(
-          Helpers.isArabic(context) ? theme.arabicName : theme.engleshName,
+          Helpers.isArabic ? theme.arabicName : theme.engleshName,
           overflow: TextOverflow.visible,
           style: Theme.of(context).textTheme.button,
         ),

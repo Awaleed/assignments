@@ -5,27 +5,23 @@ import 'package:supercharged/supercharged.dart';
 
 import '../models/course_model.dart';
 import '../models/task_model.dart';
-import '../models/user_model.dart';
 
 abstract class FakeDataGenerator {
-  static UserModel get userModel => UserModel(
-        // id: random.integer(1000),
-        name: faker.person.name(),
-        email: faker.internet.email(),
-        // phone: '${random.integer(4294967296)}',
-        image: faker.image.image(),
-      );
+  // static UserModel get userModel => UserModel(
+  //       // id: random.integer(1000),
+  //       name: faker.person.name(),
+  //       email: faker.internet.email(),
+  //       // phone: '${random.integer(4294967296)}',
+  //       image: faker.image.image(),
+  //     );
 
   static TaskModel taskModel(CourseModel course, int stCount) => subTaskModel(course)
-    ..isSubTask = false
     ..subtasks = List.generate(
       random.integer(stCount),
       (_) => subTaskModel(course),
     );
 
   static TaskModel subTaskModel(CourseModel course) => TaskModel(
-        id: random.integer(1000),
-        isSubTask: true,
         type: TaskType.values.random,
         title: faker.job.title(),
         reminder: DateTime.now().randomize,
@@ -35,10 +31,10 @@ abstract class FakeDataGenerator {
         course: course,
       );
 
-  static CourseModel courseModel(int id) => CourseModel(
-        id: id,
+  static CourseModel courseModel() => CourseModel(
         title: faker.job.title(),
         colorValue: random.integer(0xFFFFFFFF, min: 0xFF000000),
+        tasks: [],
       );
 }
 

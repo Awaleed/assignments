@@ -22,7 +22,7 @@ class TaskTypeAdapter extends TypeAdapter<TaskType> {
       case 3:
         return TaskType.test;
       default:
-        return null;
+        return TaskType.homework;
     }
   }
 
@@ -66,24 +66,22 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TaskModel(
-      id: fields[0] as int,
-      isSubTask: fields[9] as bool,
-      type: fields[2] as TaskType,
-      title: fields[3] as String,
-      reminder: fields[4] as DateTime,
-      dueDate: fields[5] as DateTime,
-      notes: fields[6] as String,
-      course: fields[1] as CourseModel,
-      subtasks: (fields[8] as List)?.cast<TaskModel>(),
-    ).._progress = fields[7] as double;
+      type: fields[2] as TaskType?,
+      title: fields[3] as String?,
+      reminder: fields[4] as DateTime?,
+      dueDate: fields[5] as DateTime?,
+      notes: fields[6] as String?,
+      progress: fields[7] as double?,
+      course: fields[1] as CourseModel?,
+      subtasks: (fields[8] as List?)?.cast<TaskModel>(),
+      parentKey: fields[9] as int?,
+    );
   }
 
   @override
   void write(BinaryWriter writer, TaskModel obj) {
     writer
-      ..writeByte(10)
-      ..writeByte(0)
-      ..write(obj.id)
+      ..writeByte(9)
       ..writeByte(1)
       ..write(obj.course)
       ..writeByte(2)
@@ -97,11 +95,11 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
       ..writeByte(6)
       ..write(obj.notes)
       ..writeByte(7)
-      ..write(obj._progress)
+      ..write(obj.progress)
       ..writeByte(8)
       ..write(obj.subtasks)
       ..writeByte(9)
-      ..write(obj.isSubTask);
+      ..write(obj.parentKey);
   }
 
   @override

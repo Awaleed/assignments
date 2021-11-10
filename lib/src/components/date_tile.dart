@@ -5,7 +5,7 @@ import '../helpers/formatters.dart';
 class DateTile extends StatelessWidget {
   final DateTime date;
 
-  const DateTile(this.date, {Key key}) : super(key: key);
+  const DateTile(this.date, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(

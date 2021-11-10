@@ -7,8 +7,8 @@ import '../screens/course/course_details.dart';
 @immutable
 class CourseTile extends StatelessWidget {
   const CourseTile({
-    this.course,
-    Key key,
+    required this.course,
+    Key? key,
   }) : super(key: key);
 
   final CourseModel course;
@@ -17,8 +17,7 @@ class CourseTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text(course.title),
-        // subtitle: Text('CS102'),
+        title: Text(course.title!),
         trailing: CircleAvatar(
           child: Container(
             decoration: BoxDecoration(

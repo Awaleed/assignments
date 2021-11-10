@@ -7,7 +7,7 @@ abstract class ICoursesRepository {
   Stream<List<CourseModel>> getCourses();
   Future<void> createCourse(CourseModel course);
   Future<void> updateCourse(CourseModel course);
-  Future<void> deleteCourse(int courseId);
+  Future<void> deleteCourse(CourseModel course);
 }
 
 @Singleton(as: ICoursesRepository)
@@ -17,17 +17,14 @@ class CoursesRepositoryImpl implements ICoursesRepository {
   final ITasksLocalDataSource _localDataSource;
 
   @override
-  Future<void> createCourse(CourseModel course) =>
-      _localDataSource.createCourse(course);
-
-  @override
-  Future<void> updateCourse(CourseModel course) =>
-      _localDataSource.updateCourse(course);
-
-  @override
   Stream<List<CourseModel>> getCourses() => _localDataSource.getCourses();
 
   @override
-  Future<void> deleteCourse(int courseId) =>
-      _localDataSource.deleteCourse(courseId);
+  Future<void> createCourse(CourseModel course) => _localDataSource.createCourse(course);
+
+  @override
+  Future<void> updateCourse(CourseModel course) => _localDataSource.updateCourse(course);
+
+  @override
+  Future<void> deleteCourse(CourseModel course) => _localDataSource.deleteCourse(course);
 }

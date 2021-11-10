@@ -1,9 +1,16 @@
 include: package:lint/analysis_options.yaml
 
+
+
 analyzer:
   strong-mode:
     implicit-casts: true
-  exclude: [lib/generated/intl/**, lib/init_injectable.config.dart]
+  exclude: 
+    - "lib/generated/intl/**" 
+    - lib/init_injectable.config.dart
+    - "**/*.g.dart"
+    # - "**/*.gr.dart"
+    - "**/*.freezed.dart"
 
 linter:
   rules:

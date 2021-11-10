@@ -10,15 +10,15 @@ import 'tasks_list_view.dart';
 @immutable
 class TasksTabView extends StatelessWidget {
   const TasksTabView({
-    Key key,
-    @required this.tasks,
+    Key? key,
+    required this.tasks,
     this.course,
     this.date,
   }) : super(key: key);
 
   final List<TaskModel> tasks;
-  final CourseModel course;
-  final DateTime date;
+  final CourseModel? course;
+  final DateTime? date;
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +30,20 @@ class TasksTabView extends StatelessWidget {
     );
   }
 
-  Widget _buildTasksTabView(BuildContext context, {bool upcoming}) {
+  Widget _buildTasksTabView(BuildContext context, {required bool upcoming}) {
     final values = tasks.where((task) => task.isDue == !upcoming).toList();
 
     return Scaffold(
-      body: values.isEmpty ? Center(child: Text(S.current.empty_tasks_list)) : TasksListView(tasks: values),
+      body: values.isEmpty
+          ? Center(child: Text(S.current.empty_tasks_list))
+          : TasksListView(tasks: values),
       floatingActionButton: upcoming
           ? FloatingActionButton.extended(
-              onPressed: () {
-                AppRouter.sailor.navigate(
-                  TaskDialog.routeName,
-                  params: {'task': TaskModel(dueDate: date, course: course)},
-                );
-              },
+              heroTag: 'TasksTabView$hashCode',
+              onPressed: () => AppRouter.sailor.navigate(
+                TaskDialog.routeName,
+                params: {'task': TaskModel(dueDate: date, course: course)},
+              ),
               label: Text(S.current.new_task),
               icon: const Icon(Icons.add),
             )

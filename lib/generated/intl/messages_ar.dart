@@ -7,7 +7,8 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -20,46 +21,65 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function> {
-    "an_error_occurred" : MessageLookupByLibrary.simpleMessage("حدث خطأ"),
-    "at" : MessageLookupByLibrary.simpleMessage("عند"),
-    "auto" : MessageLookupByLibrary.simpleMessage("تلقائي"),
-    "back" : MessageLookupByLibrary.simpleMessage("عودة"),
-    "calendar" : MessageLookupByLibrary.simpleMessage("التقويم"),
-    "course_color" : MessageLookupByLibrary.simpleMessage("لون الكورس"),
-    "course_title" : MessageLookupByLibrary.simpleMessage("عنوان الكورس"),
-    "courses" : MessageLookupByLibrary.simpleMessage("الكورسات"),
-    "due_date" : MessageLookupByLibrary.simpleMessage("التسليم"),
-    "editing" : MessageLookupByLibrary.simpleMessage("تعديل"),
-    "empty_courses_error" : MessageLookupByLibrary.simpleMessage("أضف كورس جديد"),
-    "empty_courses_list" : MessageLookupByLibrary.simpleMessage("لا توجد كورسات لعرضها..."),
-    "empty_name_error_message" : MessageLookupByLibrary.simpleMessage("لا يمكن ترك إسم المهمة فارغاً"),
-    "empty_tasks_list" : MessageLookupByLibrary.simpleMessage("لا توجد مهمات لعرضها..."),
-    "empty_title_error_message" : MessageLookupByLibrary.simpleMessage("لا يمكن ترك العنوان فارغاً"),
-    "homework" : MessageLookupByLibrary.simpleMessage("واجب منزلي"),
-    "language" : MessageLookupByLibrary.simpleMessage("اللغة"),
-    "new_course" : MessageLookupByLibrary.simpleMessage("كورس جديد"),
-    "new_subtask" : MessageLookupByLibrary.simpleMessage("مهمة فرعية جديدة"),
-    "new_task" : MessageLookupByLibrary.simpleMessage("مهمة جديدة"),
-    "notes" : MessageLookupByLibrary.simpleMessage("ملاحظات"),
-    "overdue" : MessageLookupByLibrary.simpleMessage("متأخرة"),
-    "overdue_error_message" : MessageLookupByLibrary.simpleMessage("إختر تاريخ صالح"),
-    "progress" : MessageLookupByLibrary.simpleMessage("التقدم"),
-    "project" : MessageLookupByLibrary.simpleMessage("مشروع"),
-    "quiz" : MessageLookupByLibrary.simpleMessage("إختبار قصير"),
-    "reminder" : MessageLookupByLibrary.simpleMessage("التذكير"),
-    "reminder_date_error_message" : MessageLookupByLibrary.simpleMessage("يجب أن يكون تاريخ التذكير قبل تاريخ التسليم"),
-    "save" : MessageLookupByLibrary.simpleMessage("حفظ"),
-    "settings" : MessageLookupByLibrary.simpleMessage("الإعدادات"),
-    "short_name_error_message" : MessageLookupByLibrary.simpleMessage("يجب ألا يقل طول إسم المهمة عن حرفين"),
-    "short_title_error_message" : MessageLookupByLibrary.simpleMessage("يجب ألا يقل طول العنوان عن حرفين"),
-    "subtasks" : MessageLookupByLibrary.simpleMessage("المهمات الفرعية"),
-    "tap_back_again_to_leave" : MessageLookupByLibrary.simpleMessage("انقر مرة أخرى للمغادرة"),
-    "task_name" : MessageLookupByLibrary.simpleMessage("إسم المهمة"),
-    "tasks" : MessageLookupByLibrary.simpleMessage("المهمات"),
-    "test" : MessageLookupByLibrary.simpleMessage("إختبار"),
-    "theme" : MessageLookupByLibrary.simpleMessage("السمة"),
-    "upcoming" : MessageLookupByLibrary.simpleMessage("قادمة"),
-    "use_dark_mode" : MessageLookupByLibrary.simpleMessage("استعمل النمط الداكن")
-  };
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "an_error_occurred": MessageLookupByLibrary.simpleMessage("حدث خطأ"),
+        "at": MessageLookupByLibrary.simpleMessage("عند"),
+        "auto": MessageLookupByLibrary.simpleMessage("تلقائي"),
+        "back": MessageLookupByLibrary.simpleMessage("عودة"),
+        "calendar": MessageLookupByLibrary.simpleMessage("التقويم"),
+        "confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
+        "course_color": MessageLookupByLibrary.simpleMessage("لون الكورس"),
+        "course_title": MessageLookupByLibrary.simpleMessage("عنوان الكورس"),
+        "courses": MessageLookupByLibrary.simpleMessage("الكورسات"),
+        "due_date": MessageLookupByLibrary.simpleMessage("التسليم"),
+        "editing": MessageLookupByLibrary.simpleMessage("تعديل"),
+        "empty_courses_error":
+            MessageLookupByLibrary.simpleMessage("أضف كورس جديد"),
+        "empty_courses_list":
+            MessageLookupByLibrary.simpleMessage("لا توجد كورسات لعرضها..."),
+        "empty_name_error_message": MessageLookupByLibrary.simpleMessage(
+            "لا يمكن ترك إسم المهمة فارغاً"),
+        "empty_tasks_list":
+            MessageLookupByLibrary.simpleMessage("لا توجد مهمات لعرضها..."),
+        "empty_title_error_message":
+            MessageLookupByLibrary.simpleMessage("لا يمكن ترك العنوان فارغاً"),
+        "homework": MessageLookupByLibrary.simpleMessage("واجب منزلي"),
+        "language": MessageLookupByLibrary.simpleMessage("اللغة"),
+        "new_course": MessageLookupByLibrary.simpleMessage("كورس جديد"),
+        "new_subtask": MessageLookupByLibrary.simpleMessage("مهمة فرعية جديدة"),
+        "new_task": MessageLookupByLibrary.simpleMessage("مهمة جديدة"),
+        "notes": MessageLookupByLibrary.simpleMessage("ملاحظات"),
+        "overdue": MessageLookupByLibrary.simpleMessage("متأخرة"),
+        "overdue_error_message":
+            MessageLookupByLibrary.simpleMessage("إختر تاريخ صالح"),
+        "please_choose_a_color":
+            MessageLookupByLibrary.simpleMessage("يرجى اختيار اللون"),
+        "please_choose_one":
+            MessageLookupByLibrary.simpleMessage("إختر واحد من فضلك"),
+        "progress": MessageLookupByLibrary.simpleMessage("التقدم"),
+        "project": MessageLookupByLibrary.simpleMessage("مشروع"),
+        "quiz": MessageLookupByLibrary.simpleMessage("إختبار قصير"),
+        "reminder": MessageLookupByLibrary.simpleMessage("التذكير"),
+        "reminder_date_error_message": MessageLookupByLibrary.simpleMessage(
+            "يجب أن يكون تاريخ التذكير قبل تاريخ التسليم"),
+        "save": MessageLookupByLibrary.simpleMessage("حفظ"),
+        "settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
+        "short_name_error_message": MessageLookupByLibrary.simpleMessage(
+            "يجب ألا يقل طول إسم المهمة عن حرفين"),
+        "short_title_error_message": MessageLookupByLibrary.simpleMessage(
+            "يجب ألا يقل طول العنوان عن حرفين"),
+        "something_went_wrong":
+            MessageLookupByLibrary.simpleMessage("هناك خطأ ما"),
+        "subtasks": MessageLookupByLibrary.simpleMessage("المهمات الفرعية"),
+        "tap_back_again_to_leave":
+            MessageLookupByLibrary.simpleMessage("انقر مرة أخرى للمغادرة"),
+        "task_name": MessageLookupByLibrary.simpleMessage("إسم المهمة"),
+        "tasks": MessageLookupByLibrary.simpleMessage("المهمات"),
+        "test": MessageLookupByLibrary.simpleMessage("إختبار"),
+        "theme": MessageLookupByLibrary.simpleMessage("السمة"),
+        "upcoming": MessageLookupByLibrary.simpleMessage("قادمة"),
+        "use_dark_mode":
+            MessageLookupByLibrary.simpleMessage("استعمل النمط الداكن"),
+        "warning": MessageLookupByLibrary.simpleMessage("تحذير")
+      };
 }

@@ -1,54 +1,45 @@
 name: assignments
 description: A new Flutter project.
 
-version: 1.1.0+0
+publish_to: 'none'
+version: 1.0.0+1
 
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  animations: ^2.0.1
+  cupertino_icons: ^1.0.2
+  faker: ^2.0.0
+  flash: ^2.0.1
+  flex_color_picker: ^2.1.2
   flutter:
     sdk: flutter
+  flutter_bloc: ^7.1.0
   flutter_localizations:
     sdk: flutter
-  bloc: ^7.0.0
-  cached_network_image: ^3.0.0
-  cupertino_icons: ^1.0.2
-  division: ^0.8.8
-  equatable: ^2.0.0
-  faker: ^2.0.0-rc.2
-  firebase_auth: ^1.1.2
-  flash: ^1.5.1
-  flutter_bloc: ^7.0.0
-  freezed_annotation: ^0.14.1
-  google_fonts: ^2.0.0
-  google_sign_in: ^5.0.2
-  hive: ^2.0.4
-  hive_flutter: ^1.0.0
-  injectable: ^1.2.2
+  get_it: ^7.2.0
+  google_fonts: ^2.1.0
+  hive_flutter: ^1.1.0
+  injectable: ^1.4.1
+  intl: ^0.17.0
   loading_overlay: ^0.3.0
   numberpicker: ^2.1.1
-  sailor: ^0.7.1
-  simple_animations: ^3.0.3
+  simple_animations: ^3.1.1
   simple_gesture_detector: ^0.2.0
   supercharged: ^2.0.0
+  table_calendar: ^3.0.1
 
 dev_dependencies:
-  auto_route_generator: ^1.0.2
-  build_runner: null
-  freezed: ^0.14.1+3
+  build_runner: ^2.1.0
+  flutter_test:
+    sdk: flutter
   hive_generator: ^1.1.0
-  injectable_generator: ^1.2.2
+  injectable_generator: ^1.4.1
   lint: ^1.5.3
-
-dependency_overrides:
-  build_runner: ^2.0.0
-  code_builder: ^4.0.0
 
 flutter:
   uses-material-design: true
 
 flutter_intl:
   enabled: true
-  localizely:
-    project_id: 68ece90c-a18b-4ff9-9013-f1b20cb9a96a

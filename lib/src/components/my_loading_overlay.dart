@@ -8,11 +8,11 @@ import 'package:supercharged/supercharged.dart';
 
 class MyLoadingOverLay extends StatefulWidget {
   const MyLoadingOverLay({
-    Key key,
-    @required this.isLoading,
+    Key? key,
+    required this.isLoading,
     this.showSpinner = false,
     this.transparent = false,
-    @required this.child,
+    required this.child,
   }) : super(key: key);
 
   final Widget child;
@@ -25,7 +25,7 @@ class MyLoadingOverLay extends StatefulWidget {
 }
 
 class _MyLoadingOverLayState extends State<MyLoadingOverLay> {
-  Timer _timer;
+  late Timer _timer;
   @override
   void initState() {
     super.initState();
@@ -57,7 +57,7 @@ class _MyLoadingOverLayState extends State<MyLoadingOverLay> {
                 ),
               )
             : CustomAnimation<double>(
-                control: CustomAnimationControl.PLAY_FROM_START,
+                control: CustomAnimationControl.playFromStart,
                 tween: 0.0.tweenTo(pi * 2),
                 duration: 500.milliseconds,
                 curve: Curves.easeInOut,

@@ -18,10 +18,10 @@ class SettingsModel extends HiveObject {
   @HiveField(2)
   int themeIndex;
 
-  Locale get locale => languageCode.isEmpty ? null : Locale(languageCode, '');
+  Locale? get locale => languageCode.isEmpty ? null : Locale(languageCode, '');
 
   @override
-  bool operator ==(dynamic other) => false;
+  bool operator ==(Object other) => false;
 
   @override
   int get hashCode => isFirstLaunch.hashCode ^ languageCode.hashCode ^ themeIndex.hashCode;

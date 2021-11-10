@@ -7,6 +7,7 @@ abstract class ITasksRepository {
   Stream<List<TaskModel>> getTasks();
   Future<void> createTask(TaskModel task);
   Future<void> updateTask(TaskModel task);
+  Future<void> deleteTask(TaskModel task);
 }
 
 @Singleton(as: ITasksRepository)
@@ -16,10 +17,14 @@ class TasksRepositoryImpl implements ITasksRepository {
   final ITasksLocalDataSource _localDataSource;
 
   @override
+  Stream<List<TaskModel>> getTasks() => _localDataSource.getTasks();
+
+  @override
   Future<void> createTask(TaskModel task) => _localDataSource.createTask(task);
+
   @override
   Future<void> updateTask(TaskModel task) => _localDataSource.updateTask(task);
 
   @override
-  Stream<List<TaskModel>> getTasks() => _localDataSource.getTasks();
+  Future<void> deleteTask(TaskModel task) => _localDataSource.deleteTask(task);
 }

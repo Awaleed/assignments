@@ -1,192 +1,189 @@
+import 'package:assignments/src/components/date_tile.dart';
+import 'package:assignments/src/components/tasks_list_view.dart';
+import 'package:assignments/src/cubits/tasks_cubit/tasks_cubit.dart';
+import 'package:assignments/src/helpers/helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../generated/l10n.dart';
 import '../../components/task_tile.dart';
 import '../../models/task_model.dart';
 import '../../routes/config_routes.dart';
 import '../task/task_dialog.dart';
-import 'table_calendar.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class CalendarScreen extends StatefulWidget {
   static const routeName = '/calendar';
 
-  const CalendarScreen({Key key}) : super(key: key);
+  const CalendarScreen({Key? key}) : super(key: key);
 
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
 }
 
 class _CalendarScreenState extends State<CalendarScreen> with TickerProviderStateMixin {
-  List _selectedEvents;
-  CalendarController _calendarController;
-  DateTime _selectedDay;
-  Map<DateTime, List> _events;
+  // late List _selectedEvents;
+  CalendarFormat calendarFormat = CalendarFormat.twoWeeks;
+  late DateTime _selectedDay;
+  late Map<DateTime, List<TaskModel>> _events;
 
   @override
   void initState() {
     super.initState();
     _selectedDay = DateTime.now().withoutTime();
-    _events = _buildTasksEvents();
-
-    _selectedEvents = _events[_selectedDay] ?? [];
-    _calendarController = CalendarController();
+    _events = _buildTasksEvents(context.read<TasksCubit>().state);
   }
 
-  @override
-  void dispose() {
-    _calendarController.dispose();
-    super.dispose();
-  }
-
-  Map<DateTime, List> _buildTasksEvents() {
-    final tasks = [];
-    final Map<DateTime, List> events = {};
-
-    DateTime previousDate;
-
-    if (tasks != null && tasks.isNotEmpty) {
-      previousDate = tasks[0].dueDate.withoutTime();
-      events[previousDate] = [];
-    }
+  Map<DateTime, List<TaskModel>> _buildTasksEvents(List<TaskModel> _tasks) {
+    final tasks = [..._tasks];
+    final Map<DateTime, List<TaskModel>> events = {};
 
     for (final task in tasks) {
-      final currentDate = task.dueDate.withoutTime();
+      final DateTime currentDate = task.dueDate!.withoutTime();
 
-      if (currentDate.isAfter(previousDate)) {
-        previousDate = currentDate;
-        events[currentDate] = [];
-        events[currentDate].add(task);
-      } else {
-        events[currentDate].add(task);
-      }
+      events[currentDate] ??= [];
+      events[currentDate]?.add(task);
     }
     return events;
   }
 
-  void _onDaySelected(DateTime day, List events) {
-    setState(() {
-      _selectedDay = day.withoutTime();
-      _selectedEvents = events;
-    });
-  }
-
-  void _onVisibleDaysChanged(DateTime first, DateTime last, CalendarFormat format) {
-    // print('CALLBACK: _onVisibleDaysChanged');
-  }
-
-  void _onCalendarCreated(DateTime first, DateTime last, CalendarFormat format) {
-    // print('CALLBACK: _onCalendarCreated');
+  List<TaskModel> getTasks(DateTime date) {
+    return _events.entries
+        .firstWhere(
+          (element) => element.key.withoutTime() == date.withoutTime(),
+          orElse: () => MapEntry(date, []),
+        )
+        .value;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.current.calendar),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.today),
-            onPressed: () {
-              setState(() {
-                _calendarController.setSelectedDay(
-                  DateTime.now().withoutTime(),
-                  runCallback: true,
-                );
-              });
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.calendar_view_day),
-            onPressed: () {
-              setState(() {
-                _calendarController.calendarFormat = _calendarController.calendarFormat == CalendarFormat.twoWeeks ? CalendarFormat.week : CalendarFormat.twoWeeks;
-              });
-            },
-          )
-        ],
-      ),
-      body: Column(
-        children: <Widget>[
-          _buildTableCalendar(),
-          const SizedBox(height: 8.0),
-          Expanded(
-            child: _selectedEvents.isNotEmpty ? _buildEventList() : Center(child: Text(S.current.empty_tasks_list)),
-          ),
-        ],
-      ),
-      floatingActionButton: _selectedDay.isAfter(DateTime.now().withoutTime().subtract(const Duration(seconds: 1)))
-          ? FloatingActionButton.extended(
+    return BlocListener<TasksCubit, List<TaskModel>>(
+      listener: (context, tasks) {
+        print(
+            'context.read<TasksCubit>().state.length, ${context.read<TasksCubit>().state.length}');
+        setState(() {
+          _events = _buildTasksEvents(tasks);
+        });
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(S.current.calendar),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.today),
               onPressed: () {
-                AppRouter.sailor.navigate(
-                  TaskDialog.routeName,
-                  params: {'task': TaskModel(dueDate: _selectedDay.addTime())},
-                );
+                setState(() {
+                  // _calendarController.setSelectedDay(
+                  // DateTime.now().withoutTime(),
+                  // runCallback: true,
+                  // );
+                });
               },
-              label: Text(S.current.new_task),
-              icon: const Icon(Icons.add),
+            ),
+            IconButton(
+              icon: const Icon(Icons.calendar_view_day),
+              onPressed: () {
+                setState(() {
+                  calendarFormat = calendarFormat == CalendarFormat.twoWeeks
+                      ? CalendarFormat.week
+                      : CalendarFormat.twoWeeks;
+                });
+              },
             )
-          : null,
+          ],
+        ),
+        body: ListView(
+          children: <Widget>[
+            _buildTableCalendar(),
+            const SizedBox(height: 8.0),
+            if (getTasks(_selectedDay).isNotEmpty) ...[
+              DateTile(_selectedDay),
+              ...getTasks(_selectedDay).map((e) => TaskTile(e))
+            ] else
+              Center(child: Text(S.current.empty_tasks_list)),
+          ],
+        ),
+        floatingActionButton:
+            _selectedDay.isAfter(DateTime.now().withoutTime().subtract(const Duration(seconds: 1)))
+                ? FloatingActionButton.extended(
+                    heroTag: 'CalendarScreen',
+                    onPressed: () {
+                      AppRouter.sailor.navigate(
+                        TaskDialog.routeName,
+                        params: {'task': TaskModel(dueDate: _selectedDay.addTime())},
+                      );
+                    },
+                    label: Text(S.current.new_task),
+                    icon: const Icon(Icons.add),
+                  )
+                : null,
+      ),
     );
   }
 
   Widget _buildTableCalendar() {
     return TableCalendar(
-      locale: 'locale(context).languageCode',
-      initialCalendarFormat: CalendarFormat.week,
+      locale: Helpers.isArabic ? 'ar' : 'en',
+      firstDay: DateTime(1960),
+      lastDay: DateTime(2400),
+      focusedDay: _selectedDay,
+      selectedDayPredicate: (day) => day == _selectedDay,
+      calendarFormat: calendarFormat,
       availableGestures: AvailableGestures.horizontalSwipe,
-      builders: CalendarBuilders(
-        markersBuilder: (BuildContext context, DateTime date, List<dynamic> l1, List<dynamic> l2) {
-          return [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: l1
-                  .take(4)
-                  .map((t) => Container(
-                        width: 8.0,
-                        height: 8.0,
-                        margin: const EdgeInsets.symmetric(horizontal: 0.3),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: (t as TaskModel).course.color,
-                        ),
-                      ))
-                  .toList(),
-            )
-          ];
+      calendarBuilders: CalendarBuilders(
+        markerBuilder: (context, day, events) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: events
+                .take(4)
+                .map((t) => Container(
+                      width: 8.0,
+                      height: 8.0,
+                      margin: const EdgeInsets.symmetric(horizontal: 0.3),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: (t as TaskModel).course!.color,
+                      ),
+                    ))
+                .toList(),
+          );
         },
       ),
-      availableCalendarFormats: const {
-        CalendarFormat.week: 'week',
-        CalendarFormat.twoWeeks: 'twoWeeks',
-      },
-      calendarController: _calendarController,
-      events: _events,
-      calendarStyle: CalendarStyle(
-        selectedColor: Theme.of(context).primaryColor,
-        todayColor: Theme.of(context).primaryColor.withOpacity(.5),
-        markersColor: Theme.of(context).accentColor,
-        outsideDaysVisible: false,
-      ),
+      eventLoader: (day) => getTasks(day),
       headerStyle: const HeaderStyle(
         formatButtonVisible: false,
-        centerHeaderTitle: true,
+        titleCentered: true,
       ),
-      onDaySelected: _onDaySelected,
-      onVisibleDaysChanged: _onVisibleDaysChanged,
-      onCalendarCreated: _onCalendarCreated,
+      onDaySelected: (selectedDay, focusedDay) {
+        setState(() {
+          _selectedDay = focusedDay;
+        });
+      },
+      calendarStyle: CalendarStyle(
+        defaultDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        selectedDecoration: BoxDecoration(
+          color: Theme.of(context).accentColor,
+        ),
+        todayDecoration: BoxDecoration(
+          color: Theme.of(context).accentColor.withOpacity(.5),
+        ),
+      ),
     );
   }
 
-  Widget _buildEventList() {
-    final events = _selectedEvents.map((e) => e as TaskModel);
+  // Widget _buildEventList() {
+  //   final events = _selectedEvents.map((e) => e as TaskModel);
 
-    return ListView(
-      children: events.map((task) {
-        return TaskTile(task);
-      }).toList(),
-    );
-  }
+  //   return ListView(
+  //     children: events.map((task) {
+  //       return TaskTile(task);
+  //     }).toList(),
+  //   );
+  // }
 }
 
 extension on DateTime {

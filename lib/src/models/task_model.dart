@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
@@ -20,63 +19,45 @@ enum TaskType {
 }
 
 @HiveType(typeId: 4)
-class TaskModel extends HiveObject with ChangeNotifier {
+class TaskModel extends HiveObject {
   TaskModel({
-    this.id,
-    this.isSubTask = false,
     this.type,
     this.title,
     this.reminder,
     this.dueDate,
     this.notes,
-    double progress = 0,
+    this.progress = 0,
     this.course,
     this.subtasks,
-  }) : _progress = progress {
-    _listenable = ValueNotifier(this);
-  }
+    this.parentKey,
+    this.parent,
+  });
 
-  @HiveField(0)
-  int id;
   @HiveField(1)
-  CourseModel course;
+  CourseModel? course;
   @HiveField(2)
-  TaskType type;
+  TaskType? type;
   @HiveField(3)
-  String title;
+  String? title;
   @HiveField(4)
-  DateTime reminder;
+  DateTime? reminder;
   @HiveField(5)
-  DateTime dueDate;
+  DateTime? dueDate;
   @HiveField(6)
-  String notes;
+  String? notes;
   @HiveField(7)
-  double _progress;
+  double? progress;
   @HiveField(8)
-  List<TaskModel> subtasks;
+  List<TaskModel>? subtasks;
   @HiveField(9)
-  bool isSubTask;
+  int? parentKey;
+  TaskModel? parent;
 
-  bool get isDue => dueDate.isBefore(DateTime.now());
+  bool get isDue => dueDate!.isBefore(DateTime.now());
 
-  set progress(double value) {
-    _progress = value;
-    notifyListeners();
-  }
+  bool get isSubTask => parentKey != null;
 
-  double get progress => _progress;
-
-  @override
-  void notifyListeners() {
-    listenable.notifyListeners();
-    super.notifyListeners();
-  }
-
-  ValueNotifier<TaskModel> get listenable => _listenable;
-
-  ValueNotifier<TaskModel> _listenable;
-
-  static String getLabel(TaskType type) {
+  static String getLabel(TaskType? type) {
     switch (type) {
       case TaskType.homework:
         return S.current.homework;
@@ -89,5 +70,22 @@ class TaskModel extends HiveObject with ChangeNotifier {
       default:
         throw UnimplementedError();
     }
+  }
+
+  @override
+  bool operator ==(Object other) => false;
+
+  @override
+  int get hashCode {
+    return course.hashCode ^
+        type.hashCode ^
+        title.hashCode ^
+        reminder.hashCode ^
+        dueDate.hashCode ^
+        notes.hashCode ^
+        progress.hashCode ^
+        subtasks.hashCode ^
+        parentKey.hashCode ^
+        parent.hashCode;
   }
 }
