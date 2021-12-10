@@ -2,7 +2,11 @@
     "name": "assignments",
     "short_name": "assignments",
     "start_url": ".",
+<<<<<<< Updated upstream
     "display": "standalone",
+=======
+    "display": "minimal-ui",
+>>>>>>> Stashed changes
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
     "description": "A new Flutter project.",

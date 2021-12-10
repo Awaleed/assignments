@@ -18,5 +18,10 @@ class SettingsRepositoryImpl implements ISettingsRepository {
   SettingsModel getSettings() => _localSource.getSettings();
 
   @override
+<<<<<<< Updated upstream
   Future<void> saveSettings(SettingsModel settings) => _localSource.saveSettings(settings);
+=======
+  Future<void> saveSettings(SettingsModel settings) =>
+      _localSource.saveSettings(settings);
+>>>>>>> Stashed changes
 }

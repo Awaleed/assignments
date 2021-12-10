@@ -3,7 +3,11 @@
 <plist version="1.0">
 <dict>
   <key>CFBundleDevelopmentRegion</key>
+<<<<<<< Updated upstream
   <string>en</string>
+=======
+  <string>$(DEVELOPMENT_LANGUAGE)</string>
+>>>>>>> Stashed changes
   <key>CFBundleExecutable</key>
   <string>App</string>
   <key>CFBundleIdentifier</key>

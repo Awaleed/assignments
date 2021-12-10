@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
+<<<<<<< Updated upstream
 import 'package:numberpicker/numberpicker.dart';
+=======
+>>>>>>> Stashed changes
 
 import '../../components/my_loading_overlay.dart';
 import '../../data/tasks_datasource.dart';
@@ -15,7 +18,11 @@ class DevelopmentPage extends StatefulWidget {
 }
 
 class _DevelopmentPageState extends State<DevelopmentPage> {
+<<<<<<< Updated upstream
   late int cCount, tCount, stCount;
+=======
+  int cCount, tCount, stCount;
+>>>>>>> Stashed changes
   bool isLoading = false;
 
   @override
@@ -29,7 +36,11 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
   @override
   Widget build(BuildContext context) {
     return Localizations(
+<<<<<<< Updated upstream
       delegates: const <LocalizationsDelegate>[
+=======
+      delegates: <LocalizationsDelegate>[
+>>>>>>> Stashed changes
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
@@ -46,6 +57,7 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
                 title: const Text('Show performance overlay'),
                 onChanged: (value) {},
               ),
+<<<<<<< Updated upstream
               const Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -86,6 +98,50 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
                 ],
               ),
               const Divider(),
+=======
+              // const Divider(),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: <Widget>[
+              //     Column(
+              //       children: <Widget>[
+              //         // NumberPicker.integer(
+              //         //   initialValue: cCount,
+              //         //   minValue: 0,
+              //         //   maxValue: 50,
+              //         //   onChanged: (num value) =>
+              //         //       setState(() => cCount = value.toInt()),
+              //         // ),
+              //         const Text('Courses'),
+              //       ],
+              //     ),
+              //     Column(
+              //       children: <Widget>[
+              //         // NumberPicker.integer(
+              //         //   initialValue: tCount,
+              //         //   minValue: 0,
+              //         //   maxValue: 50,
+              //         //   onChanged: (num value) =>
+              //         //       setState(() => tCount = value.toInt()),
+              //         // ),
+              //         const Text('Tasks'),
+              //       ],
+              //     ),
+              //     Column(
+              //       children: <Widget>[
+              //         // NumberPicker.integer(
+              //         //   initialValue: stCount,
+              //         //   minValue: 0,
+              //         //   maxValue: 50,
+              //         //   onChanged: (num value) => setState(() => stCount = value.toInt()),
+              //         // ),
+              //         const Text('Subtasks'),
+              //       ],
+              //     ),
+              //   ],
+              // ),
+              // const Divider(),
+>>>>>>> Stashed changes
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
@@ -97,10 +153,21 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
                       });
                       final courses = List.generate(
                         cCount,
+<<<<<<< Updated upstream
                         (index) => FakeDataGenerator.courseModel(),
                       );
 
                       await Hive.box<CourseModel>(coursesBoxName).addAll(courses);
+=======
+                        (index) => FakeDataGenerator.courseModel(index),
+                      );
+
+                      Iterable ids = await Hive.box<CourseModel>(coursesBoxName).addAll(courses);
+                      for (var i = 0; i < courses.length; i++) {
+                        courses[i].id = ids.elementAt(0);
+                        courses[i].save();
+                      }
+>>>>>>> Stashed changes
 
                       final tasks = <TaskModel>[];
                       for (final course in courses) {
@@ -113,8 +180,17 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
                           ..shuffle();
                       }
 
+<<<<<<< Updated upstream
                       await Hive.box<TaskModel>(tasksBoxName).addAll(tasks);
 
+=======
+                      ids = await Hive.box<TaskModel>(tasksBoxName).addAll(tasks);
+
+                      for (var i = 0; i < tasks.length; i++) {
+                        tasks[i].id = ids.elementAt(0);
+                        tasks[i].save();
+                      }
+>>>>>>> Stashed changes
                       setState(() {
                         isLoading = false;
                       });
@@ -154,4 +230,30 @@ class _DevelopmentPageState extends State<DevelopmentPage> {
       ),
     );
   }
+<<<<<<< Updated upstream
+=======
+
+  // void _showLoading(BuildContext context, {Completer dismissCompleter}) {
+  //   showFlash(
+  //     context: context,
+  //     persistent: false,
+  //     onWillPop: () => Future.value(false),
+  //     builder: (context, FlashController controller) {
+  //       dismissCompleter.future.then((value) => controller.dismiss(value));
+  //       return Flash.dialog(
+  //         controller: controller,
+  //         barrierDismissible: false,
+  //         backgroundColor: Colors.black87,
+  //         margin: const EdgeInsets.only(left: 40.0, right: 40.0),
+  //         borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+  //         child: const Padding(
+  //           padding: EdgeInsets.all(16.0),
+  //           child: CircularProgressIndicator(strokeWidth: 2.0),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
+>>>>>>> Stashed changes
 }

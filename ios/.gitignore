@@ -18,7 +18,10 @@ Flutter/App.framework
 Flutter/Flutter.framework
 Flutter/Flutter.podspec
 Flutter/Generated.xcconfig
+<<<<<<< Updated upstream
 Flutter/ephemeral/
+=======
+>>>>>>> Stashed changes
 Flutter/app.flx
 Flutter/app.zip
 Flutter/flutter_assets/

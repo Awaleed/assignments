@@ -8,11 +8,19 @@ import 'package:supercharged/supercharged.dart';
 
 class MyLoadingOverLay extends StatefulWidget {
   const MyLoadingOverLay({
+<<<<<<< Updated upstream
     Key? key,
     required this.isLoading,
     this.showSpinner = false,
     this.transparent = false,
     required this.child,
+=======
+    Key key,
+    @required this.isLoading,
+    this.showSpinner = false,
+    this.transparent = false,
+    @required this.child,
+>>>>>>> Stashed changes
   }) : super(key: key);
 
   final Widget child;
@@ -25,7 +33,11 @@ class MyLoadingOverLay extends StatefulWidget {
 }
 
 class _MyLoadingOverLayState extends State<MyLoadingOverLay> {
+<<<<<<< Updated upstream
   late Timer _timer;
+=======
+  Timer _timer;
+>>>>>>> Stashed changes
   @override
   void initState() {
     super.initState();
@@ -57,7 +69,11 @@ class _MyLoadingOverLayState extends State<MyLoadingOverLay> {
                 ),
               )
             : CustomAnimation<double>(
+<<<<<<< Updated upstream
                 control: CustomAnimationControl.playFromStart,
+=======
+                control: CustomAnimationControl.PLAY_FROM_START,
+>>>>>>> Stashed changes
                 tween: 0.0.tweenTo(pi * 2),
                 duration: 500.milliseconds,
                 curve: Curves.easeInOut,

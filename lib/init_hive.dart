@@ -4,9 +4,17 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'src/data/settings_datasource.dart';
 import 'src/data/tasks_datasource.dart';
+<<<<<<< Updated upstream
 import 'src/models/course_model.dart';
 import 'src/models/settings_model.dart';
 import 'src/models/task_model.dart';
+=======
+import 'src/data/user_datasource.dart';
+import 'src/models/course_model.dart';
+import 'src/models/settings_model.dart';
+import 'src/models/task_model.dart';
+import 'src/models/user_model.dart';
+>>>>>>> Stashed changes
 
 Future<void> initHive() async {
   if (kIsWeb) {
@@ -18,6 +26,12 @@ Future<void> initHive() async {
   Hive.registerAdapter<SettingsModel>(SettingsModelAdapter());
   await Hive.openBox<SettingsModel>(settingsBoxName);
 
+<<<<<<< Updated upstream
+=======
+  Hive.registerAdapter<UserModel>(UserModelAdapter());
+  await Hive.openBox<UserModel>(userBoxName);
+
+>>>>>>> Stashed changes
   Hive.registerAdapter<CourseModel>(CourseModelAdapter());
   await Hive.openBox<CourseModel>(coursesBoxName);
 

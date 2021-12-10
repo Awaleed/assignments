@@ -15,6 +15,7 @@ abstract class ISettingsDataSource {
 class SettingsLocalDataSource implements ISettingsDataSource {
   SettingsLocalDataSource() : box = Hive.box<SettingsModel>(settingsBoxName);
 
+<<<<<<< Updated upstream
   final Box<SettingsModel> box;
 
   @override
@@ -22,4 +23,16 @@ class SettingsLocalDataSource implements ISettingsDataSource {
 
   @override
   Future<void> saveSettings(SettingsModel settings) => box.put(currentSettingsKey, settings);
+=======
+  final Box box;
+
+  @override
+  SettingsModel getSettings() {
+    return box.get(currentSettingsKey) ?? SettingsModel();
+  }
+
+  @override
+  Future<void> saveSettings(SettingsModel settings) =>
+      box.put(currentSettingsKey, settings);
+>>>>>>> Stashed changes
 }

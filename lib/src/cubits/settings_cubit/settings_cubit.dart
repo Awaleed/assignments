@@ -17,11 +17,19 @@ class SettingsCubit extends Cubit<SettingsModel> {
     emit(value);
   }
 
+<<<<<<< Updated upstream
   Future<void> setLanguageCode(String code) async {
     final value = _settingsRepository.getSettings();
     value.languageCode = code;
     await value.save();
     await _settingsRepository.saveSettings(value);
+=======
+  void setLanguageCode(String code) {
+    final value = _settingsRepository.getSettings();
+    value.languageCode = code;
+    value.save();
+    _settingsRepository.saveSettings(value);
+>>>>>>> Stashed changes
     emit(value);
   }
 

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+<<<<<<< Updated upstream
 typedef PickerLayoutBuilder = Widget Function(
     BuildContext context, List<Color> colors, PickerItem child);
 typedef PickerItem = Widget Function(Color color);
@@ -9,18 +10,35 @@ typedef PickerItemBuilder = Widget Function({
   required Color color,
   required bool isCurrentColor,
   VoidCallback? changeColor,
+=======
+typedef PickerLayoutBuilder = Widget Function(BuildContext context, List<Color> colors, PickerItem child);
+typedef PickerItem = Widget Function(Color color);
+typedef PickerItemBuilder = Widget Function({
+  Color color,
+  bool isCurrentColor,
+  VoidCallback changeColor,
+>>>>>>> Stashed changes
 });
 
 class BlockPicker extends StatefulWidget {
   const BlockPicker({
+<<<<<<< Updated upstream
     required this.pickerColor,
     required this.onColorChanged,
+=======
+    @required this.pickerColor,
+    @required this.onColorChanged,
+>>>>>>> Stashed changes
     this.availableColors = Colors.primaries,
     this.layoutBuilder = defaultLayoutBuilder,
     this.itemBuilder = defaultItemBuilder,
   });
 
+<<<<<<< Updated upstream
   final Color? pickerColor;
+=======
+  final Color pickerColor;
+>>>>>>> Stashed changes
   final ValueChanged<Color> onColorChanged;
   final List<Color> availableColors;
   final PickerLayoutBuilder layoutBuilder;
@@ -42,8 +60,12 @@ class BlockPicker extends StatefulWidget {
     );
   }
 
+<<<<<<< Updated upstream
   static Widget defaultItemBuilder(
       {required Color color, required bool isCurrentColor, VoidCallback? changeColor}) {
+=======
+  static Widget defaultItemBuilder({Color color, bool isCurrentColor, VoidCallback changeColor}) {
+>>>>>>> Stashed changes
     return Container(
       margin: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
@@ -84,7 +106,11 @@ class BlockPicker extends StatefulWidget {
 }
 
 class _BlockPickerState extends State<BlockPicker> {
+<<<<<<< Updated upstream
   Color? _currentColor;
+=======
+  Color _currentColor;
+>>>>>>> Stashed changes
 
   @override
   void initState() {
@@ -102,7 +128,11 @@ class _BlockPickerState extends State<BlockPicker> {
     return widget.layoutBuilder(
       context,
       widget.availableColors,
+<<<<<<< Updated upstream
       (Color color, [bool? _, Function? __]) => widget.itemBuilder(
+=======
+      (Color color, [bool _, Function __]) => widget.itemBuilder(
+>>>>>>> Stashed changes
         color: color,
         isCurrentColor: _currentColor?.value == color.value,
         changeColor: () => changeColor(color),

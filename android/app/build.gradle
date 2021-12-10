@@ -24,6 +24,10 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+<<<<<<< Updated upstream
+=======
+apply plugin: 'com.google.gms.google-services'
+>>>>>>> Stashed changes
 
 android {
     compileSdkVersion 30
@@ -39,6 +43,10 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+<<<<<<< Updated upstream
+=======
+        multiDexEnabled true
+>>>>>>> Stashed changes
     }
 
     buildTypes {
@@ -55,5 +63,11 @@ flutter {
 }
 
 dependencies {
+<<<<<<< Updated upstream
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+=======
+    implementation platform('com.google.firebase:firebase-bom:27.1.0')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:multidex:1.0.3'
+>>>>>>> Stashed changes
 }

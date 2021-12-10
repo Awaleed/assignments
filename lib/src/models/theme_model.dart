@@ -4,6 +4,7 @@ class AppTheme {
   final MaterialColor primaryColor;
   final String arabicName;
   final String engleshName;
+<<<<<<< Updated upstream
   final Brightness? lightModeTextBrightness;
   final Brightness? darkModeTextBrightness;
 
@@ -13,6 +14,17 @@ class AppTheme {
     required this.engleshName,
     this.lightModeTextBrightness,
     this.darkModeTextBrightness,
+=======
+  final Brightness lightModeTextBrightness;
+  final Brightness darkModeTextBrightness;
+
+  const AppTheme({
+    @required this.primaryColor,
+    @required this.arabicName,
+    @required this.engleshName,
+    @required this.lightModeTextBrightness,
+    @required this.darkModeTextBrightness,
+>>>>>>> Stashed changes
   });
 
   static const themes = <AppTheme>[
@@ -20,6 +32,7 @@ class AppTheme {
       primaryColor: Colors.amber,
       engleshName: 'Amber',
       arabicName: 'عنبر',
+<<<<<<< Updated upstream
     ),
     AppTheme(
       primaryColor: Colors.red,
@@ -110,6 +123,10 @@ class AppTheme {
       primaryColor: Colors.blueGrey,
       engleshName: 'Blue Grey',
       arabicName: 'رمادي مزرق',
+=======
+      lightModeTextBrightness: Brightness.dark,
+      darkModeTextBrightness: Brightness.light,
+>>>>>>> Stashed changes
     ),
   ];
 }
